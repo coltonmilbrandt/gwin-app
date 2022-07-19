@@ -41,17 +41,18 @@ export default function Stake() {
 
     return (
         <div>
+            
+            <div>
+                <h4>
+                    You have <b>{userTotalValue ? userTotalValue : '0'}</b> tokens staked
+                </h4>
+            </div>
             <button 
-                className="rounded ml-auto font-bold bg-blue-400"
+                className="w-full flex justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
                 onClick={async () => {
                     await stakeTokens()
                 }}
             >Stake Tokens</button>
-            <div>
-                <h2>
-                    You have <b>{userTotalValue ? userTotalValue : '0'}</b> tokens staked
-                </h2>
-            </div>
         </div>
     )
 }
