@@ -9,40 +9,50 @@ const TOKEN_FARM_CONTRACT_ADDRESS = "0xCB157CA76f07F61988FfaFF272eb3BbAA8B94Bd6"
 export default function Stake() {
 
     const { isWeb3Enabled } = useMoralis()
-    const [userTotalValue, setUserTotalValue] = useState("0")
+    const [userTotalValue, setUserTotalValue] = useState("undefined")
     const [tokenValue, setTokenValue] = useState("0")
     // Stake to contract
-    const { runContractFunction: stakeTokens } = useWeb3Contract({
-        abi: abi,
-        contractAddress: "0xCB157CA76f07F61988FfaFF272eb3BbAA8B94Bd6",
-        functionName: "stakeTokens",
-        params: {},
-        msgValue: "10000000000000000",
-    })
+    // const { runContractFunction: stakeTokens } = useWeb3Contract({
+    //     abi: abi,
+    //     contractAddress: "0xCB157CA76f07F61988FfaFF272eb3BbAA8B94Bd6",
+    //     functionName: "stakeTokens",
+    //     params: {},
+    //     msgValue: "10000000000000000",
+    // })
 
     // View Functions
     const { runContractFunction: getUserTotalValue} = useWeb3Contract({
         abi: abi,
         contractAddress: "0xCB157CA76f07F61988FfaFF272eb3BbAA8B94Bd6",
         functionName: "getUserTotalValue",
-        params: {},
+        params: {address: "0xf81ee6A9CE219B296619e6332521ebC64A8B6C8E"},
     })
 
     const { runContractFunction: getTokenValue} = useWeb3Contract({
         abi: abi,
         contractAddress: TOKEN_FARM_CONTRACT_ADDRESS,
         functionName: "getTokenValue",
-        params: {address: 0xb01B218f021E9151c61eCEA3173361BbbE9eA346},
+        params: {address: "0xb01B218f021E9151c61eCEA3173361BbbE9eA346"},
     })
 
     // This means that any time, any variable in here changes, run this function
     useEffect(() => {
         if(isWeb3Enabled){
             async function updateUI() {
+                console.log(abi)
+                console.log("Running userTotalValue()...")
                 const userTotalValueFromCall = await getUserTotalValue()
+                console.log("User total value returned: " + userTotalValueFromCall)
                 setUserTotalValue(userTotalValueFromCall)
+                if (userTotalValueFromCall == undefined) {
+                    setUserTotalValue("{UNDEFINED}")
+                }
+                console.log("Running getTokenValue()...")
                 const tokenValueFromCall = await getTokenValue()
-                setTokenValue(tokenValueFromCall)
+                console.log("token value returned: " + tokenValueFromCall)
+                if (tokenValueFromCall == undefined) {
+                    setTokenValue("{UNDEFINED}")    
+                }
             }
             if (isWeb3Enabled) {
                 updateUI()
@@ -55,7 +65,7 @@ export default function Stake() {
             
             <div>
                 <h4>
-                    You have <b>{userTotalValue ? userTotalValue : '0'}</b> tokens staked
+                    You have {userTotalValue} tokens staked
                     You have {tokenValue} token value
                 </h4>
             </div>
