@@ -10,7 +10,9 @@ export default function Stake() {
 
     const { isWeb3Enabled } = useMoralis()
     const [userTotalValue, setUserTotalValue] = useState("undefined")
-    const [tokenValue, setTokenValue] = useState("0")
+    const [tokenValue, setTokenValue] = useState([])
+    const tokens = []
+    const tokenValues = []
     // Stake to contract
     // const { runContractFunction: stakeTokens } = useWeb3Contract({
     //     abi: abi,
@@ -25,14 +27,16 @@ export default function Stake() {
         abi: abi,
         contractAddress: "0xCB157CA76f07F61988FfaFF272eb3BbAA8B94Bd6",
         functionName: "getUserTotalValue",
-        params: {address: "0xf81ee6A9CE219B296619e6332521ebC64A8B6C8E"},
+        params: {_user: "0xf81ee6A9CE219B296619e6332521ebC64A8B6C8E"},
     })
 
-    const { runContractFunction: getTokenValue} = useWeb3Contract({
+    const { 
+        runContractFunction: getTokenValue
+    } = useWeb3Contract({
         abi: abi,
         contractAddress: TOKEN_FARM_CONTRACT_ADDRESS,
         functionName: "getTokenValue",
-        params: {address: "0xb01B218f021E9151c61eCEA3173361BbbE9eA346"},
+        params: {_token: "0xb01B218f021E9151c61eCEA3173361BbbE9eA346"},
     })
 
     // This means that any time, any variable in here changes, run this function
@@ -50,9 +54,7 @@ export default function Stake() {
                 console.log("Running getTokenValue()...")
                 const tokenValueFromCall = await getTokenValue()
                 console.log("token value returned: " + tokenValueFromCall)
-                if (tokenValueFromCall == undefined) {
-                    setTokenValue("{UNDEFINED}")    
-                }
+                setTokenValue(tokenValueFromCall.toString())
             }
             if (isWeb3Enabled) {
                 updateUI()
@@ -66,7 +68,7 @@ export default function Stake() {
             <div>
                 <h4>
                     You have {userTotalValue} tokens staked
-                    You have {tokenValue} token value
+                    You have {tokenValue[0].toString()} token value
                 </h4>
             </div>
             <button 
