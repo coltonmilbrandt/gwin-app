@@ -17,11 +17,6 @@ export default function Dash() {
             </header>
             <main>
                 <div className="max-w-7xl mx-auto py-6 sm:px-6 lg:px-8 bg-white text-gray-100">
-                    <div className="grid grid-cols-3 text-gray-900 pb-4">
-                        <div className="bg-[#4E5166] p-4 rounded-md text-gray-100">
-                            Data
-                        </div>
-                    </div>
                     <div class="grid grid-cols-1 gap-4">
                         <div className="bg-[#4E5166] p-4 rounded-md">
                             {isWeb3Enabled ? (

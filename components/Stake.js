@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react"
 import { useMoralis, useWeb3Contract } from "react-moralis"
-import abi from "../constants/TokenFarm_abi.json"
+// BE SURE to put "{ }" around abi
+import { abi } from "../constants/TokenFarm_abi"
 import { ethers } from "ethers"
 
 const TOKEN_FARM_CONTRACT_ADDRESS = "0xCB157CA76f07F61988FfaFF272eb3BbAA8B94Bd6"
@@ -15,13 +16,15 @@ export default function Stake() {
     const [tokenValue, setTokenValue] = useState([])
     const approvedTokens = {}
     // Stake to contract
-    // const { runContractFunction: stakeTokens } = useWeb3Contract({
-    //     abi: abi,
-    //     contractAddress: "0xCB157CA76f07F61988FfaFF272eb3BbAA8B94Bd6",
-    //     functionName: "stakeTokens",
-    //     params: {},
-    //     msgValue: "10000000000000000",
-    // })
+    const { runContractFunction: stakeTokens } = useWeb3Contract({
+        abi: abi,
+        contractAddress: "0xCB157CA76f07F61988FfaFF272eb3BbAA8B94Bd6",
+        functionName: "stakeTokens",
+        params: {
+            _amount: "10000",
+            _token: "0xb01B218f021E9151c61eCEA3173361BbbE9eA346",
+        },
+    })
 
     // View Functions //
     
