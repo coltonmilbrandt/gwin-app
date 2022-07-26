@@ -2,27 +2,47 @@ import { useState, useEffect } from "react"
 import { useMoralis, useWeb3Contract } from "react-moralis"
 // BE SURE to put "{ }" around abi
 import { abi } from "../constants/TokenFarm_abi"
-import { ethers } from "ethers"
+import { MockDaiAbi } from "../constants/MockDai_abi"
+import { ethers, utils } from "ethers"
 
-const TOKEN_FARM_CONTRACT_ADDRESS = "0xCB157CA76f07F61988FfaFF272eb3BbAA8B94Bd6"
-let CURRENT_TOKEN_ADDRESS = ""
+const TOKEN_FARM_CONTRACT_ADDRESS = "0x48efFEBe8879A7024654dda2d90F1EF56b12f135"
+let CURRENT_TOKEN_ADDRESS = "0x7F27377d72ba8c92f3fB3E1880Efc5583bD7f8Ab"
 
 
 
 export default function Stake() {
 
-    const { isWeb3Enabled } = useMoralis()
-    const [userTotalValue, setUserTotalValue] = useState("undefined")
+    const { isWeb3Enabled, user } = useMoralis()
+    const [userTotalValue, setUserTotalValue] = useState()
     const [tokenValue, setTokenValue] = useState([])
     const approvedTokens = {}
     // Stake to contract
+    // WE NEED
+    // 1. Approve the token
+        // address
+        // abi
+        // chainId
+    const { runContractFunction: approveErc20 } = useWeb3Contract({
+        abi: MockDaiAbi,
+        contractAddress: "0xe1F284B9FB056cbF75A92c9b879594d1C74Fa7b9",
+        functionName: "approve",
+        params: {
+            spender: "0x48efFEBe8879A7024654dda2d90F1EF56b12f135",
+            amount: "1000000000000000000",
+        },
+    })
+    // 2. Call the Staking function
+        // address
+        // abi
+        // amount
+        // token address
     const { runContractFunction: stakeTokens } = useWeb3Contract({
         abi: abi,
-        contractAddress: "0xCB157CA76f07F61988FfaFF272eb3BbAA8B94Bd6",
+        contractAddress: "0x48efFEBe8879A7024654dda2d90F1EF56b12f135",
         functionName: "stakeTokens",
         params: {
-            _amount: "10000",
-            _token: "0xb01B218f021E9151c61eCEA3173361BbbE9eA346",
+            _amount: "1000000000000000000",
+            _token: "0xe1F284B9FB056cbF75A92c9b879594d1C74Fa7b9",
         },
     })
 
@@ -32,9 +52,11 @@ export default function Stake() {
     const { runContractFunction: getUserTotalValue
     } = useWeb3Contract({
         abi: abi,
-        contractAddress: "0xCB157CA76f07F61988FfaFF272eb3BbAA8B94Bd6",
+        contractAddress: "0x48efFEBe8879A7024654dda2d90F1EF56b12f135",
         functionName: "getUserTotalValue",
-        params: {_user: "0xf81ee6A9CE219B296619e6332521ebC64A8B6C8E"},
+        params: {
+            _user: "0x3789F5efFb5022DEF4Fbc14d325e946c7B422eE3"
+        },
     })
     
     // GetTokenValue()
@@ -42,10 +64,9 @@ export default function Stake() {
         runContractFunction: getTokenValue
     } = useWeb3Contract({
         abi: abi,
-        contractAddress: TOKEN_FARM_CONTRACT_ADDRESS,
+        contractAddress: "0x48efFEBe8879A7024654dda2d90F1EF56b12f135",
         functionName: "getTokenValue",
-        params: {_token: CURRENT_TOKEN_ADDRESS},
-        // params: {_token: "0xb01B218f021E9151c61eCEA3173361BbbE9eA346"},
+        params: {_token: "0xe1F284B9FB056cbF75A92c9b879594d1C74Fa7b9"},
     })
 
     // const getTokenPriceFeed = async (address) => {
@@ -76,10 +97,20 @@ export default function Stake() {
                     console.log("Running userTotalValue()...")
                     const userTotalValueFromCall = await getUserTotalValue()
                     console.log("User total value returned: " + userTotalValueFromCall)
-                    setUserTotalValue(userTotalValueFromCall)
-                    if (userTotalValueFromCall == undefined) {
-                        setUserTotalValue("{UNDEFINED}")
-                    }
+                    var readableUserTotalValue = userTotalValueFromCall / Math.pow(10, 18)
+                    setUserTotalValue(readableUserTotalValue)
+                    // if (userTotalValueFromCall == undefined) {
+                    //     setUserTotalValue("{UNDEFINED}")
+                    // }
+
+                    console.log("Running getTokenValue()...")
+                    const tokenValueFromCall = await getTokenValue()
+                    console.log("Token value returned: " + tokenValueFromCall)
+                    var readableValue = BigInt(tokenValueFromCall[0]).toString()
+                    readableValue = readableValue / Math.pow(10, tokenValueFromCall[1])
+                    console.log(tokenValue)
+                    console.log(readableValue)
+                    setTokenValue(readableValue)
                     // var price = 0
                     // var decimals = 0
                     // const priceAndDecimals = await getTokenPriceFeed("0xb01B218f021E9151c61eCEA3173361BbbE9eA346") (
@@ -87,8 +118,6 @@ export default function Stake() {
                     //     decimals,
                     // )
                     // console.log(priceAndDecimals)
-                    CURRENT_TOKEN_ADDRESS = 0xb01B218f021E9151c61eCEA3173361BbbE9eA346
-                    approvedTokens.address = 0xb01B218f021E9151c61eCEA3173361BbbE9eA346
                 } catch (err) {
                     console.error(err)
                 }
@@ -109,16 +138,24 @@ export default function Stake() {
             </div>
             <div>
                 <h4>
-                    You have {userTotalValue} tokens staked
-                    You have {tokenValue[0]} token value
+                    <>
+                        You have ${userTotalValue} total staked
+                        Each token is worth ${tokenValue} 
+                    </>
                 </h4>
             </div>
             <button 
                 className="w-full flex justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
                 onClick={async () => {
+                    await approveErc20()
+                }}
+            >Approve Token</button>
+            <button 
+                className="w-full flex justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+                onClick={async () => {
                     await stakeTokens()
                 }}
-            >Stake Tokens</button>
+            >Stake Token</button>
         </div>
     )
 }
