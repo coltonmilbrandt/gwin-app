@@ -1,27 +1,23 @@
 [
   {
-    "dependencies": [
-      "OpenZeppelin/openzeppelin-contracts@4.2.0",
-      "smartcontractkit/chainlink-brownie-contracts@0.2.1"
-    ],
-    "compiler": {
-      "solc": {
-        "remappings": [
-          "@openzeppelin=OpenZeppelin/openzeppelin-contracts@4.2.0",
-          "@chainlink=smartcontractkit/chainlink-brownie-contracts@0.2.1"
-        ]
-      }
-    },
-    "dotenv": ".env",
     "networks": {
       "development": {
         "verify": false,
-        "weth_token": "0x59d3631c86BbE35EF041872d502F218A39FBa150",
-        "fau_token": "0xFab46E002BbF0b4509813474841E0716E6730136",
-        "dai_usd_price_feed": "0x777A68032a88E5A84678A77Af2CD65A7b3c0775a",
-        "eth_usd_price_feed": "0x9326BFA02ADD2366b30bacB125260Af641031331"
+        "contracts": {
+          "weth_token": "0x59d3631c86BbE35EF041872d502F218A39FBa150",
+          "fau_token": "0xFab46E002BbF0b4509813474841E0716E6730136",
+          "dai_usd_price_feed": "0x777A68032a88E5A84678A77Af2CD65A7b3c0775a",
+          "eth_usd_price_feed": "0x9326BFA02ADD2366b30bacB125260Af641031331"
+        }
       },
       "ganache": {
+        "contracts": {
+          "token_farm": "0x48efFEBe8879A7024654dda2d90F1EF56b12f135",
+          "gwin_token": "0x0a8fC4aAf1965B4798d7E6c226f7F73f7b729202",
+          "link_token": "0x9C8307df0fE556A376c1C71d3c9293A0Ad5D937B",
+          "dai_token": "0xe1F284B9FB056cbF75A92c9b879594d1C74Fa7b9",
+          "weth_token": "0x7F27377d72ba8c92f3fB3E1880Efc5583bD7f8Ab"
+        },
         "verify": false
       },
       "kovan": {
