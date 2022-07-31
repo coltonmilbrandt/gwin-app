@@ -6,28 +6,46 @@ import { abi } from "../constants/TokenFarm_abi"
 import { MockDaiAbi } from "../constants/MockDai_abi"
 import { ethers, utils } from "ethers"
 import contractsJson from "../constants/contractInfo.json"
+import { hex2a } from "../helpers/hexConverter"
+import { chainDict } from "../constants/chainDict"
 
 // I added ESLint Plugin to check react hooks
 
 // TO DO
-// - Create a helpful script to retrieve current chain
+// - Create a helpful script to retrieve current chain !! DONE !!
 // - Make all functions modulare=
 
 
 export default function Stake() {
     console.log({contractsJson})
-    const { isWeb3Enabled, user } = useMoralis()
+    const { isWeb3Enabled, account, chainId } = useMoralis()
+    const chainName = chainDict[hex2a(chainId)]
+
     const [userTotalValue, setUserTotalValue] = useState()
     const [tokenValue, setTokenValue] = useState([])
-    const [contractOptions, setContractOptions] = useState({})
+    const [contractOptions, setContractOptions] = useState()
+    // {
+    //     abi: "",
+    //     contractAddress: "",
+    //     functionName: "",
+    //     params: {}
+    // }
     const [contractAbi, setContractAbi] = useState()
     const [contractAddress, setContractAddress] = useState()
     const [contractfunctionName, setcontractFunctionName] = useState()
-    const [contractParameters, setContractParameters] = useState({})
+    const [contractParameters, setContractParameters] = useState()
+
     const contractsInfo = contractsJson[0]
     console.log("below is the hopefully shorterarray")
     console.log(contractsInfo)
-    console.log(contractsInfo.dependencies[0])
+    var currentToken = contractsInfo.networks[chainName]["contracts"]["dai_token"]
+    console.log("Current token address: " + currentToken.address)
+    console.log(contractsInfo.networks[chainName]["contracts"]["dai_token"]["address"])
+    // console.log(contractsInfo.networks[chainName].contracts.dai_token)
+    console.log(contractsInfo.networks.ganache.contracts.gwin_token.abi)
+    console.log(contractParameters)
+    console.log(chainName)
+
 
     // Stake to contract
     // WE NEED
@@ -97,9 +115,6 @@ export default function Stake() {
                     console.log("User total value returned: " + userTotalValueFromCall)
                     var readableUserTotalValue = userTotalValueFromCall / Math.pow(10, 18)
                     setUserTotalValue(readableUserTotalValue)
-                    // if (userTotalValueFromCall == undefined) {
-                    //     setUserTotalValue("{UNDEFINED}")
-                    // }
 
                     console.log("Running getTokenValue()...")
                     const tokenValueFromCall = await getTokenValue()
@@ -109,13 +124,6 @@ export default function Stake() {
                     console.log(tokenValue)
                     console.log(readableValue)
                     setTokenValue(readableValue)
-                    // var price = 0
-                    // var decimals = 0
-                    // const priceAndDecimals = await getTokenPriceFeed("0xb01B218f021E9151c61eCEA3173361BbbE9eA346") (
-                    //     price,
-                    //     decimals,
-                    // )
-                    // console.log(priceAndDecimals)
                 } catch (err) {
                     console.error(err)
                 }
@@ -145,7 +153,7 @@ export default function Stake() {
                 <button 
                     className="w-full flex justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
                     onClick={async () => {
-                        setContractOptions({
+                        await setContractOptions({
                             abi: MockDaiAbi,
                             contractAddress: "0xe1F284B9FB056cbF75A92c9b879594d1C74Fa7b9",
                             functionName: "approve",
