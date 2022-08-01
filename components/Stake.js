@@ -13,7 +13,8 @@ import { chainDict } from "../constants/chainDict"
 
 // TO DO
 // - Create a helpful script to retrieve current chain !! DONE !!
-// - Make all functions modulare=
+// - Make all functions modulare
+    // 1 - How do we do inputs?
 
 
 export default function Stake() {
@@ -47,7 +48,7 @@ export default function Stake() {
         address: '0x0000000000000000000000000000000000000000',
         abi: [0],
     })
-    const [targetToken, setTargetToken] = useState({
+    const [token, setToken] = useState({
         address: '0x0000000000000000000000000000000000000000',
         abi: [0],
     })
@@ -65,47 +66,24 @@ export default function Stake() {
     }
 
 
-
-
-    const { runContractFunction: approveDai } = useWeb3Contract({
-        abi: daiToken.abi,
-        contractAddress: daiToken.address,
+    const { runContractFunction: approveToken } = useWeb3Contract({
+        abi: token.abi,
+        contractAddress: token.address,
         functionName: "approve",
         params: {spender: tokenFarm.address, amount: "1000000000000000000"},
     })
 
-    const { runContractFunction: approveGwin } = useWeb3Contract({
-        abi: gwinToken.abi,
-        contractAddress: gwinToken.address,
-        functionName: "approve",
-        params: {spender: tokenFarm.address, amount: "1000000000000000000"},
-    })
-    
-    const { runContractFunction: approveWeth } = useWeb3Contract({
-        abi: wethToken.abi,
-        contractAddress: wethToken.address,
-        functionName: "approve",
-        params: {spender: tokenFarm.address, amount: "1000000000000000000"},
-    })
+
+
     
 
-    const { runContractFunction: stakeDaiTokens } = useWeb3Contract({
+    const { runContractFunction: stakeTokens } = useWeb3Contract({
         abi: tokenFarm.abi,
         contractAddress: tokenFarm.address,
         functionName: "stakeTokens",
         params: {
             _amount: "1000000000000000000",
-            _token: daiToken.address,
-        },
-    })
-
-    const { runContractFunction: stakeGwinTokens } = useWeb3Contract({
-        abi: tokenFarm.abi,
-        contractAddress: tokenFarm.address,
-        functionName: "stakeTokens",
-        params: {
-            _amount: "1000000000000000000",
-            _token: gwinToken.address,
+            _token: token.address,
         },
     })
 
@@ -169,18 +147,13 @@ export default function Stake() {
         <div>
             <div className="grid grid-cols-3 text-gray-900 pb-4">
                 <div className="bg-[#4E5166] p-4 rounded-md text-gray-100">
-                WETH 
-                </div>
-                <div className="bg-[#4E5166] p-4 rounded-md text-gray-100">
-                GWIN
-                </div>
-                <div className="bg-[#4E5166] p-4 rounded-md text-gray-100">
-                DAI
+                    WETH - {wethToken.address}
                     <>
                         <button 
                             className="w-full flex justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
                             onClick={async () => {
-                                await approveDai()
+                                await setToken(wethToken)
+                                await approveToken()
                             }}
                         >Approve Token</button>
                     </>
@@ -188,7 +161,8 @@ export default function Stake() {
                         <button 
                             className="w-full flex justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
                             onClick={async () => {
-                                await stakeDaiTokens()
+                                await setToken(wethToken)
+                                await stakeTokens()
                             }}
                         >Stake Token</button>
                     </>
@@ -196,12 +170,65 @@ export default function Stake() {
                         <button 
                             className="w-full flex justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
                             onClick={async () => {
-                                await setContracts()
-                                console.log(tokenFarm)
-                                console.log(daiToken)
-                                await setTargetToken(wethToken)
-                                console.log(targetToken)
-                                console.log(targetToken)
+                                await setToken(wethToken)
+                            }}
+                        >Test</button>
+                    </> 
+                </div>
+                <div className="bg-[#4E5166] p-4 rounded-md text-gray-100">
+                    GWIN - {gwinToken.address}
+                    <>
+                        <button 
+                            className="w-full flex justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+                            onClick={async () => {
+                                await setToken(gwinToken)
+                                await approveToken()
+                            }}
+                        >Approve Token</button>
+                    </>
+                    <>
+                        <button 
+                            className="w-full flex justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+                            onClick={async () => {
+                                await setToken(gwinToken)
+                                await stakeTokens()
+                            }}
+                        >Stake Token</button>
+                    </>
+                    <>
+                        <button 
+                            className="w-full flex justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+                            onClick={async () => {
+                                await setToken(gwinToken)
+                            }}
+                        >Test</button>
+                    </>
+                </div>
+                <div className="bg-[#4E5166] p-4 rounded-md text-gray-100">
+                    DAI - {daiToken.address}
+                    <>
+                        <button 
+                            className="w-full flex justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+                            onClick={async () => {
+                                await setToken(daiToken)
+                                await approveToken()
+                            }}
+                        >Approve Token</button>
+                    </>
+                    <>
+                        <button 
+                            className="w-full flex justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+                            onClick={async () => {
+                                await setToken(daiToken)
+                                await stakeTokens()
+                            }}
+                        >Stake Token</button>
+                    </>
+                    <>
+                        <button 
+                            className="w-full flex justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+                            onClick={async () => {
+                                await setToken(daiToken)
                             }}
                         >Test</button>
                     </>
@@ -212,6 +239,11 @@ export default function Stake() {
                     <>
                         You have ${userTotalValue} total staked
                         Each token is worth ${tokenValue} 
+                    </>
+                </h4>
+                <h4>
+                    <>
+                        Target address: {token.address}
                     </>
                 </h4>
             </div>
