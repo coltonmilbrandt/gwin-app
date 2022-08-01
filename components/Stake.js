@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react"
-import { useMoralis, useWeb3Contract } from "react-moralis"
+import { useMoralis, useWeb3Contract, useERC20Balances } from "react-moralis"
 import React from "react"
 // BE SURE to put "{ }" around abi
 import { abi } from "../constants/TokenFarm_abi"
@@ -8,6 +8,7 @@ import { ethers, utils } from "ethers"
 import contractsJson from "../constants/contractInfo.json"
 import { hex2a } from "../helpers/hexConverter"
 import { chainDict } from "../constants/chainDict"
+import Token from '../components/Token'
 
 // I added ESLint Plugin to check react hooks
 
@@ -52,6 +53,9 @@ export default function Stake() {
         address: '0x0000000000000000000000000000000000000000',
         abi: [0],
     })
+    const [wethData, setWethData] = useState()
+
+    const { fetchERC20Balances, data, isLoading, isFetching, error } = useERC20Balances();
 
     const setContracts = () => {
         if(chainName) {
@@ -110,6 +114,17 @@ export default function Stake() {
         params: {_token: "0xe1F284B9FB056cbF75A92c9b879594d1C74Fa7b9"},
     })
 
+    // GetBalanceOfWeth()
+    const { 
+        runContractFunction: getBalanceOfWeth
+    } = useWeb3Contract({
+        abi: wethToken.abi,
+        contractAddress: wethToken.address,
+        functionName: "balanceOf",
+        params: {
+            account: "0x3789F5efFb5022DEF4Fbc14d325e946c7B422eE3"
+        }
+    })
     
 
 
@@ -118,7 +133,9 @@ export default function Stake() {
         if(isWeb3Enabled){
             async function updateUI() {
                 try {
-                    setContracts()
+                    await setContracts()
+
+
                     console.log("Running userTotalValue()...")
                     const userTotalValueFromCall = await getUserTotalValue()
                     console.log("User total value returned: " + userTotalValueFromCall)
@@ -133,6 +150,10 @@ export default function Stake() {
                     console.log(tokenValue)
                     console.log(readableValue)
                     setTokenValue(readableValue)
+                    var temp = await getBalanceOfWeth()
+                    temp = parseInt(temp._hex)
+                    temp = temp / Math.pow(10, 18)
+                    setWethData(temp)
                 } catch (err) {
                     console.error(err)
                 }
@@ -148,6 +169,9 @@ export default function Stake() {
             <div className="grid grid-cols-3 text-gray-900 pb-4">
                 <div className="bg-[#4E5166] p-4 rounded-md text-gray-100">
                     WETH - {wethToken.address}
+                    <div>
+                        {wethData}
+                    </div>
                     <>
                         <button 
                             className="w-full flex justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
@@ -247,7 +271,7 @@ export default function Stake() {
                     </>
                 </h4>
             </div>
-            
+            <div><Token customProps = {wethToken} /></div>
             
             
         </div>
