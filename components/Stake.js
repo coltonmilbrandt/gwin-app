@@ -17,64 +17,95 @@ import { chainDict } from "../constants/chainDict"
 
 
 export default function Stake() {
-    console.log({contractsJson})
-    const { isWeb3Enabled, account, chainId } = useMoralis()
-    const chainName = chainDict[hex2a(chainId)]
-
-    const [userTotalValue, setUserTotalValue] = useState()
-    const [tokenValue, setTokenValue] = useState([])
-    const [contractOptions, setContractOptions] = useState()
-    // {
-    //     abi: "",
-    //     contractAddress: "",
-    //     functionName: "",
-    //     params: {}
-    // }
-    const [contractAbi, setContractAbi] = useState()
-    const [contractAddress, setContractAddress] = useState()
-    const [contractfunctionName, setcontractFunctionName] = useState()
-    const [contractParameters, setContractParameters] = useState()
-
-    const contractsInfo = contractsJson[0]
-    console.log("below is the hopefully shorterarray")
-    console.log(contractsInfo)
-    var currentToken = contractsInfo.networks[chainName]["contracts"]["dai_token"]
-    console.log("Current token address: " + currentToken.address)
-    console.log(contractsInfo.networks[chainName]["contracts"]["dai_token"]["address"])
-    // console.log(contractsInfo.networks[chainName].contracts.dai_token)
-    console.log(contractsInfo.networks.ganache.contracts.gwin_token.abi)
-    console.log(contractParameters)
+    const { isWeb3Enabled, account, chainId: chainIdHex } = useMoralis()
+    const chainId = parseInt(chainIdHex)
+    const chainName = chainDict[chainId]
     console.log(chainName)
 
+    const contractsInfo = require('../constants/contractInfo.json'); 
+    console.log(contractsInfo);
 
-    // Stake to contract
-    // WE NEED
-    // 1. Approve the token
-        // address
-        // abi
-        // chainId
-    const { runContractFunction: approveErc20 } = useWeb3Contract(contractOptions)
-    // const { runContractFunction: approveErc20 } = useWeb3Contract({
-    //     abi: MockDaiAbi,
-    //     contractAddress: "0xe1F284B9FB056cbF75A92c9b879594d1C74Fa7b9",
-    //     functionName: "approve",
-    //     params: {
-    //         spender: "0x48efFEBe8879A7024654dda2d90F1EF56b12f135",
-    //         amount: "1000000000000000000",
-    //     },
-    // })
-    // 2. Call the Staking function
-        // address
-        // abi
-        // amount
-        // token address
-    const { runContractFunction: stakeTokens } = useWeb3Contract({
-        abi: abi,
-        contractAddress: "0x48efFEBe8879A7024654dda2d90F1EF56b12f135",
+    
+    
+    
+
+    const [userTotalValue, setUserTotalValue] = useState("")
+    const [tokenValue, setTokenValue] = useState([])
+    const [tokenFarm, setTokenFarm] = useState({
+        address: '0x0000000000000000000000000000000000000000',
+        abi: [0],
+    })
+    const [daiToken, setDaiToken] = useState({
+        address: '0x0000000000000000000000000000000000000000',
+        abi: [0],
+    })
+    const [gwinToken, setGwinToken] = useState({
+        address: '0x0000000000000000000000000000000000000000',
+        abi: [0],
+    })
+    const [wethToken, setWethToken] = useState({
+        address: '0x0000000000000000000000000000000000000000',
+        abi: [0],
+    })
+    const [targetToken, setTargetToken] = useState({
+        address: '0x0000000000000000000000000000000000000000',
+        abi: [0],
+    })
+
+    const setContracts = () => {
+        if(chainName) {
+            console.log(chainName)
+            setTokenFarm(contractsInfo[0]["networks"][chainName]["contracts"]["token_farm"])
+            setDaiToken(contractsInfo[0]["networks"][chainName]["contracts"]["dai_token"])
+            setGwinToken(contractsInfo[0]["networks"][chainName]["contracts"]["gwin_token"])
+            setWethToken(contractsInfo[0]["networks"][chainName]["contracts"]["weth_token"])
+            console.log("here we goo.....")
+            console.log(tokenFarm)
+        }
+    }
+
+
+
+
+    const { runContractFunction: approveDai } = useWeb3Contract({
+        abi: daiToken.abi,
+        contractAddress: daiToken.address,
+        functionName: "approve",
+        params: {spender: tokenFarm.address, amount: "1000000000000000000"},
+    })
+
+    const { runContractFunction: approveGwin } = useWeb3Contract({
+        abi: gwinToken.abi,
+        contractAddress: gwinToken.address,
+        functionName: "approve",
+        params: {spender: tokenFarm.address, amount: "1000000000000000000"},
+    })
+    
+    const { runContractFunction: approveWeth } = useWeb3Contract({
+        abi: wethToken.abi,
+        contractAddress: wethToken.address,
+        functionName: "approve",
+        params: {spender: tokenFarm.address, amount: "1000000000000000000"},
+    })
+    
+
+    const { runContractFunction: stakeDaiTokens } = useWeb3Contract({
+        abi: tokenFarm.abi,
+        contractAddress: tokenFarm.address,
         functionName: "stakeTokens",
         params: {
             _amount: "1000000000000000000",
-            _token: "0xe1F284B9FB056cbF75A92c9b879594d1C74Fa7b9",
+            _token: daiToken.address,
+        },
+    })
+
+    const { runContractFunction: stakeGwinTokens } = useWeb3Contract({
+        abi: tokenFarm.abi,
+        contractAddress: tokenFarm.address,
+        functionName: "stakeTokens",
+        params: {
+            _amount: "1000000000000000000",
+            _token: gwinToken.address,
         },
     })
 
@@ -109,7 +140,7 @@ export default function Stake() {
         if(isWeb3Enabled){
             async function updateUI() {
                 try {
-
+                    setContracts()
                     console.log("Running userTotalValue()...")
                     const userTotalValueFromCall = await getUserTotalValue()
                     console.log("User total value returned: " + userTotalValueFromCall)
@@ -138,7 +169,42 @@ export default function Stake() {
         <div>
             <div className="grid grid-cols-3 text-gray-900 pb-4">
                 <div className="bg-[#4E5166] p-4 rounded-md text-gray-100">
-                Data
+                WETH 
+                </div>
+                <div className="bg-[#4E5166] p-4 rounded-md text-gray-100">
+                GWIN
+                </div>
+                <div className="bg-[#4E5166] p-4 rounded-md text-gray-100">
+                DAI
+                    <>
+                        <button 
+                            className="w-full flex justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+                            onClick={async () => {
+                                await approveDai()
+                            }}
+                        >Approve Token</button>
+                    </>
+                    <>
+                        <button 
+                            className="w-full flex justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+                            onClick={async () => {
+                                await stakeDaiTokens()
+                            }}
+                        >Stake Token</button>
+                    </>
+                    <>
+                        <button 
+                            className="w-full flex justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+                            onClick={async () => {
+                                await setContracts()
+                                console.log(tokenFarm)
+                                console.log(daiToken)
+                                await setTargetToken(wethToken)
+                                console.log(targetToken)
+                                console.log(targetToken)
+                            }}
+                        >Test</button>
+                    </>
                 </div>
             </div>
             <div>
@@ -149,32 +215,9 @@ export default function Stake() {
                     </>
                 </h4>
             </div>
-            <>
-                <button 
-                    className="w-full flex justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
-                    onClick={async () => {
-                        await setContractOptions({
-                            abi: MockDaiAbi,
-                            contractAddress: "0xe1F284B9FB056cbF75A92c9b879594d1C74Fa7b9",
-                            functionName: "approve",
-                            params: {
-                                spender: "0x48efFEBe8879A7024654dda2d90F1EF56b12f135",
-                                amount: "1000000000000000000",
-                            },
-                        })
-                        await approveErc20()
-                    }}
-                >Approve Token</button>
-            </>
             
-            <>
-                <button 
-                    className="w-full flex justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
-                    onClick={async () => {
-                        await stakeTokens()
-                    }}
-                >Stake Token</button>
-            </>
+            
+            
         </div>
     )
 }
