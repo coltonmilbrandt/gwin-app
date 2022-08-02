@@ -8,7 +8,7 @@ import { ethers, utils } from "ethers"
 import contractsJson from "../constants/contractInfo.json"
 import { hex2a } from "../helpers/hexConverter"
 import { chainDict } from "../constants/chainDict"
-import Token from '../components/Token'
+import Image from 'next/image'
 
 // I added ESLint Plugin to check react hooks
 
@@ -16,7 +16,6 @@ import Token from '../components/Token'
 // - Create a helpful script to retrieve current chain !! DONE !!
 // - Make all functions modulare
     // 1 - How do we do inputs?
-
 
 export default function Stake() {
     const { isWeb3Enabled, account, chainId: chainIdHex } = useMoralis()
@@ -26,8 +25,6 @@ export default function Stake() {
 
     const contractsInfo = require('../constants/contractInfo.json'); 
     console.log(contractsInfo);
-
-    
     
     
 
@@ -53,9 +50,8 @@ export default function Stake() {
         address: '0x0000000000000000000000000000000000000000',
         abi: [0],
     })
-    const [wethData, setWethData] = useState()
 
-    const { fetchERC20Balances, data, isLoading, isFetching, error } = useERC20Balances();
+    const [wethReadable, setWethReadable] = useState()
 
     const setContracts = () => {
         if(chainName) {
@@ -122,11 +118,23 @@ export default function Stake() {
         contractAddress: wethToken.address,
         functionName: "balanceOf",
         params: {
-            account: "0x3789F5efFb5022DEF4Fbc14d325e946c7B422eE3"
+            account: account
         }
     })
-    
 
+    // GetBalanceOfWeth()
+    const { 
+        runContractFunction: getBalanceOfGwin
+    } = useWeb3Contract({
+        abi: gwinToken.abi,
+        contractAddress: gwinToken.address,
+        functionName: "balanceOf",
+        params: {
+            account: account
+        }
+    })
+
+    
 
     // This means that any time, any variable in here changes, run this function
     useEffect(() => {
@@ -150,10 +158,7 @@ export default function Stake() {
                     console.log(tokenValue)
                     console.log(readableValue)
                     setTokenValue(readableValue)
-                    var temp = await getBalanceOfWeth()
-                    temp = parseInt(temp._hex)
-                    temp = temp / Math.pow(10, 18)
-                    setWethData(temp)
+                    
                 } catch (err) {
                     console.error(err)
                 }
@@ -166,11 +171,38 @@ export default function Stake() {
 
     return (
         <div>
-            <div className="grid grid-cols-3 text-gray-900 pb-4">
-                <div className="bg-[#4E5166] p-4 rounded-md text-gray-100">
-                    WETH - {wethToken.address}
-                    <div>
-                        {wethData}
+            <div className="grid grid-cols-1 md:grid-cols-3 text-gray-900 pb-4">
+                <div className="bg-sky-50 m-3 shadow-md p-4 rounded-sm text-gray-700">
+                    <div class="justify-center flex">
+                        <Image src="/../public/eth.png" class="bg-white rounded-full" width='100px' height='100px' alt="/" />
+                    </div>
+                    <div class="whitespace-nowrap overflow-hidden text-ellipsis">
+                        WETH - {wethToken.address}
+                    </div>
+                    <div class="flex justify-center">
+                        <div class="mb-3 xl:w-96">
+                            <input
+                            type="number"
+                            class="
+                                form-control
+                                block
+                                w-full
+                                px-3
+                                py-1.5
+                                text-base
+                                font-normal
+                                text-gray-700
+                                bg-white bg-clip-padding
+                                border border-solid border-gray-300
+                                rounded
+                                transition
+                                ease-in-out
+                                m-0
+                                focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none
+                            "
+                            id="exampleNumber0"
+                            placeholder="WETH to Stake"/>
+                        </div>
                     </div>
                     <>
                         <button 
@@ -199,8 +231,39 @@ export default function Stake() {
                         >Test</button>
                     </> 
                 </div>
-                <div className="bg-[#4E5166] p-4 rounded-md text-gray-100">
-                    GWIN - {gwinToken.address}
+
+                <div className="bg-sky-50 m-3 shadow-md p-4 rounded-sm text-gray-700">
+                    <div class="justify-center flex">
+                        <Image src="/../public/gwin-rect.webp" class="bg-white rounded-full" width='100px' height='100px' alt="/" />
+                    </div>
+                    <div class="whitespace-nowrap overflow-hidden text-ellipsis">
+                        GWIN - {gwinToken.address}
+                    </div>
+                    <div class="flex justify-center">
+                        <div class="mb-3 xl:w-96">
+                            <input
+                            type="number"
+                            class="
+                                form-control
+                                block
+                                w-full
+                                px-3
+                                py-1.5
+                                text-base
+                                font-normal
+                                text-gray-700
+                                bg-white bg-clip-padding
+                                border border-solid border-gray-300
+                                rounded
+                                transition
+                                ease-in-out
+                                m-0
+                                focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none
+                            "
+                            id="exampleNumber0"
+                            placeholder="GWIN to Stake"/>
+                        </div>
+                    </div>
                     <>
                         <button 
                             className="w-full flex justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
@@ -228,8 +291,39 @@ export default function Stake() {
                         >Test</button>
                     </>
                 </div>
-                <div className="bg-[#4E5166] p-4 rounded-md text-gray-100">
-                    DAI - {daiToken.address}
+
+                <div className="bg-sky-50 m-3 shadow-md p-4 rounded-sm text-gray-700">
+                    <div class="justify-center flex">
+                        <Image src="/../public/dai.png" class="bg-white rounded-full" width='100px' height='100px' alt="/" />
+                    </div>
+                    <div class="whitespace-nowrap overflow-hidden text-ellipsis">
+                        DAI - {daiToken.address}
+                    </div>
+                    <div class="flex justify-center">
+                        <div class="mb-3 xl:w-96">
+                            <input
+                            type="number"
+                            class="
+                                form-control
+                                block
+                                w-full
+                                px-3
+                                py-1.5
+                                text-base
+                                font-normal
+                                text-gray-700
+                                bg-white bg-clip-padding
+                                border border-solid border-gray-300
+                                rounded
+                                transition
+                                ease-in-out
+                                m-0
+                                focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none
+                            "
+                            id="exampleNumber0"
+                            placeholder="DAI to Stake"/>
+                        </div>
+                    </div>
                     <>
                         <button 
                             className="w-full flex justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
@@ -271,7 +365,6 @@ export default function Stake() {
                     </>
                 </h4>
             </div>
-            <div><Token customProps = {wethToken} /></div>
             
             
         </div>
