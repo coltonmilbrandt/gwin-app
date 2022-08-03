@@ -52,6 +52,7 @@ export default function Stake() {
     })
 
     const [wethReadable, setWethReadable] = useState()
+    const [wethToStake, setWethToStake] = useState()
 
     const setContracts = () => {
         if(chainName) {
@@ -70,8 +71,10 @@ export default function Stake() {
         abi: token.abi,
         contractAddress: token.address,
         functionName: "approve",
-        params: {spender: tokenFarm.address, amount: "1000000000000000000"},
+        params: {spender: tokenFarm.address, amount: wethToStake},
     })
+
+    //1000000000000000000
 
 
 
@@ -82,7 +85,7 @@ export default function Stake() {
         contractAddress: tokenFarm.address,
         functionName: "stakeTokens",
         params: {
-            _amount: "1000000000000000000",
+            _amount: wethToStake,
             _token: token.address,
         },
     })
@@ -201,7 +204,8 @@ export default function Stake() {
                                 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none
                             "
                             id="exampleNumber0"
-                            placeholder="WETH to Stake"/>
+                            placeholder="WETH to Stake"
+                            onInput={e => setWethToStake(e.target.value)}/>
                         </div>
                     </div>
                     <>
