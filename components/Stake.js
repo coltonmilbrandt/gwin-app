@@ -53,6 +53,7 @@ export default function Stake() {
 
     const [wethReadable, setWethReadable] = useState()
     const [tokenAmount, setTokenAmount] = useState(0)
+    const [wethBalance, setWethBalance] = useState("")
 
     const setContracts = () => {
         if(chainName) {
@@ -67,7 +68,12 @@ export default function Stake() {
     }
 
 
-    const { runContractFunction: approveToken } = useWeb3Contract({
+    const { 
+        runContractFunction: approveToken,
+        data: enterTxResponse,
+        isLoading,
+        isFetching,
+    } = useWeb3Contract({
         abi: token.abi,
         contractAddress: token.address,
         functionName: "approve",
@@ -113,30 +119,17 @@ export default function Stake() {
         params: {_token: "0xe1F284B9FB056cbF75A92c9b879594d1C74Fa7b9"},
     })
 
-    // GetBalanceOfWeth()
+    // GetBalanceOfToken()
     const { 
-        runContractFunction: getBalanceOfWeth
+        runContractFunction: getBalanceOfToken
     } = useWeb3Contract({
-        abi: wethToken.abi,
-        contractAddress: wethToken.address,
+        abi: token.abi,
+        contractAddress: token.address,
         functionName: "balanceOf",
         params: {
             account: account
         }
     })
-
-    // GetBalanceOfWeth()
-    const { 
-        runContractFunction: getBalanceOfGwin
-    } = useWeb3Contract({
-        abi: gwinToken.abi,
-        contractAddress: gwinToken.address,
-        functionName: "balanceOf",
-        params: {
-            account: account
-        }
-    })
-
     
 
     // This means that any time, any variable in here changes, run this function
@@ -185,6 +178,9 @@ export default function Stake() {
                     <div>
                         {Moralis.Units.ETH(tokenAmount)}
                     </div>
+                    <div>
+                        Balance: {wethBalance}
+                    </div>
                     <form>
                         <div class="flex justify-center">
                             <div class="mb-3 xl:w-96">
@@ -207,20 +203,30 @@ export default function Stake() {
                                 m-0
                                 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none
                                 "
-                                id="exampleNumber0"
+                                id="wethInput"
                                 placeholder="WETH to Stake"
-                                onInput={e => {setToken(wethToken); setTokenAmount(e.target.value)} }/>
+                                onInput={e => {setToken(wethToken); if(e.target.value == ""){setTokenAmount(0)} else {setTokenAmount(e.target.value)} } }
+                                onClick={e => {
+                                    if(token != wethToken && e.target.value != ""){setToken(wethToken); setTokenAmount(e.target.value)}
+                                }}
+                                />
                             </div>
                         </div>
                         <>
                             <button 
                                 className="w-full flex justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 disabled:opacity-50"
-                                disabled={token != wethToken}
+                                disabled={token != wethToken || isLoading || isFetching}
                                 onClick={async () => {
                                     await setToken(wethToken)
                                     await approveToken()
                                 }}
-                                >Approve Token</button>
+                            >
+                                {isLoading || isFetching ? (
+                                    <div className="animate-spin spinner-border h-8 w-8 border-b-2 rounded-full"></div>
+                                ) : (
+                                    "Approve Token"
+                                )}
+                            </button>
                         </>
                         <>
                             <button 
@@ -249,6 +255,9 @@ export default function Stake() {
                     <div class="whitespace-nowrap overflow-hidden text-ellipsis">
                         GWIN - {gwinToken.address}
                     </div>
+                    <div>
+                        {token.address}
+                    </div>
                     <form>
                         <div class="flex justify-center">
                             <div class="mb-3 xl:w-96">
@@ -274,18 +283,28 @@ export default function Stake() {
                                 "
                                 id="exampleNumber0"
                                 placeholder="GWIN to Stake"
-                                onInput={e => {setToken(gwinToken); setTokenAmount(e.target.value)} }
+                                onInput={e => {setToken(gwinToken); if(e.target.value == ""){setTokenAmount(0)} else {setTokenAmount(e.target.value)} } }
+                                onClick={e => {
+                                    if(token != gwinToken && e.target.value != ""){setToken(gwinToken); setTokenAmount(e.target.value)}
+                                }}
                                 />
                             </div>
                         </div>
                         <>
                             <button 
-                                className="w-full flex justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+                                className="w-full flex justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 disabled:opacity-50"
+                                disabled={token != gwinToken || isLoading || isFetching}
                                 onClick={async () => {
                                     await setToken(gwinToken)
                                     await approveToken()
                                 }}
-                            >Approve Token</button>
+                            >
+                                {isLoading || isFetching ? (
+                                    <div className="animate-spin spinner-border h-8 w-8 border-b-2 rounded-full"></div>
+                                ) : (
+                                    "Approve Token"
+                                )}
+                            </button>
                         </>
                         <>
                             <button 
@@ -314,6 +333,9 @@ export default function Stake() {
                     <div class="whitespace-nowrap overflow-hidden text-ellipsis">
                         DAI - {daiToken.address}
                     </div>
+                    <div>
+                        {tokenAmount}
+                    </div>
                     <form>
                         <div class="flex justify-center">
                             <div class="mb-3 xl:w-96">
@@ -338,17 +360,29 @@ export default function Stake() {
                                 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none
                                 "
                                 id="exampleNumber0"
-                                placeholder="DAI to Stake"/>
+                                placeholder="DAI to Stake"
+                                onInput={e => {setToken(daiToken); if(e.target.value == ""){setTokenAmount(0)} else {setTokenAmount(e.target.value)} } }
+                                onClick={e => {
+                                    if(token != daiToken && e.target.value != ""){setToken(daiToken); setTokenAmount(e.target.value)}
+                                }}
+                                />
                             </div>
                         </div>
                         <>
                             <button 
-                                className="w-full flex justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+                                className="w-full flex justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 disabled:opacity-50"
+                                disabled={token != daiToken || isLoading || isFetching}
                                 onClick={async () => {
                                     await setToken(daiToken)
                                     await approveToken()
                                 }}
-                                >Approve Token</button>
+                                >
+                                    {isLoading || isFetching ? (
+                                        <div className="animate-spin spinner-border h-8 w-8 border-b-2 rounded-full"></div>
+                                    ) : (
+                                        "Approve Token"
+                                    )}
+                                </button>
                         </>
                         <>
                             <button 
