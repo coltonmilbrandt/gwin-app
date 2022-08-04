@@ -18,7 +18,7 @@ import Image from 'next/image'
     // 1 - How do we do inputs?
 
 export default function Stake() {
-    const { isWeb3Enabled, account, chainId: chainIdHex } = useMoralis()
+    const { isWeb3Enabled, account, chainId: chainIdHex, Moralis } = useMoralis()
     const chainId = parseInt(chainIdHex)
     const chainName = chainDict[chainId]
     console.log(chainName)
@@ -52,7 +52,7 @@ export default function Stake() {
     })
 
     const [wethReadable, setWethReadable] = useState()
-    const [wethToStake, setWethToStake] = useState()
+    const [tokenAmount, setTokenAmount] = useState(0)
 
     const setContracts = () => {
         if(chainName) {
@@ -71,7 +71,7 @@ export default function Stake() {
         abi: token.abi,
         contractAddress: token.address,
         functionName: "approve",
-        params: {spender: tokenFarm.address, amount: wethToStake},
+        params: {spender: tokenFarm.address, amount: Moralis.Units.ETH(tokenAmount)},
     })
 
     //1000000000000000000
@@ -85,7 +85,7 @@ export default function Stake() {
         contractAddress: tokenFarm.address,
         functionName: "stakeTokens",
         params: {
-            _amount: wethToStake,
+            _amount: Moralis.Units.ETH(tokenAmount),
             _token: token.address,
         },
     })
@@ -182,11 +182,15 @@ export default function Stake() {
                     <div class="whitespace-nowrap overflow-hidden text-ellipsis">
                         WETH - {wethToken.address}
                     </div>
-                    <div class="flex justify-center">
-                        <div class="mb-3 xl:w-96">
-                            <input
-                            type="number"
-                            class="
+                    <div>
+                        {Moralis.Units.ETH(tokenAmount)}
+                    </div>
+                    <form>
+                        <div class="flex justify-center">
+                            <div class="mb-3 xl:w-96">
+                                <input
+                                type="number"
+                                class="
                                 form-control
                                 block
                                 w-full
@@ -202,38 +206,40 @@ export default function Stake() {
                                 ease-in-out
                                 m-0
                                 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none
-                            "
-                            id="exampleNumber0"
-                            placeholder="WETH to Stake"
-                            onInput={e => setWethToStake(e.target.value)}/>
+                                "
+                                id="exampleNumber0"
+                                placeholder="WETH to Stake"
+                                onInput={e => {setToken(wethToken); setTokenAmount(e.target.value)} }/>
+                            </div>
                         </div>
-                    </div>
-                    <>
-                        <button 
-                            className="w-full flex justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
-                            onClick={async () => {
-                                await setToken(wethToken)
-                                await approveToken()
-                            }}
-                        >Approve Token</button>
-                    </>
-                    <>
-                        <button 
-                            className="w-full flex justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
-                            onClick={async () => {
-                                await setToken(wethToken)
-                                await stakeTokens()
-                            }}
-                        >Stake Token</button>
-                    </>
-                    <>
-                        <button 
-                            className="w-full flex justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
-                            onClick={async () => {
-                                await setToken(wethToken)
-                            }}
-                        >Test</button>
-                    </> 
+                        <>
+                            <button 
+                                className="w-full flex justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 disabled:opacity-50"
+                                disabled={token != wethToken}
+                                onClick={async () => {
+                                    await setToken(wethToken)
+                                    await approveToken()
+                                }}
+                                >Approve Token</button>
+                        </>
+                        <>
+                            <button 
+                                className="w-full flex justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+                                onClick={async () => {
+                                    await setToken(wethToken)
+                                    await stakeTokens()
+                                }}
+                                >Stake Token</button>
+                        </>
+                        <>
+                            <button 
+                                className="w-full flex justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+                                onClick={async () => {
+                                    await setToken(wethToken)
+                                }}
+                                >Test</button>
+                        </> 
+                    </form>
                 </div>
 
                 <div className="bg-sky-50 m-3 shadow-md p-4 rounded-sm text-gray-700">
@@ -243,57 +249,62 @@ export default function Stake() {
                     <div class="whitespace-nowrap overflow-hidden text-ellipsis">
                         GWIN - {gwinToken.address}
                     </div>
-                    <div class="flex justify-center">
-                        <div class="mb-3 xl:w-96">
-                            <input
-                            type="number"
-                            class="
-                                form-control
-                                block
-                                w-full
-                                px-3
-                                py-1.5
-                                text-base
-                                font-normal
-                                text-gray-700
-                                bg-white bg-clip-padding
-                                border border-solid border-gray-300
-                                rounded
-                                transition
-                                ease-in-out
-                                m-0
-                                focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none
-                            "
-                            id="exampleNumber0"
-                            placeholder="GWIN to Stake"/>
+                    <form>
+                        <div class="flex justify-center">
+                            <div class="mb-3 xl:w-96">
+                                <input
+                                required
+                                type="number"
+                                class="
+                                    form-control
+                                    block
+                                    w-full
+                                    px-3
+                                    py-1.5
+                                    text-base
+                                    font-normal
+                                    text-gray-700
+                                    bg-white bg-clip-padding
+                                    border border-solid border-gray-300
+                                    rounded
+                                    transition
+                                    ease-in-out
+                                    m-0
+                                    focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none
+                                "
+                                id="exampleNumber0"
+                                placeholder="GWIN to Stake"
+                                onInput={e => {setToken(gwinToken); setTokenAmount(e.target.value)} }
+                                />
+                            </div>
                         </div>
-                    </div>
-                    <>
-                        <button 
-                            className="w-full flex justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
-                            onClick={async () => {
-                                await setToken(gwinToken)
-                                await approveToken()
-                            }}
-                        >Approve Token</button>
-                    </>
-                    <>
-                        <button 
-                            className="w-full flex justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
-                            onClick={async () => {
-                                await setToken(gwinToken)
-                                await stakeTokens()
-                            }}
-                        >Stake Token</button>
-                    </>
-                    <>
-                        <button 
-                            className="w-full flex justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
-                            onClick={async () => {
-                                await setToken(gwinToken)
-                            }}
-                        >Test</button>
-                    </>
+                        <>
+                            <button 
+                                className="w-full flex justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+                                onClick={async () => {
+                                    await setToken(gwinToken)
+                                    await approveToken()
+                                }}
+                            >Approve Token</button>
+                        </>
+                        <>
+                            <button 
+                                className="w-full flex justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+                                onClick={async () => {
+                                    await setToken(gwinToken)
+                                    await stakeTokens()
+                                }}
+                            >Stake Token</button>
+                        </>
+                        <>
+                            <button 
+                                className="w-full flex justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+                                onClick={async () => {
+                                    await setToken(gwinToken)
+                                }}
+                            >Test</button>
+                        </>
+                    </form>
                 </div>
 
                 <div className="bg-sky-50 m-3 shadow-md p-4 rounded-sm text-gray-700">
@@ -303,11 +314,13 @@ export default function Stake() {
                     <div class="whitespace-nowrap overflow-hidden text-ellipsis">
                         DAI - {daiToken.address}
                     </div>
-                    <div class="flex justify-center">
-                        <div class="mb-3 xl:w-96">
-                            <input
-                            type="number"
-                            class="
+                    <form>
+                        <div class="flex justify-center">
+                            <div class="mb-3 xl:w-96">
+                                <input
+                                required
+                                type="number"
+                                class="
                                 form-control
                                 block
                                 w-full
@@ -323,37 +336,38 @@ export default function Stake() {
                                 ease-in-out
                                 m-0
                                 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none
-                            "
-                            id="exampleNumber0"
-                            placeholder="DAI to Stake"/>
+                                "
+                                id="exampleNumber0"
+                                placeholder="DAI to Stake"/>
+                            </div>
                         </div>
-                    </div>
-                    <>
-                        <button 
-                            className="w-full flex justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
-                            onClick={async () => {
-                                await setToken(daiToken)
-                                await approveToken()
-                            }}
-                        >Approve Token</button>
-                    </>
-                    <>
-                        <button 
-                            className="w-full flex justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
-                            onClick={async () => {
-                                await setToken(daiToken)
-                                await stakeTokens()
-                            }}
-                        >Stake Token</button>
-                    </>
-                    <>
-                        <button 
-                            className="w-full flex justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
-                            onClick={async () => {
-                                await setToken(daiToken)
-                            }}
-                        >Test</button>
-                    </>
+                        <>
+                            <button 
+                                className="w-full flex justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+                                onClick={async () => {
+                                    await setToken(daiToken)
+                                    await approveToken()
+                                }}
+                                >Approve Token</button>
+                        </>
+                        <>
+                            <button 
+                                className="w-full flex justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+                                onClick={async () => {
+                                    await setToken(daiToken)
+                                    await stakeTokens()
+                                }}
+                                >Stake Token</button>
+                        </>
+                        <>
+                            <button 
+                                className="w-full flex justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+                                onClick={async () => {
+                                    await setToken(daiToken)
+                                }}
+                                >Test</button>
+                        </>
+                    </form>
                 </div>
             </div>
             <div>
