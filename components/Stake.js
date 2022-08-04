@@ -130,6 +130,18 @@ export default function Stake() {
             account: account
         }
     })
+
+    const handleNewNotification = (tx) => {
+        console.log("Done!!")
+        console.log(tx)
+    }
+
+    const handleSuccess = async (tx) => {
+        await tx.wait(1)
+        // updateUIValues()
+        handleNewNotification(tx)
+        await stakeTokens()
+    }
     
 
     // This means that any time, any variable in here changes, run this function
@@ -217,8 +229,10 @@ export default function Stake() {
                                 className="w-full flex justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 disabled:opacity-50"
                                 disabled={token != wethToken || isLoading || isFetching}
                                 onClick={async () => {
-                                    await setToken(wethToken)
-                                    await approveToken()
+                                    await approveToken({
+                                        onSuccess: handleSuccess,
+                                        onError: (error) => console.log(error),
+                                    })
                                 }}
                             >
                                 {isLoading || isFetching ? (
@@ -232,7 +246,6 @@ export default function Stake() {
                             <button 
                                 className="w-full flex justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
                                 onClick={async () => {
-                                    await setToken(wethToken)
                                     await stakeTokens()
                                 }}
                                 >Stake Token</button>
