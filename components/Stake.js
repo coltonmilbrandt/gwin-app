@@ -49,8 +49,6 @@ export default function Stake() {
             setDaiToken(contractsInfo[0]["networks"][chainName]["contracts"]["dai_token"])
             setGwinToken(contractsInfo[0]["networks"][chainName]["contracts"]["gwin_token"])
             setWethToken(contractsInfo[0]["networks"][chainName]["contracts"]["weth_token"])
-            console.log("here we goo.....")
-            console.log(tokenFarm)
         }
     }
 
