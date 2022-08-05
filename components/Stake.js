@@ -136,11 +136,19 @@ export default function Stake() {
         console.log(tx)
     }
 
+    const handleStakeSuccess = async (tx) => {
+        await tx.wait(1)
+        
+    }
+
     const handleSuccess = async (tx) => {
         await tx.wait(1)
         // updateUIValues()
         handleNewNotification(tx)
-        await stakeTokens()
+        await stakeTokens({
+            onSuccess: handleStakeSuccess,
+            onError: (error) => console.log(error),
+        })
     }
     
 
@@ -219,7 +227,7 @@ export default function Stake() {
                                 placeholder="WETH to Stake"
                                 onInput={e => {setToken(wethToken); if(e.target.value == ""){setTokenAmount(0)} else {setTokenAmount(e.target.value)} } }
                                 onClick={e => {
-                                    if(token != wethToken && e.target.value != ""){setToken(wethToken); setTokenAmount(e.target.value)}
+                                    setToken(wethToken); if(e.target.value != ""){setTokenAmount(e.target.value)} else{setTokenAmount(0)}
                                 }}
                                 />
                             </div>
@@ -227,7 +235,7 @@ export default function Stake() {
                         <>
                             <button 
                                 className="w-full flex justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 disabled:opacity-50"
-                                disabled={token != wethToken || isLoading || isFetching}
+                                disabled={token != wethToken || tokenAmount == 0 || isLoading || isFetching}
                                 onClick={async () => {
                                     await approveToken({
                                         onSuccess: handleSuccess,
@@ -238,26 +246,10 @@ export default function Stake() {
                                 {isLoading || isFetching ? (
                                     <div className="animate-spin spinner-border h-8 w-8 border-b-2 rounded-full"></div>
                                 ) : (
-                                    "Approve Token"
+                                    "Stake Token"
                                 )}
                             </button>
                         </>
-                        <>
-                            <button 
-                                className="w-full flex justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
-                                onClick={async () => {
-                                    await stakeTokens()
-                                }}
-                                >Stake Token</button>
-                        </>
-                        <>
-                            <button 
-                                className="w-full flex justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
-                                onClick={async () => {
-                                    await setToken(wethToken)
-                                }}
-                                >Test</button>
-                        </> 
                     </form>
                 </div>
 
@@ -296,9 +288,9 @@ export default function Stake() {
                                 "
                                 id="exampleNumber0"
                                 placeholder="GWIN to Stake"
-                                onInput={e => {setToken(gwinToken); if(e.target.value == ""){setTokenAmount(0)} else {setTokenAmount(e.target.value)} } }
+                                onInput={e => {setToken(gwinToken); if(e.target.value == ""){setTokenAmount("0")} else {setTokenAmount(e.target.value)} } }
                                 onClick={e => {
-                                    if(token != gwinToken && e.target.value != ""){setToken(gwinToken); setTokenAmount(e.target.value)}
+                                    setToken(gwinToken); if(e.target.value != ""){setTokenAmount(e.target.value)} else{setTokenAmount(0)}
                                 }}
                                 />
                             </div>
@@ -306,35 +298,20 @@ export default function Stake() {
                         <>
                             <button 
                                 className="w-full flex justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 disabled:opacity-50"
-                                disabled={token != gwinToken || isLoading || isFetching}
+                                disabled={token != gwinToken || tokenAmount == 0 || isLoading || isFetching}
                                 onClick={async () => {
-                                    await setToken(gwinToken)
-                                    await approveToken()
+                                    await approveToken({
+                                        onSuccess: handleSuccess,
+                                        onError: (error) => console.log(error),
+                                    })
                                 }}
                             >
                                 {isLoading || isFetching ? (
                                     <div className="animate-spin spinner-border h-8 w-8 border-b-2 rounded-full"></div>
                                 ) : (
-                                    "Approve Token"
+                                    "Stake Token"
                                 )}
                             </button>
-                        </>
-                        <>
-                            <button 
-                                className="w-full flex justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
-                                onClick={async () => {
-                                    await setToken(gwinToken)
-                                    await stakeTokens()
-                                }}
-                            >Stake Token</button>
-                        </>
-                        <>
-                            <button 
-                                className="w-full flex justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
-                                onClick={async () => {
-                                    await setToken(gwinToken)
-                                }}
-                            >Test</button>
                         </>
                     </form>
                 </div>
@@ -376,7 +353,7 @@ export default function Stake() {
                                 placeholder="DAI to Stake"
                                 onInput={e => {setToken(daiToken); if(e.target.value == ""){setTokenAmount(0)} else {setTokenAmount(e.target.value)} } }
                                 onClick={e => {
-                                    if(token != daiToken && e.target.value != ""){setToken(daiToken); setTokenAmount(e.target.value)}
+                                    setToken(daiToken); if(e.target.value != ""){setTokenAmount(e.target.value)} else{setTokenAmount(0)}
                                 }}
                                 />
                             </div>
@@ -384,35 +361,20 @@ export default function Stake() {
                         <>
                             <button 
                                 className="w-full flex justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 disabled:opacity-50"
-                                disabled={token != daiToken || isLoading || isFetching}
+                                disabled={token != daiToken || tokenAmount == 0 || isLoading || isFetching}
                                 onClick={async () => {
-                                    await setToken(daiToken)
-                                    await approveToken()
+                                    await approveToken({
+                                        onSuccess: handleSuccess,
+                                        onError: (error) => console.log(error),
+                                    })
                                 }}
                                 >
                                     {isLoading || isFetching ? (
                                         <div className="animate-spin spinner-border h-8 w-8 border-b-2 rounded-full"></div>
                                     ) : (
-                                        "Approve Token"
+                                        "Stake Token"
                                     )}
                                 </button>
-                        </>
-                        <>
-                            <button 
-                                className="w-full flex justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
-                                onClick={async () => {
-                                    await setToken(daiToken)
-                                    await stakeTokens()
-                                }}
-                                >Stake Token</button>
-                        </>
-                        <>
-                            <button 
-                                className="w-full flex justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
-                                onClick={async () => {
-                                    await setToken(daiToken)
-                                }}
-                                >Test</button>
                         </>
                     </form>
                 </div>
