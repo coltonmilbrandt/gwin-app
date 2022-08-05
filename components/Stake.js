@@ -132,28 +132,28 @@ export default function Stake() {
         }
     })
 
-    const handleNewNotification = (tx) => {
-        console.log("handleNewNotification did run")
-    }
-
-    const toastMessage = (msg) => {
-        handleStakeSuccess()
-    }
-
     const handleStakeSuccess = async (tx) => {
         await tx.wait(1)
-        toast.success("Successfully Staked!")
+        toast.success('Successfully Staked!')
         await updateUIValues()
+    }
+    
+    const handleStakeError = async (error) => {
+        console.log(error)
+        toast.error('Uh oh! Tx was approved but could not stake. Check console for error.')
     }
 
     const handleSuccess = async (tx) => {
         await tx.wait(1)
-        // updateUIValues()
-        handleNewNotification(tx)
         await stakeTokens({
             onSuccess: handleStakeSuccess,
-            onError: (error) => console.log(error),
+            onError: (error) => handleStakeError(error, tx),
         })
+    }
+
+    const handleError = async (error) => {
+        console.log(error)
+        toast.error('Uh oh! Tx could not be approved. Check console for error.')
     }
 
     const updateUIValues = async () => {
@@ -201,12 +201,6 @@ export default function Stake() {
                     <div class="whitespace-nowrap overflow-hidden text-ellipsis">
                         WETH - {wethToken.address}
                     </div>
-                    <div>
-                        {Moralis.Units.ETH(tokenAmount)}
-                    </div>
-                    <div>
-                        Balance: {wethBalance}
-                    </div>
                     <form>
                         <div class="flex justify-center">
                             <div class="mb-3 xl:w-96">
@@ -245,7 +239,7 @@ export default function Stake() {
                                 onClick={async () => {
                                     await approveToken({
                                         onSuccess: handleSuccess,
-                                        onError: (error) => console.log(error),
+                                        onError: (error) => handleError(error),
                                     })
                                 }}
                             >
@@ -265,9 +259,6 @@ export default function Stake() {
                     </div>
                     <div class="whitespace-nowrap overflow-hidden text-ellipsis">
                         GWIN - {gwinToken.address}
-                    </div>
-                    <div>
-                        {token.address}
                     </div>
                     <form>
                         <div class="flex justify-center">
@@ -308,7 +299,7 @@ export default function Stake() {
                                 onClick={async () => {
                                     await approveToken({
                                         onSuccess: handleSuccess,
-                                        onError: (error) => console.log(error),
+                                        onError: (error) => handleError(error),
                                     })
                                 }}
                             >
@@ -328,9 +319,6 @@ export default function Stake() {
                     </div>
                     <div class="whitespace-nowrap overflow-hidden text-ellipsis">
                         DAI - {daiToken.address}
-                    </div>
-                    <div>
-                        {tokenAmount}
                     </div>
                     <form>
                         <div class="flex justify-center">
@@ -371,7 +359,7 @@ export default function Stake() {
                                 onClick={async () => {
                                     await approveToken({
                                         onSuccess: handleSuccess,
-                                        onError: (error) => console.log(error),
+                                        onError: (error) => handleError(error),
                                     })
                                 }}
                                 >
