@@ -3,20 +3,9 @@ import { useMoralis, useWeb3Contract, useERC20Balances } from "react-moralis"
 import React from "react"
 // BE SURE to put "{ }" around abi
 import { abi } from "../constants/TokenFarm_abi"
-import { MockDaiAbi } from "../constants/MockDai_abi"
-import { ethers, utils } from "ethers"
-import contractsJson from "../constants/contractInfo.json"
-import { hex2a } from "../helpers/hexConverter"
 import { chainDict } from "../constants/chainDict"
 import Image from 'next/image'
 import toast, { Toaster } from 'react-hot-toast';
-
-// I added ESLint Plugin to check react hooks
-
-// TO DO
-// - Create a helpful script to retrieve current chain !! DONE !!
-// - Make all functions modulare
-    // 1 - How do we do inputs?
 
 export default function Stake() {
     const { isWeb3Enabled, account, chainId: chainIdHex, Moralis } = useMoralis()
@@ -25,9 +14,6 @@ export default function Stake() {
     console.log(chainName)
 
     const contractsInfo = require('../constants/contractInfo.json'); 
-    console.log(contractsInfo);
-    
-    
 
     const [userTotalValue, setUserTotalValue] = useState("")
     const [tokenValue, setTokenValue] = useState([])
@@ -68,6 +54,7 @@ export default function Stake() {
         }
     }
 
+    ///////////   Contract Functions   ////////////
 
     const { 
         runContractFunction: approveToken,
@@ -81,13 +68,8 @@ export default function Stake() {
         params: {spender: tokenFarm.address, amount: Moralis.Units.ETH(tokenAmount)},
     })
 
-    //1000000000000000000
-
-
-
-    
-
-    const { runContractFunction: stakeTokens } = useWeb3Contract({
+    const { runContractFunction: stakeTokens
+    } = useWeb3Contract({
         abi: tokenFarm.abi,
         contractAddress: tokenFarm.address,
         functionName: "stakeTokens",
@@ -97,7 +79,7 @@ export default function Stake() {
         },
     })
 
-    // View Functions //
+    ///////////   View Functions   ////////////
     
     // getUserTotalValue()
     const { runContractFunction: getUserTotalValue
@@ -132,6 +114,8 @@ export default function Stake() {
         }
     })
 
+    ///////////   Toast Messsage Updates   ////////////
+
     const handleStakeSuccess = async (tx) => {
         await tx.wait(1)
         toast.success('Successfully Staked!')
@@ -156,19 +140,15 @@ export default function Stake() {
         toast.error('Uh oh! Tx could not be approved. Check console for error.')
     }
 
+    ///////////   Update UI   ////////////
+
     const updateUIValues = async () => {
-        console.log("Running userTotalValue()...")
         const userTotalValueFromCall = await getUserTotalValue()
-        console.log("User total value returned: " + userTotalValueFromCall)
         var readableUserTotalValue = userTotalValueFromCall / Math.pow(10, 18)
         setUserTotalValue(readableUserTotalValue)
-        console.log("Running getTokenValue()...")
         const tokenValueFromCall = await getTokenValue()
-        console.log("Token value returned: " + tokenValueFromCall)
         var readableValue = BigInt(tokenValueFromCall[0]).toString()
         readableValue = readableValue / Math.pow(10, tokenValueFromCall[1])
-        console.log(tokenValue)
-        console.log(readableValue)
         setTokenValue(readableValue)
     }
     
