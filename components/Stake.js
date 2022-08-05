@@ -9,6 +9,7 @@ import contractsJson from "../constants/contractInfo.json"
 import { hex2a } from "../helpers/hexConverter"
 import { chainDict } from "../constants/chainDict"
 import Image from 'next/image'
+import toast, { Toaster } from 'react-hot-toast';
 
 // I added ESLint Plugin to check react hooks
 
@@ -132,13 +133,17 @@ export default function Stake() {
     })
 
     const handleNewNotification = (tx) => {
-        console.log("Done!!")
-        console.log(tx)
+        console.log("handleNewNotification did run")
+    }
+
+    const toastMessage = (msg) => {
+        handleStakeSuccess()
     }
 
     const handleStakeSuccess = async (tx) => {
         await tx.wait(1)
-        
+        toast.success("Successfully Staked!")
+        await updateUIValues()
     }
 
     const handleSuccess = async (tx) => {
@@ -150,6 +155,22 @@ export default function Stake() {
             onError: (error) => console.log(error),
         })
     }
+
+    const updateUIValues = async () => {
+        console.log("Running userTotalValue()...")
+        const userTotalValueFromCall = await getUserTotalValue()
+        console.log("User total value returned: " + userTotalValueFromCall)
+        var readableUserTotalValue = userTotalValueFromCall / Math.pow(10, 18)
+        setUserTotalValue(readableUserTotalValue)
+        console.log("Running getTokenValue()...")
+        const tokenValueFromCall = await getTokenValue()
+        console.log("Token value returned: " + tokenValueFromCall)
+        var readableValue = BigInt(tokenValueFromCall[0]).toString()
+        readableValue = readableValue / Math.pow(10, tokenValueFromCall[1])
+        console.log(tokenValue)
+        console.log(readableValue)
+        setTokenValue(readableValue)
+    }
     
 
     // This means that any time, any variable in here changes, run this function
@@ -158,23 +179,7 @@ export default function Stake() {
             async function updateUI() {
                 try {
                     await setContracts()
-
-
-                    console.log("Running userTotalValue()...")
-                    const userTotalValueFromCall = await getUserTotalValue()
-                    console.log("User total value returned: " + userTotalValueFromCall)
-                    var readableUserTotalValue = userTotalValueFromCall / Math.pow(10, 18)
-                    setUserTotalValue(readableUserTotalValue)
-
-                    console.log("Running getTokenValue()...")
-                    const tokenValueFromCall = await getTokenValue()
-                    console.log("Token value returned: " + tokenValueFromCall)
-                    var readableValue = BigInt(tokenValueFromCall[0]).toString()
-                    readableValue = readableValue / Math.pow(10, tokenValueFromCall[1])
-                    console.log(tokenValue)
-                    console.log(readableValue)
-                    setTokenValue(readableValue)
-                    
+                    await updateUIValues()
                 } catch (err) {
                     console.error(err)
                 }
@@ -187,6 +192,7 @@ export default function Stake() {
 
     return (
         <div>
+            <Toaster />
             <div className="grid grid-cols-1 md:grid-cols-3 text-gray-900 pb-4">
                 <div className="bg-sky-50 m-3 shadow-md p-4 rounded-sm text-gray-700">
                     <div class="justify-center flex">
@@ -379,7 +385,7 @@ export default function Stake() {
                     </form>
                 </div>
             </div>
-            <div>
+            <div class="text-gray-700">
                 <h4>
                     <>
                         You have ${userTotalValue} total staked
