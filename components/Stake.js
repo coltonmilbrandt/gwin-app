@@ -11,7 +11,6 @@ export default function Stake() {
     const { isWeb3Enabled, account, chainId: chainIdHex, Moralis } = useMoralis()
     const chainId = parseInt(chainIdHex)
     const chainName = chainDict[chainId]
-    console.log(chainName)
 
     const contractsInfo = require('../constants/contractInfo.json'); 
 
@@ -38,9 +37,13 @@ export default function Stake() {
         abi: [0],
     })
 
-    const [wethReadable, setWethReadable] = useState()
+    const [gwinWalletBalance, setGwinWalletBalance] = useState(0)
+    const [wethWalletBalance, setWethWalletBalance] = useState(0)
+    const [daiWalletBalance, setDaiWalletBalance] = useState(0)
     const [tokenAmount, setTokenAmount] = useState(0)
-    const [wethBalance, setWethBalance] = useState("")
+
+    const [count, setCount] = useState(0)
+    const [isLoaded, setIsLoaded] = useState(0)
 
     const setContracts = () => {
         if(chainName) {
@@ -104,8 +107,8 @@ export default function Stake() {
     const { 
         runContractFunction: getBalanceOfToken
     } = useWeb3Contract({
-        abi: token.abi,
-        contractAddress: token.address,
+        abi: gwinToken.abi,
+        contractAddress: gwinToken.address,
         functionName: "balanceOf",
         params: {
             account: account
@@ -149,15 +152,36 @@ export default function Stake() {
         readableValue = readableValue / Math.pow(10, tokenValueFromCall[1])
         setTokenValue(readableValue)
     }
-    
 
+    const getTokenBalance = async (tokenContract) => {
+        console.log(tokenContract)
+        console.log(gwinToken)
+        console.log(token)
+        const tokenBalance = await getBalanceOfToken()
+        console.log(tokenBalance)
+        console.log("here it is...")
+        console.log(await getBalanceOfToken())
+        console.log(token)
+
+        // tokenBalance = parseInt(tokenBalance._hex)
+        // tokenBalance = tokenBalance / Math.pow(10, 18)
+        // console.log(tokenBalance)
+    }
+
+    const updateTokenBalances = async () => {
+        console.log(gwinToken.address)
+        await getTokenBalance(gwinToken)
+    }
     // This means that any time, any variable in here changes, run this function
     useEffect(() => {
         if(isWeb3Enabled){
             async function updateUI() {
                 try {
+                    setCount(count++)
+                    console.log("count: " + count)
                     await setContracts()
                     await updateUIValues()
+                    setIsLoaded(isLoaded++)
                 } catch (err) {
                     console.error(err)
                 }
@@ -168,67 +192,95 @@ export default function Stake() {
         }
     }, [isWeb3Enabled])
 
+    useEffect(() => {
+        if(gwinToken.address != '0x0000000000000000000000000000000000000000'){
+            async function updateBalances() {
+                try {
+                    await updateTokenBalances()
+                } catch (err) {
+                    console.error(err)
+                }
+            }
+            if(gwinToken.address != '0x0000000000000000000000000000000000000000'){
+                updateBalances()
+            }
+        }
+    }, [isLoaded, gwinWalletBalance])
+
+
     return (
         <div>
             <Toaster />
             <div className="grid grid-cols-1 md:grid-cols-3 text-gray-900 pb-4">
-                <div className="bg-sky-50 m-3 shadow-md p-4 rounded-sm text-gray-700">
-                    <div class="justify-center flex">
-                        <Image src="/../public/eth.png" class="bg-white rounded-full" width='100px' height='100px' alt="/" />
-                    </div>
-                    <div class="whitespace-nowrap overflow-hidden text-ellipsis">
-                        WETH - {wethToken.address}
-                    </div>
-                    <form>
-                        <div class="flex justify-center">
-                            <div class="mb-3 xl:w-96">
-                                <input
-                                type="number"
-                                class="
-                                form-control
-                                block
-                                w-full
-                                px-3
-                                py-1.5
-                                text-base
-                                font-normal
-                                text-gray-700
-                                bg-white bg-clip-padding
-                                border border-solid border-gray-300
-                                rounded
-                                transition
-                                ease-in-out
-                                m-0
-                                focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none
-                                "
-                                id="wethInput"
-                                placeholder="WETH to Stake"
-                                onInput={e => {setToken(wethToken); if(e.target.value == ""){setTokenAmount(0)} else {setTokenAmount(e.target.value)} } }
-                                onClick={e => {
-                                    setToken(wethToken); if(e.target.value != ""){setTokenAmount(e.target.value)} else{setTokenAmount(0)}
-                                }}
-                                />
-                            </div>
+                <div>
+                    <div className="bg-sky-50 m-3 shadow-md p-4 rounded-sm text-gray-700">
+                        <div class="justify-center flex">
+                            <Image src="/../public/eth.png" class="bg-white rounded-full" width='100px' height='100px' alt="/" />
                         </div>
-                        <>
-                            <button 
-                                className="w-full flex justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 disabled:opacity-50"
-                                disabled={token != wethToken || tokenAmount == 0 || isLoading || isFetching}
-                                onClick={async () => {
-                                    await approveToken({
-                                        onSuccess: handleSuccess,
-                                        onError: (error) => handleError(error),
-                                    })
-                                }}
-                            >
-                                {isLoading || isFetching ? (
-                                    <div className="animate-spin spinner-border h-8 w-8 border-b-2 rounded-full"></div>
-                                ) : (
-                                    "Stake Token"
-                                )}
-                            </button>
-                        </>
-                    </form>
+                        <div class="whitespace-nowrap overflow-hidden text-ellipsis">
+                            WETH - {wethToken.address}
+                        </div>
+                        <form>
+                            <div class="flex justify-center">
+                                <div class="mb-3 xl:w-96">
+                                    <input
+                                    type="number"
+                                    class="
+                                    form-control
+                                    block
+                                    w-full
+                                    px-3
+                                    py-1.5
+                                    text-base
+                                    font-normal
+                                    text-gray-700
+                                    bg-white bg-clip-padding
+                                    border border-solid border-gray-300
+                                    rounded
+                                    transition
+                                    ease-in-out
+                                    m-0
+                                    focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none
+                                    "
+                                    id="wethInput"
+                                    placeholder="WETH to Stake"
+                                    onInput={e => {setToken(wethToken); if(e.target.value == ""){setTokenAmount(0)} else {setTokenAmount(e.target.value)} } }
+                                    onClick={e => {
+                                        setToken(wethToken); if(e.target.value != ""){setTokenAmount(e.target.value)} else{setTokenAmount(0)}
+                                    }}
+                                    />
+                                </div>
+                            </div>
+                            <>
+                                <button 
+                                    className="w-full flex justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 disabled:opacity-50"
+                                    disabled={token != wethToken || tokenAmount == 0 || isLoading || isFetching}
+                                    onClick={async () => {
+                                        await approveToken({
+                                            onSuccess: handleSuccess,
+                                            onError: (error) => handleError(error),
+                                        })
+                                    }}
+                                >
+                                    {isLoading || isFetching ? (
+                                        <div className="animate-spin spinner-border h-8 w-8 border-b-2 rounded-full"></div>
+                                    ) : (
+                                        "Stake Token"
+                                    )}
+                                </button>
+                            </>
+                        </form>
+                    </div>
+                    <div className="grid grid-cols-3 bg-sky-50 m-3 shadow-md p-4 rounded-sm text-gray-700">
+                        <div>
+                            <Image src="/../public/eth.png" class="bg-white rounded-full" width='50px' height='50px' alt="/" />
+                        </div>
+                        <div className="col-span-2">
+                            <div>Wallet: </div>
+                            <div>Staked: ????</div>
+                            <div>Price: ????</div>
+                        </div>
+                    </div>
                 </div>
 
                 <div className="bg-sky-50 m-3 shadow-md p-4 rounded-sm text-gray-700">
