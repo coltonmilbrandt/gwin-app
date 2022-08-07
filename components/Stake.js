@@ -105,10 +105,21 @@ export default function Stake() {
 
     // GetBalanceOfToken()
     const { 
-        runContractFunction: getBalanceOfToken
+        runContractFunction: getBalanceOfGwinToken
     } = useWeb3Contract({
         abi: gwinToken.abi,
         contractAddress: gwinToken.address,
+        functionName: "balanceOf",
+        params: {
+            account: account
+        }
+    })
+
+    const { 
+        runContractFunction: getBalanceOfWethToken
+    } = useWeb3Contract({
+        abi: wethToken.abi,
+        contractAddress: wethToken.address,
         functionName: "balanceOf",
         params: {
             account: account
@@ -121,6 +132,7 @@ export default function Stake() {
         await tx.wait(1)
         toast.success('Successfully Staked!')
         await updateUIValues()
+        await getTokenBalances()
     }
     
     const handleStakeError = async (error) => {
@@ -143,35 +155,31 @@ export default function Stake() {
 
     ///////////   Update UI   ////////////
 
-    const updateUIValues = async () => {
-        const userTotalValueFromCall = await getUserTotalValue()
-        var readableUserTotalValue = userTotalValueFromCall / Math.pow(10, 18)
-        setUserTotalValue(readableUserTotalValue)
-        const tokenValueFromCall = await getTokenValue()
-        var readableValue = BigInt(tokenValueFromCall[0]).toString()
-        readableValue = readableValue / Math.pow(10, tokenValueFromCall[1])
-        setTokenValue(readableValue)
+    const updateUIValues = async (tokenVal) => {
+        console.log("token test: ")
+        console.log(tokenVal)
+        if(tokenVal) {
+            var tokenValue = tokenVal
+            console.log("token: ")
+            console.log(tokenValue)
+            tokenValue = parseInt(tokenValue._hex)
+            var tokenValue = tokenValue / Math.pow(10, 18)
+            console.log(tokenValue)
+            return tokenValue
+        }
     }
 
-    const getTokenBalance = async (tokenContract) => {
-        console.log(tokenContract)
-        console.log(gwinToken)
-        console.log(token)
-        const tokenBalance = await getBalanceOfToken()
-        console.log(tokenBalance)
-        console.log("here it is...")
-        console.log(await getBalanceOfToken())
-        console.log(token)
-
-        // tokenBalance = parseInt(tokenBalance._hex)
-        // tokenBalance = tokenBalance / Math.pow(10, 18)
-        // console.log(tokenBalance)
+    const getTokenBalances = async (tokenContract) => {
+        const gwinTokenBalance = await getBalanceOfGwinToken()
+        if(gwinTokenBalance){
+            setGwinWalletBalance(await updateUIValues(gwinTokenBalance))
+        }
+        const wethTokenBalance = await getBalanceOfWethToken()
+        if(wethTokenBalance){
+            setWethWalletBalance(await updateUIValues(wethTokenBalance))
+        }
     }
 
-    const updateTokenBalances = async () => {
-        console.log(gwinToken.address)
-        await getTokenBalance(gwinToken)
-    }
     // This means that any time, any variable in here changes, run this function
     useEffect(() => {
         if(isWeb3Enabled){
@@ -196,7 +204,9 @@ export default function Stake() {
         if(gwinToken.address != '0x0000000000000000000000000000000000000000'){
             async function updateBalances() {
                 try {
-                    await updateTokenBalances()
+                    setTimeout(async function(){
+                        await getTokenBalances()
+                    }, 2000)
                 } catch (err) {
                     console.error(err)
                 }
@@ -205,7 +215,7 @@ export default function Stake() {
                 updateBalances()
             }
         }
-    }, [isLoaded, gwinWalletBalance])
+    }, [isWeb3Enabled, chainName, chainId, gwinToken])
 
 
     return (
@@ -276,7 +286,7 @@ export default function Stake() {
                             <Image src="/../public/eth.png" class="bg-white rounded-full" width='50px' height='50px' alt="/" />
                         </div>
                         <div className="col-span-2">
-                            <div>Wallet: </div>
+                            <div>Wallet: {wethWalletBalance}</div>
                             <div>Staked: ????</div>
                             <div>Price: ????</div>
                         </div>
