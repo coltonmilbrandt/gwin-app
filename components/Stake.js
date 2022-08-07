@@ -5,7 +5,8 @@ import React from "react"
 import { abi } from "../constants/TokenFarm_abi"
 import { chainDict } from "../constants/chainDict"
 import Image from 'next/image'
-import toast, { Toaster } from 'react-hot-toast';
+import toast, { Toaster } from 'react-hot-toast'
+import Balances from '../components/Balances'
 
 export default function Stake() {
     const { isWeb3Enabled, account, chainId: chainIdHex, Moralis } = useMoralis()
@@ -126,6 +127,18 @@ export default function Stake() {
         }
     })
 
+    const { 
+        runContractFunction: getBalanceOfDaiToken
+    } = useWeb3Contract({
+        abi: daiToken.abi,
+        contractAddress: daiToken.address,
+        functionName: "balanceOf",
+        params: {
+            account: account
+        }
+    })
+    
+
     ///////////   Toast Messsage Updates   ////////////
 
     const handleStakeSuccess = async (tx) => {
@@ -177,6 +190,10 @@ export default function Stake() {
         const wethTokenBalance = await getBalanceOfWethToken()
         if(wethTokenBalance){
             setWethWalletBalance(await updateUIValues(wethTokenBalance))
+        }
+        const daiTokenBalance = await getBalanceOfDaiToken()
+        if(daiTokenBalance){
+            setDaiWalletBalance(await updateUIValues(daiTokenBalance))
         }
     }
 
@@ -281,32 +298,30 @@ export default function Stake() {
                             </>
                         </form>
                     </div>
-                    <div className="grid grid-cols-3 bg-sky-50 m-3 shadow-md p-4 rounded-sm text-gray-700">
-                        <div>
-                            <Image src="/../public/eth.png" class="bg-white rounded-full" width='50px' height='50px' alt="/" />
-                        </div>
-                        <div className="col-span-2">
-                            <div>Wallet: {wethWalletBalance}</div>
-                            <div>Staked: ????</div>
-                            <div>Price: ????</div>
-                        </div>
-                    </div>
+                    <Balances 
+                        name = "Weth"
+                        wallet = {wethWalletBalance}
+                        staked = "staked"
+                        price = "price"
+                        tokenPic = "/../public/eth.png"
+                    />
                 </div>
 
-                <div className="bg-sky-50 m-3 shadow-md p-4 rounded-sm text-gray-700">
-                    <div class="justify-center flex">
-                        <Image src="/../public/gwin-rect.webp" class="bg-white rounded-full" width='100px' height='100px' alt="/" />
-                    </div>
-                    <div class="whitespace-nowrap overflow-hidden text-ellipsis">
-                        GWIN - {gwinToken.address}
-                    </div>
-                    <form>
-                        <div class="flex justify-center">
-                            <div class="mb-3 xl:w-96">
-                                <input
-                                required
-                                type="number"
-                                class="
+                <div>
+                    <div className="bg-sky-50 m-3 shadow-md p-4 rounded-sm text-gray-700">
+                        <div class="justify-center flex">
+                            <Image src="/../public/gwin-rect.webp" class="bg-white rounded-full" width='100px' height='100px' alt="/" />
+                        </div>
+                        <div class="whitespace-nowrap overflow-hidden text-ellipsis">
+                            GWIN - {gwinToken.address}
+                        </div>
+                        <form>
+                            <div class="flex justify-center">
+                                <div class="mb-3 xl:w-96">
+                                    <input
+                                    required
+                                    type="number"
+                                    class="
                                     form-control
                                     block
                                     w-full
@@ -322,97 +337,115 @@ export default function Stake() {
                                     ease-in-out
                                     m-0
                                     focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none
-                                "
-                                id="exampleNumber0"
-                                placeholder="GWIN to Stake"
-                                onInput={e => {setToken(gwinToken); if(e.target.value == ""){setTokenAmount("0")} else {setTokenAmount(e.target.value)} } }
-                                onClick={e => {
-                                    setToken(gwinToken); if(e.target.value != ""){setTokenAmount(e.target.value)} else{setTokenAmount(0)}
-                                }}
-                                />
+                                    "
+                                    id="exampleNumber0"
+                                    placeholder="GWIN to Stake"
+                                    onInput={e => {setToken(gwinToken); if(e.target.value == ""){setTokenAmount("0")} else {setTokenAmount(e.target.value)} } }
+                                    onClick={e => {
+                                        setToken(gwinToken); if(e.target.value != ""){setTokenAmount(e.target.value)} else{setTokenAmount(0)}
+                                    }}
+                                    />
+                                </div>
                             </div>
-                        </div>
-                        <>
-                            <button 
-                                className="w-full flex justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 disabled:opacity-50"
-                                disabled={token != gwinToken || tokenAmount == 0 || isLoading || isFetching}
-                                onClick={async () => {
-                                    await approveToken({
-                                        onSuccess: handleSuccess,
-                                        onError: (error) => handleError(error),
-                                    })
-                                }}
-                            >
-                                {isLoading || isFetching ? (
-                                    <div className="animate-spin spinner-border h-8 w-8 border-b-2 rounded-full"></div>
-                                ) : (
-                                    "Stake Token"
-                                )}
-                            </button>
-                        </>
-                    </form>
-                </div>
-
-                <div className="bg-sky-50 m-3 shadow-md p-4 rounded-sm text-gray-700">
-                    <div class="justify-center flex">
-                        <Image src="/../public/dai.png" class="bg-white rounded-full" width='100px' height='100px' alt="/" />
-                    </div>
-                    <div class="whitespace-nowrap overflow-hidden text-ellipsis">
-                        DAI - {daiToken.address}
-                    </div>
-                    <form>
-                        <div class="flex justify-center">
-                            <div class="mb-3 xl:w-96">
-                                <input
-                                required
-                                type="number"
-                                class="
-                                form-control
-                                block
-                                w-full
-                                px-3
-                                py-1.5
-                                text-base
-                                font-normal
-                                text-gray-700
-                                bg-white bg-clip-padding
-                                border border-solid border-gray-300
-                                rounded
-                                transition
-                                ease-in-out
-                                m-0
-                                focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none
-                                "
-                                id="exampleNumber0"
-                                placeholder="DAI to Stake"
-                                onInput={e => {setToken(daiToken); if(e.target.value == ""){setTokenAmount(0)} else {setTokenAmount(e.target.value)} } }
-                                onClick={e => {
-                                    setToken(daiToken); if(e.target.value != ""){setTokenAmount(e.target.value)} else{setTokenAmount(0)}
-                                }}
-                                />
-                            </div>
-                        </div>
-                        <>
-                            <button 
-                                className="w-full flex justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 disabled:opacity-50"
-                                disabled={token != daiToken || tokenAmount == 0 || isLoading || isFetching}
-                                onClick={async () => {
-                                    await approveToken({
-                                        onSuccess: handleSuccess,
-                                        onError: (error) => handleError(error),
-                                    })
-                                }}
-                                >
+                            <>
+                                <button 
+                                    className="w-full flex justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 disabled:opacity-50"
+                                    disabled={token != gwinToken || tokenAmount == 0 || isLoading || isFetching}
+                                    onClick={async () => {
+                                        await approveToken({
+                                            onSuccess: handleSuccess,
+                                            onError: (error) => handleError(error),
+                                        })
+                                    }}
+                                    >
                                     {isLoading || isFetching ? (
                                         <div className="animate-spin spinner-border h-8 w-8 border-b-2 rounded-full"></div>
-                                    ) : (
-                                        "Stake Token"
-                                    )}
+                                        ) : (
+                                            "Stake Token"
+                                            )}
                                 </button>
-                        </>
-                    </form>
+                            </>
+                        </form>
+                    </div>
+                    <Balances 
+                        name = "Weth"
+                        wallet = {gwinWalletBalance}
+                        staked = "staked"
+                        price = "price"
+                        tokenPic = "/../public/gwin-rect.webp"
+                    />
+                </div>
+                
+                <div>
+                    <div className="bg-sky-50 m-3 shadow-md p-4 rounded-sm text-gray-700">
+                        <div class="justify-center flex">
+                            <Image src="/../public/dai.png" class="bg-white rounded-full" width='100px' height='100px' alt="/" />
+                        </div>
+                        <div class="whitespace-nowrap overflow-hidden text-ellipsis">
+                            DAI - {daiToken.address}
+                        </div>
+                        <form>
+                            <div class="flex justify-center">
+                                <div class="mb-3 xl:w-96">
+                                    <input
+                                    required
+                                    type="number"
+                                    class="
+                                    form-control
+                                    block
+                                    w-full
+                                    px-3
+                                    py-1.5
+                                    text-base
+                                    font-normal
+                                    text-gray-700
+                                    bg-white bg-clip-padding
+                                    border border-solid border-gray-300
+                                    rounded
+                                    transition
+                                    ease-in-out
+                                    m-0
+                                    focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none
+                                    "
+                                    id="exampleNumber0"
+                                    placeholder="DAI to Stake"
+                                    onInput={e => {setToken(daiToken); if(e.target.value == ""){setTokenAmount(0)} else {setTokenAmount(e.target.value)} } }
+                                    onClick={e => {
+                                        setToken(daiToken); if(e.target.value != ""){setTokenAmount(e.target.value)} else{setTokenAmount(0)}
+                                    }}
+                                    />
+                                </div>
+                            </div>
+                            <>
+                                <button 
+                                    className="w-full flex justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 disabled:opacity-50"
+                                    disabled={token != daiToken || tokenAmount == 0 || isLoading || isFetching}
+                                    onClick={async () => {
+                                        await approveToken({
+                                            onSuccess: handleSuccess,
+                                            onError: (error) => handleError(error),
+                                        })
+                                    }}
+                                    >
+                                        {isLoading || isFetching ? (
+                                            <div className="animate-spin spinner-border h-8 w-8 border-b-2 rounded-full"></div>
+                                            ) : (
+                                                "Stake Token"
+                                                )}
+                                    </button>
+                            </>
+                        </form>
+                    </div>
+                    <Balances 
+                        name = "Dai"
+                        wallet = {daiWalletBalance}
+                        staked = "staked"
+                        price = "price"
+                        tokenPic = "/../public/dai.png"
+                    />
                 </div>
             </div>
+
             <div class="text-gray-700">
                 <h4>
                     <>
