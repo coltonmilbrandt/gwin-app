@@ -24,6 +24,7 @@ export default function Stake() {
     const [daiToken, setDaiToken] = useState({
         address: '0x0000000000000000000000000000000000000000',
         abi: [0],
+        price_address: '0x0000000000000000000000000000000000000000',
     })
     const [gwinToken, setGwinToken] = useState({
         address: '0x0000000000000000000000000000000000000000',
@@ -32,6 +33,7 @@ export default function Stake() {
     const [wethToken, setWethToken] = useState({
         address: '0x0000000000000000000000000000000000000000',
         abi: [0],
+        price_address: '0x0000000000000000000000000000000000000000',
     })
     const [token, setToken] = useState({
         address: '0x0000000000000000000000000000000000000000',
@@ -137,7 +139,6 @@ export default function Stake() {
             account: account
         }
     })
-    
 
     ///////////   Toast Messsage Updates   ////////////
 
@@ -205,7 +206,7 @@ export default function Stake() {
                     setCount(count++)
                     console.log("count: " + count)
                     await setContracts()
-                    await updateUIValues()
+                    await getTokenBalances()
                     setIsLoaded(isLoaded++)
                 } catch (err) {
                     console.error(err)
@@ -252,6 +253,7 @@ export default function Stake() {
                                 <div class="mb-3 xl:w-96">
                                     <input
                                     type="number"
+                                    max={wethWalletBalance}
                                     class="
                                     form-control
                                     block
