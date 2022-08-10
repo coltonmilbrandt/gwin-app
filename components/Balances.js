@@ -3,9 +3,11 @@ import Price from '../components/Price'
 
 // TO DO:
 
-// 1. Show token prices
+// 1. Show token prices - DONE
 // 2. Add staked balance - DONE
-// 3. Add Unstake function
+// 3. Add Unstake function - 
+// 4. Add is mining disable - 
+
 
 export default function Balances(props) {
     const name = props.name

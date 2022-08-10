@@ -36,7 +36,7 @@ export default function Balances(props) {
         async function calcSell( tokensToSell, tokenAddress){
             const web3 = new Web3("https://bsc-dataseed1.binance.org");
             const BNBTokenAddress = "0xbb4CdB9CBd36B01bD1cBaEBF2De08d9173bc095c" //BNB
-            console.log(contract.price_address)
+            // console.log(contract.price_address)
         
             // let tokenRouter = await new web3.eth.Contract( tokenAbi, tokenAddress );
             // let tokenDecimals = await tokenRouter.methods.decimals().call();

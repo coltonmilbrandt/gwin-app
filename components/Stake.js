@@ -86,6 +86,16 @@ export default function Stake() {
         },
     })
 
+    const { runContractFunction: unstakeTokens
+    } = useWeb3Contract({
+        abi: tokenFarm.abi,
+        contractAddress: tokenFarm.address,
+        functionName: "unstakeTokens",
+        params: {
+            _token: token.address
+        },
+    })
+
     ///////////   View Functions   ////////////
     
     // getUserTotalValue()
@@ -198,10 +208,17 @@ export default function Stake() {
 
     const handleSuccess = async (tx) => {
         await tx.wait(1)
+        toast.success('Token approved for staking!')
         await stakeTokens({
             onSuccess: handleStakeSuccess,
             onError: (error) => handleStakeError(error, tx),
         })
+    }
+
+    const handleUnstakeSuccess = async (tx) => {
+        await tx.wait(1)
+        toast.success('Tokens successfully unstaked!')
+        getTokenBalances()
     }
 
     const handleError = async (error) => {
@@ -332,24 +349,39 @@ export default function Stake() {
                                     />
                                 </div>
                             </div>
-                            <>
-                                <button 
-                                    className="w-full flex justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 disabled:opacity-50"
-                                    disabled={token != wethToken || tokenAmount == 0 || isLoading || isFetching}
-                                    onClick={async () => {
-                                        await approveToken({
-                                            onSuccess: handleSuccess,
-                                            onError: (error) => handleError(error),
-                                        })
-                                    }}
-                                >
-                                    {isLoading || isFetching ? (
-                                        <div className="animate-spin spinner-border h-8 w-8 border-b-2 rounded-full"></div>
-                                    ) : (
-                                        "Stake Tokens"
-                                    )}
-                                </button>
-                            </>
+                            <div className="grid grid-cols-2">
+                                <div className="pr-1">
+                                    <button 
+                                        className="w-full flex justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 disabled:opacity-50"
+                                        disabled={wethWalletBalance <= 0}
+                                        onClick={async () => {
+                                            setToken(wethToken)
+                                            await unstakeTokens({
+                                                onSuccess: handleUnstakeSuccess,
+                                                onError: (error) => handleError(error),
+                                            })
+                                        }}
+                                    >Unstake All</button>
+                                </div>
+                                <div className="pl-1">
+                                    <button 
+                                        className="w-full flex justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 disabled:opacity-50"
+                                        disabled={token != wethToken || tokenAmount == 0 || isLoading || isFetching}
+                                        onClick={async () => {
+                                            await approveToken({
+                                                onSuccess: handleSuccess,
+                                                onError: (error) => handleError(error),
+                                            })
+                                        }}
+                                    >
+                                        {isLoading || isFetching ? (
+                                            <div className="animate-spin spinner-border h-8 w-8 border-b-2 rounded-full"></div>
+                                        ) : (
+                                            "Stake Tokens"
+                                        )}
+                                    </button>
+                                </div>
+                            </div>
                         </form>
                     </div>
                     <Balances 
