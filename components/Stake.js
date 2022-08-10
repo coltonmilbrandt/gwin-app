@@ -109,7 +109,8 @@ export default function Stake() {
         params: {_token: "0xe1F284B9FB056cbF75A92c9b879594d1C74Fa7b9"},
     })
 
-    // GetBalanceOfToken()
+    //////   Wallet Balance Functions   //////
+
     const { 
         runContractFunction: getBalanceOfGwinToken
     } = useWeb3Contract({
@@ -142,6 +143,8 @@ export default function Stake() {
             account: account
         }
     })
+
+    //////   Staked Balance Functions   //////
 
     const { 
         runContractFunction: getStakedDai
@@ -222,7 +225,7 @@ export default function Stake() {
         }
     }
 
-    const getTokenBalances = async (tokenContract) => {
+    const getTokenBalances = async () => {
         const gwinTokenBalance = await getBalanceOfGwinToken()
         if(gwinTokenBalance){
             setGwinWalletBalance(await updateUIValues(gwinTokenBalance))
@@ -249,7 +252,6 @@ export default function Stake() {
         }
     }
 
-    // This means that any time, any variable in here changes, run this function
     useEffect(() => {
         if(isWeb3Enabled){
             async function updateUI() {
@@ -293,7 +295,7 @@ export default function Stake() {
             <div className="grid grid-cols-1 md:grid-cols-3 text-gray-900 pb-4">
                 <div>
                     <div className="bg-sky-50 m-3 shadow-md p-4 rounded-sm text-gray-700">
-                        <div class="justify-center flex">
+                        <div class="justify-center flex pb-4">
                             <Image src="/../public/eth.png" class="bg-white rounded-full" width='100px' height='100px' alt="/" />
                         </div>
                         <div class="whitespace-nowrap overflow-hidden text-ellipsis">
@@ -301,10 +303,9 @@ export default function Stake() {
                         </div>
                         <form>
                             <div class="flex justify-center">
-                                <div class="mb-3 xl:w-96">
+                                <div class="mb-3 w-full">
                                     <input
                                     type="number"
-                                    max={wethWalletBalance}
                                     class="
                                     form-control
                                     block
@@ -345,7 +346,7 @@ export default function Stake() {
                                     {isLoading || isFetching ? (
                                         <div className="animate-spin spinner-border h-8 w-8 border-b-2 rounded-full"></div>
                                     ) : (
-                                        "Stake Token"
+                                        "Stake Tokens"
                                     )}
                                 </button>
                             </>
@@ -357,12 +358,13 @@ export default function Stake() {
                         staked = {wethStakedBalance}
                         price = "price"
                         tokenPic = "/../public/eth.png"
+                        contract = {wethToken}
                     />
                 </div>
 
                 <div>
                     <div className="bg-sky-50 m-3 shadow-md p-4 rounded-sm text-gray-700">
-                        <div class="justify-center flex">
+                        <div class="justify-center flex pb-4">
                             <Image src="/../public/gwin-rect.webp" class="bg-white rounded-full" width='100px' height='100px' alt="/" />
                         </div>
                         <div class="whitespace-nowrap overflow-hidden text-ellipsis">
@@ -370,7 +372,7 @@ export default function Stake() {
                         </div>
                         <form>
                             <div class="flex justify-center">
-                                <div class="mb-3 xl:w-96">
+                                <div class="mb-3 w-full">
                                     <input
                                     required
                                     type="number"
@@ -414,7 +416,7 @@ export default function Stake() {
                                     {isLoading || isFetching ? (
                                         <div className="animate-spin spinner-border h-8 w-8 border-b-2 rounded-full"></div>
                                         ) : (
-                                            "Stake Token"
+                                            "Stake Tokens"
                                             )}
                                 </button>
                             </>
@@ -426,12 +428,13 @@ export default function Stake() {
                         staked = {gwinStakedBalance}
                         price = "price"
                         tokenPic = "/../public/gwin-rect.webp"
+                        contract = {gwinToken}
                     />
                 </div>
                 
                 <div>
                     <div className="bg-sky-50 m-3 shadow-md p-4 rounded-sm text-gray-700">
-                        <div class="justify-center flex">
+                        <div class="justify-center flex pb-4">
                             <Image src="/../public/dai.png" class="bg-white rounded-full" width='100px' height='100px' alt="/" />
                         </div>
                         <div class="whitespace-nowrap overflow-hidden text-ellipsis">
@@ -439,7 +442,7 @@ export default function Stake() {
                         </div>
                         <form>
                             <div class="flex justify-center">
-                                <div class="mb-3 xl:w-96">
+                                <div class="mb-3 w-full">
                                     <input
                                     required
                                     type="number"
@@ -464,7 +467,7 @@ export default function Stake() {
                                     placeholder="DAI to Stake"
                                     onInput={e => {setToken(daiToken); if(e.target.value == ""){setTokenAmount(0)} else {setTokenAmount(e.target.value)} } }
                                     onClick={e => {
-                                        setToken(daiToken); if(e.target.value != ""){setTokenAmount(e.target.value)} else{setTokenAmount(0)}
+                                        setToken(daiToken); if(e.target.value != ""){setTokenAmount(e.target.value)} else{setTokenAmount(0)};
                                     }}
                                     />
                                 </div>
@@ -483,7 +486,7 @@ export default function Stake() {
                                         {isLoading || isFetching ? (
                                             <div className="animate-spin spinner-border h-8 w-8 border-b-2 rounded-full"></div>
                                             ) : (
-                                                "Stake Token"
+                                                "Stake Tokens"
                                                 )}
                                     </button>
                             </>
@@ -495,6 +498,7 @@ export default function Stake() {
                         staked = {daiStakedBalance}
                         price = "price"
                         tokenPic = "/../public/dai.png"
+                        contract = {daiToken}
                     />
                 </div>
             </div>
