@@ -44,6 +44,8 @@ export default function Stake() {
     const [wethWalletBalance, setWethWalletBalance] = useState(0)
     const [daiWalletBalance, setDaiWalletBalance] = useState(0)
     const [daiStakedBalance, setDaiStakedBalance] = useState(0)
+    const [gwinStakedBalance, setGwinStakedBalance] = useState(0)
+    const [wethStakedBalance, setWethStakedBalance] = useState(0)
     const [tokenAmount, setTokenAmount] = useState(0)
 
     const [count, setCount] = useState(0)
@@ -153,6 +155,30 @@ export default function Stake() {
         }
     })
 
+    const { 
+        runContractFunction: getStakedWeth
+    } = useWeb3Contract({
+        abi: tokenFarm.abi,
+        contractAddress: tokenFarm.address,
+        functionName: "getUserSingleTokenStakedValue",
+        params: {
+            _user: account,
+            _token: wethToken.address,
+        }
+    })
+
+    const { 
+        runContractFunction: getStakedGwin
+    } = useWeb3Contract({
+        abi: tokenFarm.abi,
+        contractAddress: tokenFarm.address,
+        functionName: "getUserSingleTokenStakedValue",
+        params: {
+            _user: account,
+            _token: gwinToken.address,
+        }
+    })
+
     ///////////   Toast Messsage Updates   ////////////
 
     const handleStakeSuccess = async (tx) => {
@@ -212,6 +238,14 @@ export default function Stake() {
         const stakedDaiBalance = await getStakedDai()
         if(stakedDaiBalance){
             setDaiStakedBalance(await updateUIValues(stakedDaiBalance))
+        }
+        const stakedGwinBalance = await getStakedGwin()
+        if(stakedGwinBalance){
+            setGwinStakedBalance(await updateUIValues(stakedGwinBalance))
+        }
+        const stakedWethBalance = await getStakedWeth()
+        if(stakedWethBalance){
+            setWethStakedBalance(await updateUIValues(stakedWethBalance))
         }
     }
 
@@ -318,9 +352,9 @@ export default function Stake() {
                         </form>
                     </div>
                     <Balances 
-                        name = "Weth"
+                        name = "WETH"
                         wallet = {wethWalletBalance}
-                        staked = "staked"
+                        staked = {wethStakedBalance}
                         price = "price"
                         tokenPic = "/../public/eth.png"
                     />
@@ -387,9 +421,9 @@ export default function Stake() {
                         </form>
                     </div>
                     <Balances 
-                        name = "Weth"
+                        name = "GWIN"
                         wallet = {gwinWalletBalance}
-                        staked = "staked"
+                        staked = {gwinStakedBalance}
                         price = "price"
                         tokenPic = "/../public/gwin-rect.webp"
                     />
