@@ -1,5 +1,11 @@
 import Image from 'next/image'
 
+// TO DO:
+
+// 1. Show token prices
+// 2. Add staked balance
+// 3. Add Unstake function
+
 export default function Balances(props) {
     const name = props.name
     const wallet = props.wallet
@@ -13,7 +19,7 @@ export default function Balances(props) {
             </div>
             <div className="col-span-2">
                 <div><b>Wallet:</b> {wallet}</div>
-                <div><b>Staked:</b> {staked}</div>
+                <div><b>Staked:</b> {staked} {name}</div>
                 <div><b>Price:</b> {price}</div>
             </div>
         </div>

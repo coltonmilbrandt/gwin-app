@@ -43,6 +43,7 @@ export default function Stake() {
     const [gwinWalletBalance, setGwinWalletBalance] = useState(0)
     const [wethWalletBalance, setWethWalletBalance] = useState(0)
     const [daiWalletBalance, setDaiWalletBalance] = useState(0)
+    const [daiStakedBalance, setDaiStakedBalance] = useState(0)
     const [tokenAmount, setTokenAmount] = useState(0)
 
     const [count, setCount] = useState(0)
@@ -140,6 +141,18 @@ export default function Stake() {
         }
     })
 
+    const { 
+        runContractFunction: getStakedDai
+    } = useWeb3Contract({
+        abi: tokenFarm.abi,
+        contractAddress: tokenFarm.address,
+        functionName: "getUserSingleTokenStakedValue",
+        params: {
+            _user: account,
+            _token: daiToken.address,
+        }
+    })
+
     ///////////   Toast Messsage Updates   ////////////
 
     const handleStakeSuccess = async (tx) => {
@@ -195,6 +208,10 @@ export default function Stake() {
         const daiTokenBalance = await getBalanceOfDaiToken()
         if(daiTokenBalance){
             setDaiWalletBalance(await updateUIValues(daiTokenBalance))
+        }
+        const stakedDaiBalance = await getStakedDai()
+        if(stakedDaiBalance){
+            setDaiStakedBalance(await updateUIValues(stakedDaiBalance))
         }
     }
 
@@ -439,9 +456,9 @@ export default function Stake() {
                         </form>
                     </div>
                     <Balances 
-                        name = "Dai"
+                        name = "DAI"
                         wallet = {daiWalletBalance}
-                        staked = "staked"
+                        staked = {daiStakedBalance}
                         price = "price"
                         tokenPic = "/../public/dai.png"
                     />
