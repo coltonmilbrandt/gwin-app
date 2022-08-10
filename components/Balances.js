@@ -20,8 +20,8 @@ export default function Balances(props) {
                 <Image src={tokenPic} class="bg-white rounded-full" width='50px' height='50px' alt={name} />
             </div>
             <div className="col-span-2">
-                <div><b>Wallet:</b> {wallet} {name}</div>
-                <div><b>Staked:</b> {staked} {name}</div>
+                <div><b>Wallet:</b> {wallet.toLocaleString("en-US")} {name}</div>
+                <div><b>Staked:</b> {staked.toLocaleString("en-US")} {name}</div>
                 <div><b>Price:</b> <Price contract={contract}/></div>
             </div>
         </div>
