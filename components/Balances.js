@@ -7,6 +7,7 @@ import Price from '../components/Price'
 // 2. Add staked balance - DONE
 // 3. Add Unstake function - 
 // 4. Add is mining disable - 
+// 5. Add price feed refresh -
 
 
 export default function Balances(props) {

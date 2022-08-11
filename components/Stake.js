@@ -47,6 +47,8 @@ export default function Stake() {
     const [gwinStakedBalance, setGwinStakedBalance] = useState(0)
     const [wethStakedBalance, setWethStakedBalance] = useState(0)
     const [tokenAmount, setTokenAmount] = useState(0)
+    const [isUnstaking, setIsUnstaking] = useState(false)
+    const [isStaking, setIsStaking] = useState(false)
 
     const [count, setCount] = useState(0)
     const [isLoaded, setIsLoaded] = useState(0)
@@ -303,7 +305,49 @@ export default function Stake() {
                 updateBalances()
             }
         }
-    }, [isWeb3Enabled, chainName, chainId, gwinToken])
+    }, [isWeb3Enabled, chainName, chainId, gwinToken, isUnstaking])
+
+    useEffect(() => {
+        async function handleUnstaking() {
+            if(isUnstaking == true) {
+                try {
+                    await unstakeTokens({
+                        onSuccess: handleUnstakeSuccess,
+                        onError: (error) => handleError(error),
+                    })
+                    setIsUnstaking(false)
+                } catch (err) {
+                    console.error(err)
+                }
+            } else {
+                setIsUnstaking(false)
+            }
+        }
+        if(isUnstaking == true) {
+            handleUnstaking()
+        }
+    }, [isUnstaking])
+
+    useEffect(() => {
+        async function handleStaking() {
+            if(isUnstaking == true) {
+                try {
+                    await stakeTokens({
+                        onSuccess: handleStakeSuccess,
+                        onError: (error) => handleError(error),
+                    })
+                    setIsStaking(false)
+                } catch (err) {
+                    console.error(err)
+                }
+            } else {
+                setIsStaking(false)
+            }
+        }
+        if(isStaking == true) {
+            handleStaking()
+        }
+    }, [isStaking])
 
 
     return (
@@ -353,13 +397,10 @@ export default function Stake() {
                                 <div className="pr-1">
                                     <button 
                                         className="w-full flex justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 disabled:opacity-50"
-                                        disabled={wethWalletBalance <= 0}
+                                        disabled={wethStakedBalance <= 0 || isUnstaking}
                                         onClick={async () => {
                                             setToken(wethToken)
-                                            await unstakeTokens({
-                                                onSuccess: handleUnstakeSuccess,
-                                                onError: (error) => handleError(error),
-                                            })
+                                            setIsUnstaking(true)
                                         }}
                                     >Unstake All</button>
                                 </div>
@@ -434,24 +475,36 @@ export default function Stake() {
                                     />
                                 </div>
                             </div>
-                            <>
-                                <button 
-                                    className="w-full flex justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 disabled:opacity-50"
-                                    disabled={token != gwinToken || tokenAmount == 0 || isLoading || isFetching}
-                                    onClick={async () => {
-                                        await approveToken({
-                                            onSuccess: handleSuccess,
-                                            onError: (error) => handleError(error),
-                                        })
-                                    }}
-                                    >
-                                    {isLoading || isFetching ? (
-                                        <div className="animate-spin spinner-border h-8 w-8 border-b-2 rounded-full"></div>
-                                        ) : (
-                                            "Stake Tokens"
-                                            )}
-                                </button>
-                            </>
+                            <div className="grid grid-cols-2">
+                                <div className="pr-1">
+                                    <button 
+                                        className="w-full flex justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 disabled:opacity-50"
+                                        disabled={gwinStakedBalance <= 0 || isUnstaking}
+                                        onClick={async () => {
+                                            setToken(gwinToken)
+                                            setIsUnstaking(true)
+                                        }}
+                                    >Unstake All</button>
+                                </div>
+                                <div className="pl-1">
+                                    <button 
+                                        className="w-full flex justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 disabled:opacity-50"
+                                        disabled={token != gwinToken || tokenAmount == 0 || isLoading || isFetching}
+                                        onClick={async () => {
+                                            await approveToken({
+                                                onSuccess: handleSuccess,
+                                                onError: (error) => handleError(error),
+                                            })
+                                        }}
+                                        >
+                                        {isLoading || isFetching ? (
+                                            <div className="animate-spin spinner-border h-8 w-8 border-b-2 rounded-full"></div>
+                                            ) : (
+                                                "Stake Tokens"
+                                                )}
+                                    </button>
+                                </div>
+                            </div>
                         </form>
                     </div>
                     <Balances 
@@ -504,24 +557,36 @@ export default function Stake() {
                                     />
                                 </div>
                             </div>
-                            <>
-                                <button 
-                                    className="w-full flex justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 disabled:opacity-50"
-                                    disabled={token != daiToken || tokenAmount == 0 || isLoading || isFetching}
-                                    onClick={async () => {
-                                        await approveToken({
-                                            onSuccess: handleSuccess,
-                                            onError: (error) => handleError(error),
-                                        })
-                                    }}
-                                    >
-                                        {isLoading || isFetching ? (
-                                            <div className="animate-spin spinner-border h-8 w-8 border-b-2 rounded-full"></div>
-                                            ) : (
-                                                "Stake Tokens"
-                                                )}
+                            <div className="grid grid-cols-2">
+                                <div className="pr-1">
+                                    <button 
+                                        className="w-full flex justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 disabled:opacity-50"
+                                        disabled={daiStakedBalance <= 0 || isUnstaking}
+                                        onClick={async () => {
+                                            setToken(daiToken)
+                                            setIsUnstaking(true)
+                                        }}
+                                    >Unstake All</button>
+                                </div>
+                                <div className="pl-1">
+                                    <button 
+                                        className="w-full flex justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 disabled:opacity-50"
+                                        disabled={token != daiToken || tokenAmount == 0 || isLoading || isFetching}
+                                        onClick={async () => {
+                                            await approveToken({
+                                                onSuccess: handleSuccess,
+                                                onError: (error) => handleError(error),
+                                            })
+                                        }}
+                                        >
+                                            {isLoading || isFetching ? (
+                                                <div className="animate-spin spinner-border h-8 w-8 border-b-2 rounded-full"></div>
+                                                ) : (
+                                                    "Stake Tokens"
+                                                    )}
                                     </button>
-                            </>
+                                </div>
+                            </div>
                         </form>
                     </div>
                     <Balances 
