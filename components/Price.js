@@ -3,6 +3,7 @@ import { useState, useEffect } from "react"
 
 export default function Balances(props) {
     const contract = props.contract
+    const [time, setTime] = useState(Date.now());
 
     let pancakeSwapAbi =  [
         {"inputs":[{"internalType":"uint256","name":"amountIn","type":"uint256"},{"internalType":"address[]","name":"path","type":"address[]"}],"name":"getAmountsOut","outputs":[{"internalType":"uint256[]","name":"amounts","type":"uint256[]"}],"stateMutability":"view","type":"function"},
@@ -90,11 +91,18 @@ export default function Balances(props) {
             let priceInBnb = await calcSell(tokens_to_sell, tokenAddress)/tokens_to_sell; // calculate TOKEN price in BNB
             // console.log( 'SHIT_TOKEN VALUE IN BNB : ' + priceInBnb + ' | Just convert it to USD ' );
             // console.log(`SHIT_TOKEN VALUE IN USD: ${priceInBnb*bnbPrice}`); // convert the token price from BNB to USD based on the retrived BNB value
-            let roundedValue = (Math.round((priceInBnb*bnbPrice*100) + Number.EPSILON) * 100) / 10000
+            let roundedValue = ((Math.round((priceInBnb*bnbPrice*100) + Number.EPSILON) * 100) / 10000).toFixed(2);
             setTokenPrice(roundedValue);
         })();
 
         const [tokenPrice, setTokenPrice] = useState(0);
+
+        useEffect(() => {
+            const interval = setInterval(() => setTime(Date.now()), 10000);
+            return () => {
+                clearInterval(interval);
+            };
+        }, []);
 
     return (
         <>
