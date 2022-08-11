@@ -18,7 +18,7 @@ export default function Balances(props) {
     const tokenPic = props.tokenPic
     const contract = props.contract
     return (
-        <div className="grid grid-cols-3 bg-sky-50 m-3 shadow-md p-4 rounded-sm text-gray-600">
+        <div className="grid grid-cols-3 bg-sky-50 m-3 shadow-lg p-4 rounded-lg text-gray-600">
             <div className="flex flex-col items-center justify-center pr-4">
                 <Image src={tokenPic} class="bg-white rounded-full" width='50px' height='50px' alt={name} />
             </div>

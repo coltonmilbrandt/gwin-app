@@ -1,7 +1,6 @@
 import { useState, useEffect } from "react"
 import { useMoralis, useWeb3Contract, useERC20Balances } from "react-moralis"
 import React from "react"
-// BE SURE to put "{ }" around abi
 import { abi } from "../constants/TokenFarm_abi"
 import { chainDict } from "../constants/chainDict"
 import Image from 'next/image'
@@ -15,8 +14,6 @@ export default function Stake() {
 
     const contractsInfo = require('../constants/contractInfo.json'); 
 
-    const [userTotalValue, setUserTotalValue] = useState("")
-    const [tokenValue, setTokenValue] = useState([])
     const [tokenFarm, setTokenFarm] = useState({
         address: '0x0000000000000000000000000000000000000000',
         abi: [0],
@@ -369,7 +366,7 @@ export default function Stake() {
             <Toaster />
             <div className="grid grid-cols-1 md:grid-cols-3 text-gray-900 pb-4">
                 <div>
-                    <div className="bg-sky-50 m-3 shadow-md p-4 rounded-sm text-gray-700">
+                    <div className="bg-sky-50 m-3 shadow-lg p-4 rounded-lg text-gray-700">
                         <div class="justify-center flex pb-4">
                             <Image src="/../public/eth.png" class="bg-white rounded-full" width='100px' height='100px' alt="/" />
                         </div>
@@ -408,7 +405,7 @@ export default function Stake() {
                             <div className="grid grid-cols-2">
                                 <div className="pr-1">
                                     <button 
-                                        className="w-full flex justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 disabled:opacity-50"
+                                        className="w-full flex justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-[#7d71d1] hover:bg-indigo-500 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-200 disabled:opacity-50 disabled:bg-[#9e92ff]"
                                         disabled={wethStakedBalance <= 0 || isUnstaking || isStaking}
                                         onClick={async () => {
                                             setToken(wethToken)
@@ -424,7 +421,7 @@ export default function Stake() {
                                 </div>
                                 <div className="pl-1">
                                     <button 
-                                        className="w-full flex justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 disabled:opacity-50"
+                                        className="w-full flex justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-[#7d71d1] hover:bg-indigo-500 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-200 disabled:opacity-50 disabled:bg-[#9e92ff]"
                                         disabled={wethValue == 0 || wethValue == "" || isUnstaking || isStaking}
                                         onClick={async () => {
                                             setToken(wethToken)
@@ -453,7 +450,7 @@ export default function Stake() {
                 </div>
 
                 <div>
-                    <div className="bg-sky-50 m-3 shadow-md p-4 rounded-sm text-gray-700">
+                    <div className="bg-sky-50 m-3 shadow-lg p-4 rounded-lg text-gray-700">
                         <div class="justify-center flex pb-4">
                             <Image src="/../public/gwin-rect.webp" class="bg-white rounded-full" width='100px' height='100px' alt="/" />
                         </div>
@@ -493,7 +490,7 @@ export default function Stake() {
                             <div className="grid grid-cols-2">
                                 <div className="pr-1">
                                     <button 
-                                        className="w-full flex justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 disabled:opacity-50"
+                                        className="w-full flex justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-[#7d71d1] hover:bg-indigo-500 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-200 disabled:opacity-50 disabled:bg-[#9e92ff]"
                                         disabled={gwinStakedBalance <= 0 || isUnstaking || isStaking}
                                         onClick={async () => {
                                             setToken(gwinToken)
@@ -509,7 +506,7 @@ export default function Stake() {
                                 </div>
                                 <div className="pl-1">
                                     <button 
-                                        className="w-full flex justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 disabled:opacity-50"
+                                        className="w-full flex justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-[#7d71d1] hover:bg-indigo-500 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-200 disabled:opacity-50 disabled:bg-[#9e92ff]"
                                         disabled={gwinValue == 0 || gwinValue == "" || isUnstaking || isStaking}
                                         onClick={async () => {
                                             setToken(gwinToken)
@@ -538,7 +535,7 @@ export default function Stake() {
                 </div>
                 
                 <div>
-                    <div className="bg-sky-50 m-3 shadow-md p-4 rounded-sm text-gray-700">
+                    <div className="bg-sky-50 m-3 shadow-lg p-4 rounded-lg text-gray-700">
                         <div class="justify-center flex pb-4">
                             <Image src="/../public/dai.png" class="bg-white rounded-full" width='100px' height='100px' alt="/" />
                         </div>
@@ -578,7 +575,7 @@ export default function Stake() {
                             <div className="grid grid-cols-2">
                                 <div className="pr-1">
                                     <button 
-                                        className="w-full flex justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 disabled:opacity-50"
+                                        className="w-full flex justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-[#7d71d1] hover:bg-indigo-500 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-200 disabled:opacity-50 disabled:bg-[#9e92ff]"
                                         disabled={daiStakedBalance <= 0 || isUnstaking || isStaking}
                                         onClick={async () => {
                                             setToken(daiToken)
@@ -594,7 +591,7 @@ export default function Stake() {
                                 </div>
                                 <div className="pl-1">
                                     <button 
-                                        className="w-full flex justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 disabled:opacity-50"
+                                        className="w-full flex justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-[#7d71d1] hover:bg-indigo-500 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-200 disabled:opacity-50 disabled:bg-[#9e92ff]"
                                         disabled={daiValue == 0 || daiValue == "" || isUnstaking || isStaking}
                                         onClick={async () => {
                                             setToken(daiToken)
@@ -622,22 +619,6 @@ export default function Stake() {
                     />
                 </div>
             </div>
-
-            <div class="text-gray-700">
-                <h4>
-                    <>
-                        You have ${userTotalValue} total staked
-                        Each token is worth ${tokenValue} 
-                    </>
-                </h4>
-                <h4>
-                    <>
-                        Target address: {token.address}
-                    </>
-                </h4>
-            </div>
-            
-            
         </div>
     )
 }

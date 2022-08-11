@@ -13,8 +13,8 @@ const user = {
 }
 const navigation = [
   { name: 'Dashboard', href: '#', current: true },
-  { name: 'Team', href: '#', current: false },
-  { name: 'Projects', href: '#', current: false },
+  { name: 'About', href: '#', current: false },
+  { name: 'Get Tokens', href: '#', current: false },
 //   { name: 'Calendar', href: '#', current: false },
 //   { name: 'Reports', href: '#', current: false },
 ]
@@ -40,7 +40,7 @@ export default function Example() {
         ```
       */}
       <div className="min-h-full">
-        <Disclosure as="nav" className="bg-blue-100">
+        <Disclosure as="nav" className="bg-gradient-to-tr from-slate-100 to-sky-400">
           {({ open }) => (
             <>
               <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -83,12 +83,12 @@ export default function Example() {
                   </div>
                   <div className="-mr-2 flex md:hidden">
                     {/* Mobile menu button */}
-                    <Disclosure.Button className="bg-gray-800 inline-flex items-center justify-center p-2 rounded-md text-gray-400 hover:text-white hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-800 focus:ring-white">
+                    <Disclosure.Button className="bg-[#7d71d1] inline-flex items-center justify-center p-2 rounded-md text-gray-400 hover:text-white hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-800 focus:ring-white">
                       <span className="sr-only">Open main menu</span>
                       {open ? (
                         <XIcon className="block h-6 w-6" aria-hidden="true" />
                       ) : (
-                        <MenuIcon className="block h-6 w-6" aria-hidden="true" />
+                        <MenuIcon className="block h-6 w-6 text-white" aria-hidden="true" />
                       )}
                     </Disclosure.Button>
                   </div>
