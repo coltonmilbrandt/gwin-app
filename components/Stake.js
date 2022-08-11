@@ -500,7 +500,7 @@ export default function Stake() {
                                             setIsUnstaking(true)
                                         }}
                                     >
-                                        {isUnstaking ? (
+                                        {isUnstaking && token == gwinToken ? (
                                             <div className="animate-spin spinner-border h-6 w-6 border-b-2 rounded-full"></div>
                                         ) : (
                                             "Unstake All"
@@ -585,7 +585,7 @@ export default function Stake() {
                                             setIsUnstaking(true)
                                         }}
                                     >
-                                        {isUnstaking ? (
+                                        {isUnstaking && token == daiToken ? (
                                             <div className="animate-spin spinner-border h-6 w-6 border-b-2 rounded-full"></div>
                                         ) : (
                                             "Unstake All"
