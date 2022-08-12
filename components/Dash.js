@@ -5,6 +5,7 @@ import { ConnectButton } from "web3uikit"
 import Image from 'next/image'
 import { useMoralis } from "react-moralis"
 import Stake from '../components/Stake'
+import About from '../components/About'
 
 
 export default function Dash() {
@@ -28,6 +29,7 @@ export default function Dash() {
                                 <div>No Metamask detected...</div>
                             )}
                             <Stake />
+                            <About />
                         </div>
                     </div>
                 </div>
