@@ -27,7 +27,7 @@ export default function About(props) {
 												Gwin Finance
 											</h2> */}
 											<p class="mt-2 text-3xl leading-8 font-bold tracking-tight text-gray-900 sm:text-4xl sm:tracking-tight">
-												How to Use Gwin
+												About Using Gwin
 											</p>
 											<p class="mt-4 max-w-2xl text-xl text-gray-500 lg:mx-auto">
 												With Gwin Finance, it's so
@@ -52,7 +52,7 @@ export default function About(props) {
 																<path
 																	stroke-linecap="round"
 																	stroke-linejoin="round"
-																	d="M21 12a9 9 0 01-9 9m9-9a9 9 0 00-9-9m9 9H3m9 9a9 9 0 01-9-9m9 9c1.657 0 3-4.03 3-9s-1.343-9-3-9m0 18c-1.657 0-3-4.03-3-9s1.343-9 3-9m-9 9a9 9 0 019-9"
+																	d="M13 10V3L4 14h7v7l9-11h-7z"
 																/>
 															</svg>
 														</div>
@@ -62,14 +62,51 @@ export default function About(props) {
 														</p>
 													</dt>
 													<dd class="mt-2 ml-16 text-base text-gray-500">
-														Lorem ipsum, dolor sit
-														amet consectetur
-														adipisicing elit.
-														Maiores impedit
-														perferendis suscipit
-														eaque, iste dolor
-														cupiditate blanditiis
-														ratione.
+														Gwin is a staking app
+														where you can stake your
+														assets in order to earn
+														GWIN tokens. It's free
+														and easy to use!
+													</dd>
+												</div>
+
+												<div class="relative">
+													<dt>
+														<div class="absolute flex items-center justify-center h-12 w-12 rounded-md bg-gradient-to-tl from-[#9e92ff] to-[#95e4d7] text-white">
+															<svg
+																class="h-6 w-6"
+																xmlns="http://www.w3.org/2000/svg"
+																fill="none"
+																viewBox="0 0 24 24"
+																stroke-width="2"
+																stroke="currentColor"
+																aria-hidden="true"
+															>
+																<path
+																	stroke-linecap="round"
+																	stroke-linejoin="round"
+																	d="M21 12a9 9 0 01-9 9m9-9a9 9 0 00-9-9m9 9H3m9 9a9 9 0 01-9-9m9 9c1.657 0 3-4.03 3-9s-1.343-9-3-9m0 18c-1.657 0-3-4.03-3-9s1.343-9 3-9m-9 9a9 9 0 019-9"
+																/>
+															</svg>
+														</div>
+														<p class="ml-16 text-lg leading-6 font-medium text-gray-900">
+															Runs on the Testnet
+														</p>
+													</dt>
+													<dd class="mt-2 ml-16 text-base text-gray-500">
+														You can easily use Gwin
+														Finance for free! It's
+														easy to get testnet
+														assets to stake and
+														earn.
+														<a
+															href="/Tokens"
+															className="text-sky-600 hover:text-sky-900"
+														>
+															&nbsp;See how to get
+															tokens
+														</a>
+														.
 													</dd>
 												</div>
 
@@ -93,55 +130,15 @@ export default function About(props) {
 															</svg>
 														</div>
 														<p class="ml-16 text-lg leading-6 font-medium text-gray-900">
-															Gwin Runs on the
-															Testnet
-														</p>
-													</dt>
-													<dd class="mt-2 ml-16 text-base text-gray-500">
-														Lorem ipsum, dolor sit
-														amet consectetur
-														adipisicing elit.
-														Maiores impedit
-														perferendis suscipit
-														eaque, iste dolor
-														cupiditate blanditiis
-														ratione.
-													</dd>
-												</div>
-
-												<div class="relative">
-													<dt>
-														<div class="absolute flex items-center justify-center h-12 w-12 rounded-md bg-gradient-to-tl from-[#9e92ff] to-[#95e4d7] text-white">
-															<svg
-																class="h-6 w-6"
-																xmlns="http://www.w3.org/2000/svg"
-																fill="none"
-																viewBox="0 0 24 24"
-																stroke-width="2"
-																stroke="currentColor"
-																aria-hidden="true"
-															>
-																<path
-																	stroke-linecap="round"
-																	stroke-linejoin="round"
-																	d="M13 10V3L4 14h7v7l9-11h-7z"
-																/>
-															</svg>
-														</div>
-														<p class="ml-16 text-lg leading-6 font-medium text-gray-900">
 															Reliable and
 															Decentralized
 														</p>
 													</dt>
 													<dd class="mt-2 ml-16 text-base text-gray-500">
-														Lorem ipsum, dolor sit
-														amet consectetur
-														adipisicing elit.
-														Maiores impedit
-														perferendis suscipit
-														eaque, iste dolor
-														cupiditate blanditiis
-														ratione.
+														Gwin is a decentralized
+														application and secured
+														by the Ethereum
+														blockchain.
 													</dd>
 												</div>
 
@@ -165,18 +162,15 @@ export default function About(props) {
 															</svg>
 														</div>
 														<p class="ml-16 text-lg leading-6 font-medium text-gray-900">
-															Mobile notifications
+															Ustake at Any time
 														</p>
 													</dt>
 													<dd class="mt-2 ml-16 text-base text-gray-500">
-														Lorem ipsum, dolor sit
-														amet consectetur
-														adipisicing elit.
-														Maiores impedit
-														perferendis suscipit
-														eaque, iste dolor
-														cupiditate blanditiis
-														ratione.
+														Your tokens can be
+														unstaked at any time!
+														There is no lock period
+														for your staked WETH,
+														DAI, or GWIN.
 													</dd>
 												</div>
 											</dl>
