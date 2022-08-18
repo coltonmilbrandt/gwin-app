@@ -2,7 +2,7 @@ import { useState, useEffect } from "react"
 import Nav from "../components/Nav"
 import Image from "next/image"
 
-export default function About(props) {
+export default function Tokens(props) {
 	return (
 		<>
 			<Nav />
@@ -12,27 +12,27 @@ export default function About(props) {
 						<div className="bg-none p-4">
 							<div className="grid grid-cols-1 text-gray-900 pb-4">
 								<div className="bg-sky-50 m-3 shadow-lg px-6 py-8 rounded-lg text-gray-700">
-									<div className="flex justify-center w-full pb-3">
-										<Image
-											className="w-max h-max rounded-full "
-											width="200px"
-											height="200px"
-											src="/../public/penguinChest.png"
-											alt="gwin"
-										/>
-									</div>
 									<div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+										<div className="flex justify-center w-full pb-3">
+											<Image
+												className="w-max h-max rounded-full "
+												width="200px"
+												height="200px"
+												src="/../public/parachutingPenguins.png"
+												alt="gwin"
+											/>
+										</div>
 										<div class="lg:text-center">
 											{/* <h2 class="text-lg text-indigo-600 font-semibold">
 												Gwin Finance
 											</h2> */}
 											<p class="mt-2 text-3xl leading-8 font-bold tracking-tight text-gray-900 sm:text-4xl sm:tracking-tight">
-												How to Use Gwin
+												How to Get Testnet Tokens
 											</p>
 											<p class="mt-4 max-w-2xl text-xl text-gray-500 lg:mx-auto">
-												With Gwin Finance, it's so
-												simple to stake your WETH and
-												DAI to earn GWIN.
+												Gwin is deployed to Rinkeby
+												Testnet. Get tokens from a
+												faucet for free!
 											</p>
 										</div>
 										<div class="mt-10">

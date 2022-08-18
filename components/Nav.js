@@ -18,7 +18,7 @@ let navLinks = [
 	},
 	{
 		name: "Get Tokens",
-		path: "/About",
+		path: "/Tokens",
 		current: false,
 	},
 ]
