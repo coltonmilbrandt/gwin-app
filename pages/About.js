@@ -39,7 +39,7 @@ export default function About(props) {
 											<dl class="space-y-10 md:space-y-0 md:grid md:grid-cols-2 md:gap-x-8 md:gap-y-10">
 												<div class="relative">
 													<dt>
-														<div class="absolute flex items-center justify-center h-12 w-12 rounded-md bg-gradient-to-tl from-[#9e92ff] to-sky-300 text-white">
+														<div class="absolute flex items-center justify-center h-12 w-12 rounded-md bg-gradient-to-tl from-[#9e92ff] to-[#95e4d7] text-white">
 															<svg
 																class="h-6 w-6"
 																xmlns="http://www.w3.org/2000/svg"
@@ -75,7 +75,7 @@ export default function About(props) {
 
 												<div class="relative">
 													<dt>
-														<div class="absolute flex items-center justify-center h-12 w-12 rounded-md bg-gradient-to-tl from-[#9e92ff] to-sky-300 text-white">
+														<div class="absolute flex items-center justify-center h-12 w-12 rounded-md bg-gradient-to-tl from-[#9e92ff] to-[#95e4d7] text-white">
 															<svg
 																class="h-6 w-6"
 																xmlns="http://www.w3.org/2000/svg"
@@ -111,7 +111,7 @@ export default function About(props) {
 
 												<div class="relative">
 													<dt>
-														<div class="absolute flex items-center justify-center h-12 w-12 rounded-md bg-gradient-to-tl from-[#9e92ff] to-sky-300 text-white">
+														<div class="absolute flex items-center justify-center h-12 w-12 rounded-md bg-gradient-to-tl from-[#9e92ff] to-[#95e4d7] text-white">
 															<svg
 																class="h-6 w-6"
 																xmlns="http://www.w3.org/2000/svg"
@@ -147,7 +147,7 @@ export default function About(props) {
 
 												<div class="relative">
 													<dt>
-														<div class="absolute flex items-center justify-center h-12 w-12 rounded-md bg-gradient-to-tl from-[#9e92ff] to-sky-300 text-white">
+														<div class="absolute flex items-center justify-center h-12 w-12 rounded-md bg-gradient-to-tl from-[#9e92ff] to-[#95e4d7] text-white">
 															<svg
 																class="h-6 w-6"
 																xmlns="http://www.w3.org/2000/svg"
