@@ -4,6 +4,24 @@ import { Disclosure, Menu, Transition } from "@headlessui/react"
 import { BellIcon, MenuIcon, XIcon } from "@heroicons/react/outline"
 import { ConnectButton } from "web3uikit"
 import Image from "next/image"
+import React from "react"
+import Link from "next/link"
+import { useRouter } from "next/router"
+import propTypes from "prop-types"
+
+let navLinks = [
+	{ name: "Dashboard", path: "/", current: true },
+	{
+		name: "About",
+		path: "/About",
+		current: false,
+	},
+	{
+		name: "Get Tokens",
+		path: "/About",
+		current: false,
+	},
+]
 
 const user = {
 	name: "Tom Cook",
@@ -12,11 +30,9 @@ const user = {
 		"https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80",
 }
 const navigation = [
-	{ name: "Dashboard", href: "#", current: true },
-	{ name: "About", href: "#", current: false },
-	{ name: "Get Tokens", href: "#", current: false },
-	//   { name: 'Calendar', href: '#', current: false },
-	//   { name: 'Reports', href: '#', current: false },
+	{ name: "Dashboard", href: "/dash", current: true },
+	{ name: "About", href: "/About", current: false },
+	{ name: "Get Tokens", href: "/About", current: false },
 ]
 const userNavigation = [
 	{ name: "Your Profile", href: "#" },
@@ -64,14 +80,15 @@ export default function Example() {
 										</div>
 										<div className="hidden md:block">
 											<div className="ml-10 flex items-baseline space-x-4">
-												{navigation.map((item) => (
+												{navLinks.map((item) => (
 													<a
 														key={item.name}
-														href={item.href}
+														href={item.path}
 														className={classNames(
-															item.current
-																? "bg-[#565264] text-white"
-																: "text-gray-900 hover:bg-[#9e92ff] hover:text-white",
+															// item.current
+															// 	? "bg-[#565264] text-white"
+															// 	:
+															"text-gray-900 hover:bg-[#9e92ff] hover:text-white",
 															"px-3 py-2 rounded-md text-sm font-medium"
 														)}
 														aria-current={
@@ -79,6 +96,7 @@ export default function Example() {
 																? "page"
 																: undefined
 														}
+														disabled={item.current}
 													>
 														{item.name}
 													</a>
