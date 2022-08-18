@@ -57,8 +57,8 @@ export default function About(props) {
 															</svg>
 														</div>
 														<p class="ml-16 text-lg leading-6 font-medium text-gray-900">
-															Competitive exchange
-															rates
+															Use Gwin to Stake &
+															Earn
 														</p>
 													</dt>
 													<dd class="mt-2 ml-16 text-base text-gray-500">
@@ -93,7 +93,8 @@ export default function About(props) {
 															</svg>
 														</div>
 														<p class="ml-16 text-lg leading-6 font-medium text-gray-900">
-															No hidden fees
+															Gwin Runs on the
+															Testnet
 														</p>
 													</dt>
 													<dd class="mt-2 ml-16 text-base text-gray-500">
@@ -128,8 +129,8 @@ export default function About(props) {
 															</svg>
 														</div>
 														<p class="ml-16 text-lg leading-6 font-medium text-gray-900">
-															Transfers are
-															instant
+															Reliable and
+															Decentralized
 														</p>
 													</dt>
 													<dd class="mt-2 ml-16 text-base text-gray-500">
