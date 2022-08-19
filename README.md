@@ -1,8 +1,28 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+## Gwin DeFi Front End
 
 ## Getting Started
 
-First, run the development server:
+Gwin is a staking app that issues GWIN ERC-20 tokens for staking DAI or WETH.
+
+You can currently set up Gwin by using the Gwin Smart Contract and deploying a local Ganache instance.
+
+Then run:
+
+```
+brownie run scripts/deploy.py --network ganache
+```
+
+The contract will deploy and send you mock tokens to use to interact with the contract.
+
+Take note of your private key for the first wallet that Ganache spins up.
+
+Afterwards, follow the instructions below to get the front end going. 
+
+This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+
+## Front End
+
+Once you've cloned the project, use the terminal:
 
 ```bash
 npm run dev
@@ -12,23 +32,8 @@ yarn dev
 
 Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
 
-You can start editing the page by modifying `pages/index.js`. The page auto-updates as you edit the file.
+## Interacting
 
-[API routes](https://nextjs.org/docs/api-routes/introduction) can be accessed on [http://localhost:3000/api/hello](http://localhost:3000/api/hello). This endpoint can be edited in `pages/api/hello.js`.
+Once you have the front end running, it will prompt you to connect your wallet. Use Metamask to connect with the private key of the wallet Ganache made for you and then import your tokens via the addresses Ganache deployed the mock tokens to.
 
-The `pages/api` directory is mapped to `/api/*`. Files in this directory are treated as [API routes](https://nextjs.org/docs/api-routes/introduction) instead of React pages.
-
-## Learn More
-
-To learn more about Next.js, take a look at the following resources:
-
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+Now you are ready to stake! From here on out, it's quite easy. Just enter an amount and "Stake".
