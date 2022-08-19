@@ -2,7 +2,7 @@
 
 ## Getting Started
 
-Gwin is a staking app that issues GWIN ERC-20 tokens for staking DAI or WETH.
+Gwin is a staking app that issues GWIN ERC-20 token rewards for staking DAI or WETH.
 
 You can currently set up Gwin by using the Gwin Smart Contract and deploying a local Ganache instance.
 
