@@ -65,8 +65,7 @@ export default function About(props) {
 														Gwin is a staking app
 														where you can stake your
 														assets in order to earn
-														GWIN tokens. It's free
-														and easy to use!
+														GWIN tokens.
 													</dd>
 												</div>
 
