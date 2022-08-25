@@ -57,19 +57,14 @@ export default function Tokens(props) {
 															</svg>
 														</div>
 														<p class="ml-16 text-lg leading-6 font-medium text-gray-900">
-															Competitive exchange
-															rates
+															Rinkeby Test Net
 														</p>
 													</dt>
 													<dd class="mt-2 ml-16 text-base text-gray-500">
-														Lorem ipsum, dolor sit
-														amet consectetur
-														adipisicing elit.
-														Maiores impedit
-														perferendis suscipit
-														eaque, iste dolor
-														cupiditate blanditiis
-														ratione.
+														Rinkeby is an Ethereum
+														testnet. You can get
+														tokens from a faucet for
+														free.
 													</dd>
 												</div>
 
@@ -93,18 +88,24 @@ export default function Tokens(props) {
 															</svg>
 														</div>
 														<p class="ml-16 text-lg leading-6 font-medium text-gray-900">
-															No hidden fees
+															Getting Tokens
 														</p>
 													</dt>
 													<dd class="mt-2 ml-16 text-base text-gray-500">
-														Lorem ipsum, dolor sit
-														amet consectetur
-														adipisicing elit.
-														Maiores impedit
-														perferendis suscipit
-														eaque, iste dolor
-														cupiditate blanditiis
-														ratione.
+														With your Metamask
+														wallet, you can easily
+														get free tokens from
+														Chainlink's faucet{" "}
+														<a
+															href="https://faucets.chain.link/rinkeby"
+															className="text-sky-600 hover:text-sky-900"
+														>
+															&nbsp;by clicking
+															here.&nbsp;
+														</a>
+														and be sure to get your
+														tokens on the{" "}
+														<b>Rinkeby</b> test net.
 													</dd>
 												</div>
 
