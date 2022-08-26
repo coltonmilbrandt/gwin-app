@@ -95,7 +95,7 @@ export default function Tokens(props) {
 														With your Metamask
 														wallet, you can easily
 														get free tokens from
-														Chainlink's faucet{" "}
+														Chainlink's faucet
 														<a
 															href="https://faucets.chain.link/rinkeby"
 															className="text-sky-600 hover:text-sky-900"
@@ -104,7 +104,7 @@ export default function Tokens(props) {
 															here.&nbsp;
 														</a>
 														and be sure to get your
-														tokens on the{" "}
+														tokens on the
 														<b>Rinkeby</b> test net.
 													</dd>
 												</div>
@@ -129,19 +129,17 @@ export default function Tokens(props) {
 															</svg>
 														</div>
 														<p class="ml-16 text-lg leading-6 font-medium text-gray-900">
-															Transfers are
-															instant
+															Once You Have Your
+															Tokens
 														</p>
 													</dt>
 													<dd class="mt-2 ml-16 text-base text-gray-500">
-														Lorem ipsum, dolor sit
-														amet consectetur
-														adipisicing elit.
-														Maiores impedit
-														perferendis suscipit
-														eaque, iste dolor
-														cupiditate blanditiis
-														ratione.
+														Once you've received
+														your tokens, connect
+														your metamask wallet to
+														the site. You'll now be
+														ready to stake and earn
+														rewards!
 													</dd>
 												</div>
 
