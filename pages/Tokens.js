@@ -57,12 +57,16 @@ export default function Tokens(props) {
 															</svg>
 														</div>
 														<p class="ml-16 text-lg leading-6 font-medium text-gray-900">
-															Rinkeby Test Net
+															Test Net
 														</p>
 													</dt>
 													<dd class="mt-2 ml-16 text-base text-gray-500">
+														Gwin is not a main net
+														Dapp. It is currently
+														deployed to Rinkeby.
 														Rinkeby is an Ethereum
-														testnet. You can get
+														testnet. That's great,
+														because you can get
 														tokens from a faucet for
 														free.
 													</dd>
@@ -105,7 +109,10 @@ export default function Tokens(props) {
 														</a>
 														and be sure to get your
 														tokens on the
-														<b>Rinkeby</b> test net.
+														<b>
+															&nbsp;Rinkeby
+														</b>{" "}
+														test net.
 													</dd>
 												</div>
 
@@ -163,18 +170,26 @@ export default function Tokens(props) {
 															</svg>
 														</div>
 														<p class="ml-16 text-lg leading-6 font-medium text-gray-900">
-															Mobile notifications
+															Add Your Tokens as
+															Assets
 														</p>
 													</dt>
 													<dd class="mt-2 ml-16 text-base text-gray-500">
-														Lorem ipsum, dolor sit
-														amet consectetur
-														adipisicing elit.
-														Maiores impedit
-														perferendis suscipit
-														eaque, iste dolor
-														cupiditate blanditiis
-														ratione.
+														To see the tokens that
+														you have received into
+														your wallet, you'll
+														likely need to add them.
+														You can do that by
+														selecting "import
+														tokens" on MetaMask. If
+														you need more help
+														follow&nbsp;
+														<a
+															href="https://metamask.zendesk.com/hc/en-us/articles/360015489031-How-to-add-unlisted-tokens-custom-tokens-in-MetaMask#h_01FWH492CHY60HWPC28RW0872H"
+															className="text-sky-600 hover:text-sky-900"
+														>
+															this&nbsp;link.
+														</a>
 													</dd>
 												</div>
 											</dl>
