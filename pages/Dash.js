@@ -14,7 +14,7 @@ export default function Dash() {
 			<header>
 				<div className="max-w-7xl mx-auto pt-6 px-4 sm:px-6 lg:px-8">
 					<h1 className="text-3xl font-bold text-[#565264]">
-						Gwin Finance
+						Gwin Protocol
 					</h1>
 				</div>
 			</header>
