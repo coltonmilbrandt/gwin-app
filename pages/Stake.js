@@ -7,7 +7,7 @@ import Image from "next/image"
 import toast, { Toaster } from "react-hot-toast"
 import Balances from "../components/Balances"
 import Pool from "../components/Pool"
-import Deposit from "../components/Deposit"
+import web3 from "web3"
 
 export default function Stake() {
 	const {
@@ -44,19 +44,8 @@ export default function Stake() {
 		abi: [0],
 	})
 
-	const [open, setOpen] = useState(false)
-
-	const [wethValue, setWethValue] = useState("")
-	const [gwinValue, setGwinValue] = useState("")
-	const [daiValue, setDaiValue] = useState("")
-	const [gwinWalletBalance, setGwinWalletBalance] = useState(0)
-	const [wethWalletBalance, setWethWalletBalance] = useState(0)
-	const [daiWalletBalance, setDaiWalletBalance] = useState(0)
-	const [daiStakedBalance, setDaiStakedBalance] = useState(0)
-	const [gwinStakedBalance, setGwinStakedBalance] = useState(0)
-	const [wethStakedBalance, setWethStakedBalance] = useState(0)
-
 	const [ethUsdPrice, setEthUsdPrice] = useState(0)
+	const [walletEthBal, setWalletEthBal] = useState(0)
 	const [hEth2xPoolBal, sethEth2xPoolBal] = useState(0)
 	const [cEth2xPoolBal, setCEth2xPoolBal] = useState(0)
 	const [hEthUser2xPoolBal, setUserHEth2xPoolBal] = useState(0)
@@ -69,6 +58,7 @@ export default function Stake() {
 	const [cEth10xPoolBal, setCEth10xPoolBal] = useState(0)
 	const [hEthUser10xPoolBal, setUserHEth10xPoolBal] = useState(0)
 	const [cEthUser10xPoolBal, setUserCEth10xPoolBal] = useState(0)
+	const [parentZeroCETHPoolBal, setParentZeroCETHPoolBal] = useState(0)
 
 	const [tokenAmount, setTokenAmount] = useState(0)
 	const [isUnstaking, setIsUnstaking] = useState(false)
@@ -248,6 +238,17 @@ export default function Stake() {
 		},
 	})
 
+	const { runContractFunction: getParentOnePoolCEthBalance } =
+		useWeb3Contract({
+			abi: abi,
+			contractAddress: "0x5119Ea4a43C2AdAe6dBA5DB8b45668610D20Ab7A",
+			functionName: "getParentPoolCEthBalance",
+			params: {
+				_poolId: 0,
+				_user: account,
+			},
+		})
+
 	const getContractValue = async () => {
 		let ethUsd = await getEthUsdPrice()
 		if (ethUsd) {
@@ -300,6 +301,18 @@ export default function Stake() {
 		let tenEthUserCEthBal = await getParentPoolTenCEthBal()
 		if (tenEthUserCEthBal) {
 			setUserCEth10xPoolBal(await handleBalanceValue(tenEthUserCEthBal))
+		}
+		let getParentZeroCEthBal = await getParentOnePoolCEthBalance()
+		if (getParentZeroCEthBal) {
+			setParentZeroCETHPoolBal(
+				await handleBalanceValue(getParentZeroCEthBal)
+			)
+		}
+		let getEthBal = await web3.eth.getBalance(account)
+		console.log("eth bal")
+		console.log(getEthBal)
+		if (getEthBal) {
+			setWalletEthBal(await handleBalanceValue(getEthBal))
 		}
 	}
 
@@ -487,363 +500,48 @@ export default function Stake() {
 
 	return (
 		<div>
-			{open}
 			<Toaster />
-			<Deposit isOpen={open} onClose={() => setOpen(false)} />
-			<button
-				type="button"
-				class="inline-block px-6 py-2.5 bg-blue-600 text-white font-medium text-xs leading-tight uppercase rounded shadow-md hover:bg-blue-700 hover:shadow-lg focus:bg-blue-700 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-blue-800 active:shadow-lg transition duration-150 ease-in-out"
-				onClick={() => {
-					setOpen(true)
-				}}
-			>
-				Vertically centered modal{open}
-			</button>
 			<div className="grid grid-cols-1 md:grid-cols-3 text-gray-900 pb-4">
-				<div>
-					<div className="bg-sky-50 m-3 shadow-lg p-4 rounded-lg text-gray-700">
-						<div class="justify-center flex pb-4">
-							<Image
-								src="/../public/eth.png"
-								class="bg-white rounded-full"
-								width="100px"
-								height="100px"
-								alt="/"
-							/>
-						</div>
-						<div class="whitespace-nowrap overflow-hidden text-ellipsis">
-							ETH/USD 2x Pool - ${ethUsdPrice}
-						</div>
-						<div class="whitespace-nowrap overflow-hidden text-ellipsis">
-							Heated: {hEth2xPoolBal} ETH
-						</div>
-						<div class="whitespace-nowrap overflow-hidden text-ellipsis">
-							Cooled: {cEth2xPoolBal} ETH
-						</div>
-						<div class="whitespace-nowrap overflow-hidden text-ellipsis">
-							{cEth2xPoolBal / hEth2xPoolBal}
-						</div>
-						<form>
-							<div class="flex justify-center">
-								<div class="mb-3 w-full">
-									<input
-										type="number"
-										class="
-                                    form-control
-                                    block
-                                    w-full
-                                    px-3
-                                    py-1.5
-                                    text-base
-                                    font-normal
-                                    text-gray-700
-                                    bg-white bg-clip-padding
-                                    border border-solid border-gray-300
-                                    rounded
-                                    transition
-                                    ease-in-out
-                                    m-0
-                                    focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none
-                                    "
-										id="wethInput"
-										placeholder="WETH to Stake"
-										value={wethValue}
-										onInput={(e) => {
-											if (e.target.value == "") {
-												setWethValue("")
-											} else {
-												setWethValue(e.target.value)
-											}
-										}}
-									/>
-								</div>
-							</div>
-							<div className="grid grid-cols-2">
-								<div className="pr-1">
-									<button
-										className="w-full flex justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-[#7d71d1] hover:bg-indigo-500 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-200 disabled:opacity-50 disabled:bg-[#9e92ff]"
-										disabled={
-											wethStakedBalance <= 0 ||
-											isUnstaking ||
-											isStaking
-										}
-										onClick={async () => {
-											setToken(wethToken)
-											setIsUnstaking(true)
-										}}
-									>
-										{isUnstaking && token == wethToken ? (
-											<div className="animate-spin spinner-border h-6 w-6 border-b-2 rounded-full"></div>
-										) : (
-											"Unstake All"
-										)}
-									</button>
-								</div>
-								<div className="pl-1">
-									<button
-										className="w-full flex justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-[#7d71d1] hover:bg-indigo-500 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-200 disabled:opacity-50 disabled:bg-[#9e92ff]"
-										disabled={
-											wethValue == 0 ||
-											wethValue == "" ||
-											isUnstaking ||
-											isStaking
-										}
-										onClick={async () => {
-											setToken(wethToken)
-											setTokenAmount(wethValue)
-											setIsStaking(true)
-										}}
-									>
-										{isStaking && wethValue > 0 ? (
-											<div className="animate-spin spinner-border h-6 w-6 border-b-2 rounded-full"></div>
-										) : (
-											"Stake Tokens"
-										)}
-									</button>
-								</div>
-							</div>
-						</form>
-					</div>
-					<Balances
-						name="ETH"
-						wallet={hEthUser2xPoolBal}
-						staked={hEthUser2xPoolBal * ethUsdPrice}
-						price="price"
-						tokenPic="/../public/eth.png"
-						contract={wethToken}
-					/>
-				</div>
-
-				<div>
-					<div className="bg-sky-50 m-3 shadow-lg p-4 rounded-lg text-gray-700">
-						<div class="justify-center flex pb-4">
-							<Image
-								src="/../public/gwin-rect.webp"
-								class="bg-white rounded-full"
-								width="100px"
-								height="100px"
-								alt="/"
-							/>
-						</div>
-						<div class="whitespace-nowrap overflow-hidden text-ellipsis">
-							ETH/USD 5x Pool - ${ethUsdPrice}
-						</div>
-						<div class="whitespace-nowrap overflow-hidden text-ellipsis">
-							Heated: {hEth5xPoolBal} ETH
-						</div>
-						<div class="whitespace-nowrap overflow-hidden text-ellipsis">
-							Cooled: {cEth5xPoolBal} ETH
-						</div>
-						<form>
-							<div class="flex justify-center">
-								<div class="mb-3 w-full">
-									<input
-										required
-										type="number"
-										class="
-                                    form-control
-                                    block
-                                    w-full
-                                    px-3
-                                    py-1.5
-                                    text-base
-                                    font-normal
-                                    text-gray-700
-                                    bg-white bg-clip-padding
-                                    border border-solid border-gray-300
-                                    rounded
-                                    transition
-                                    ease-in-out
-                                    m-0
-                                    focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none
-                                    "
-										id="exampleNumber0"
-										placeholder="GWIN to Stake"
-										value={gwinValue}
-										onInput={(e) => {
-											if (e.target.value == "") {
-												setGwinValue("")
-											} else {
-												setGwinValue(e.target.value)
-											}
-										}}
-									/>
-								</div>
-							</div>
-							<div className="grid grid-cols-2">
-								<div className="pr-1">
-									<button
-										className="w-full flex justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-[#7d71d1] hover:bg-indigo-500 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-200 disabled:opacity-50 disabled:bg-[#9e92ff]"
-										disabled={
-											gwinStakedBalance <= 0 ||
-											isUnstaking ||
-											isStaking
-										}
-										onClick={async () => {
-											setToken(gwinToken)
-											setIsUnstaking(true)
-										}}
-									>
-										{isUnstaking && token == gwinToken ? (
-											<div className="animate-spin spinner-border h-6 w-6 border-b-2 rounded-full"></div>
-										) : (
-											"Unstake All"
-										)}
-									</button>
-								</div>
-								<div className="pl-1">
-									<button
-										className="w-full flex justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-[#7d71d1] hover:bg-indigo-500 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-200 disabled:opacity-50 disabled:bg-[#9e92ff]"
-										disabled={
-											gwinValue == 0 ||
-											gwinValue == "" ||
-											isUnstaking ||
-											isStaking
-										}
-										onClick={async () => {
-											setToken(gwinToken)
-											setTokenAmount(gwinValue)
-											setIsStaking(true)
-										}}
-									>
-										{isStaking && gwinValue > 0 ? (
-											<div className="animate-spin spinner-border h-6 w-6 border-b-2 rounded-full"></div>
-										) : (
-											"Stake Tokens"
-										)}
-									</button>
-								</div>
-							</div>
-						</form>
-					</div>
-					<Balances
-						name="ETH"
-						wallet={hEthUser5xPoolBal}
-						staked={hEthUser5xPoolBal * ethUsdPrice}
-						price="price"
-						tokenPic="/../public/gwin-rect.webp"
-						contract={gwinToken}
-					/>
-				</div>
-
-				<div>
-					<div className="bg-sky-50 m-3 shadow-lg p-4 rounded-lg text-gray-700">
-						<div class="justify-center flex pb-4">
-							<Image
-								src="/../public/dai.png"
-								class="bg-white rounded-full"
-								width="100px"
-								height="100px"
-								alt="/"
-							/>
-						</div>
-						<div class="whitespace-nowrap overflow-hidden text-ellipsis">
-							ETH/USD 10x Pool - ${ethUsdPrice}
-						</div>
-						<div class="whitespace-nowrap overflow-hidden text-ellipsis">
-							Heated: {hEth10xPoolBal} ETH
-						</div>
-						<div class="whitespace-nowrap overflow-hidden text-ellipsis">
-							Cooled: {cEth10xPoolBal} ETH
-						</div>
-						<form>
-							<div class="flex justify-center">
-								<div class="mb-3 w-full">
-									<input
-										required
-										type="number"
-										class="
-                                    form-control
-                                    block
-                                    w-full
-                                    px-3
-                                    py-1.5
-                                    text-base
-                                    font-normal
-                                    text-gray-700
-                                    bg-white bg-clip-padding
-                                    border border-solid border-gray-300
-                                    rounded
-                                    transition
-                                    ease-in-out
-                                    m-0
-                                    focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none
-                                    "
-										id="exampleNumber0"
-										placeholder="DAI to Stake"
-										value={daiValue}
-										onInput={(e) => {
-											if (e.target.value == "") {
-												setDaiValue("")
-											} else {
-												setDaiValue(e.target.value)
-											}
-										}}
-									/>
-								</div>
-							</div>
-							<div className="grid grid-cols-2">
-								<div className="pr-1">
-									<button
-										className="w-full flex justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-[#7d71d1] hover:bg-indigo-500 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-200 disabled:opacity-50 disabled:bg-[#9e92ff]"
-										disabled={
-											daiStakedBalance <= 0 ||
-											isUnstaking ||
-											isStaking
-										}
-										onClick={async () => {
-											setToken(daiToken)
-											setIsUnstaking(true)
-										}}
-									>
-										{isUnstaking && token == daiToken ? (
-											<div className="animate-spin spinner-border h-6 w-6 border-b-2 rounded-full"></div>
-										) : (
-											"Unstake All"
-										)}
-									</button>
-								</div>
-								<div className="pl-1">
-									<button
-										className="w-full flex justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-[#7d71d1] hover:bg-indigo-500 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-200 disabled:opacity-50 disabled:bg-[#9e92ff]"
-										disabled={
-											daiValue == 0 ||
-											daiValue == "" ||
-											isUnstaking ||
-											isStaking
-										}
-										onClick={async () => {
-											setToken(daiToken)
-											setTokenAmount(daiValue)
-											setIsStaking(true)
-										}}
-									>
-										{isStaking && daiValue > 0 ? (
-											<div className="animate-spin spinner-border h-6 w-6 border-b-2 rounded-full"></div>
-										) : (
-											"Stake Tokens"
-										)}
-									</button>
-								</div>
-							</div>
-						</form>
-					</div>
-					<Balances
-						name="ETH"
-						wallet={hEthUser10xPoolBal}
-						staked={hEthUser10xPoolBal * ethUsdPrice}
-						price="price"
-						tokenPic="/../public/dai.png"
-						contract={daiToken}
-					/>
-				</div>
-				<Pool
-					name="ETH"
-					wallet={hEthUser10xPoolBal}
-					staked={hEthUser10xPoolBal * ethUsdPrice}
-					price="price"
-					tokenPic="/../public/dai.png"
-					contract={daiToken}
+				{walletEthBal}
+				<Pool // 2x
+					tokenPic="/../public/eth.png"
+					name="ETH/USD 2x Pool"
+					hEth={hEth2xPoolBal}
+					cEth={cEth2xPoolBal}
+					userBal={hEthUser2xPoolBal}
+					contract={gwin}
+					poolId="0"
+					priceFeed={ethUsdPrice}
+				/>
+				<Pool // 5x
+					tokenPic="/../public/eth.png"
+					name="ETH/USD 5x Pool"
+					hEth={hEth5xPoolBal}
+					cEth={cEth5xPoolBal}
+					userBal={hEthUser5xPoolBal}
+					contract={gwin}
+					poolId="0"
+					priceFeed={ethUsdPrice}
+				/>
+				<Pool // 10x
+					tokenPic="/../public/eth.png"
+					name="ETH/USD 10x Pool"
+					hEth={hEth10xPoolBal}
+					cEth={cEth10xPoolBal}
+					userBal={hEthUser10xPoolBal}
+					contract={gwin}
+					poolId="0"
+					priceFeed={ethUsdPrice}
+				/>
+				<Pool // Cooled
+					tokenPic="/../public/eth.png"
+					name="ETH/USD Cooled Stable Pool"
+					hEth=""
+					cEth={parentZeroCETHPoolBal}
+					userBal={cEthUser2xPoolBal}
+					contract={gwin}
+					poolId="0"
+					priceFeed={ethUsdPrice}
 				/>
 			</div>
 		</div>
