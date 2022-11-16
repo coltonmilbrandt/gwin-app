@@ -7,7 +7,7 @@ import Image from "next/image"
 import toast, { Toaster } from "react-hot-toast"
 import Balances from "../components/Balances"
 import Pool from "../components/Pool"
-import web3 from "web3"
+import Web3 from "web3"
 
 export default function Stake() {
 	const {
@@ -18,6 +18,19 @@ export default function Stake() {
 	} = useMoralis()
 	const chainId = parseInt(chainIdHex)
 	const chainName = chainDict[chainId]
+
+	// const [userAddress, userAddress] = useState(0)
+
+	let web3
+
+	if (
+		typeof window !== "undefined" &&
+		typeof window.ethereum !== "undefined"
+	) {
+		// we are in the browser and metamask is running
+		window.ethereum.request({ method: "eth_requestAccounts" })
+		web3 = new Web3(window.ethereum)
+	}
 
 	const contractsInfo = require("../constants/contractInfo.json")
 
@@ -45,7 +58,7 @@ export default function Stake() {
 	})
 
 	const [ethUsdPrice, setEthUsdPrice] = useState(0)
-	const [walletEthBal, setWalletEthBal] = useState(0)
+	const [userEthWalletBal, setUserEthWalletBal] = useState(0)
 	const [hEth2xPoolBal, sethEth2xPoolBal] = useState(0)
 	const [cEth2xPoolBal, setCEth2xPoolBal] = useState(0)
 	const [hEthUser2xPoolBal, setUserHEth2xPoolBal] = useState(0)
@@ -308,11 +321,12 @@ export default function Stake() {
 				await handleBalanceValue(getParentZeroCEthBal)
 			)
 		}
-		let getEthBal = await web3.eth.getBalance(account)
-		console.log("eth bal")
-		console.log(getEthBal)
-		if (getEthBal) {
-			setWalletEthBal(await handleBalanceValue(getEthBal))
+		let userWalletBal = await web3.eth.getBalance(account)
+		if (userWalletBal) {
+			userWalletBal = web3.utils.fromWei(userWalletBal, "ether")
+			userWalletBal = Number(userWalletBal)
+			setUserEthWalletBal(userWalletBal)
+			console.log(userEthWalletBal)
 		}
 	}
 
@@ -502,7 +516,6 @@ export default function Stake() {
 		<div>
 			<Toaster />
 			<div className="grid grid-cols-1 md:grid-cols-3 text-gray-900 pb-4">
-				{walletEthBal}
 				<Pool // 2x
 					tokenPic="/../public/eth.png"
 					name="ETH/USD 2x Pool"
@@ -512,6 +525,7 @@ export default function Stake() {
 					contract={gwin}
 					poolId="0"
 					priceFeed={ethUsdPrice}
+					walletBal={userEthWalletBal}
 				/>
 				<Pool // 5x
 					tokenPic="/../public/eth.png"
@@ -522,6 +536,7 @@ export default function Stake() {
 					contract={gwin}
 					poolId="0"
 					priceFeed={ethUsdPrice}
+					walletBal={userEthWalletBal}
 				/>
 				<Pool // 10x
 					tokenPic="/../public/eth.png"
@@ -532,6 +547,7 @@ export default function Stake() {
 					contract={gwin}
 					poolId="0"
 					priceFeed={ethUsdPrice}
+					walletBal={userEthWalletBal}
 				/>
 				<Pool // Cooled
 					tokenPic="/../public/eth.png"
@@ -542,6 +558,7 @@ export default function Stake() {
 					contract={gwin}
 					poolId="0"
 					priceFeed={ethUsdPrice}
+					walletBal={userEthWalletBal}
 				/>
 			</div>
 		</div>

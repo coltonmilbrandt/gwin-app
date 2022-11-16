@@ -13,6 +13,7 @@ export default function Pool(props) {
 	const contract = props.contract
 	const poolId = props.poolId
 	const priceFeed = props.priceFeed
+	const walletBal = props.walletBal
 
 	const [open, setOpen] = useState(false)
 
@@ -118,6 +119,7 @@ export default function Pool(props) {
 				contract={contract.address}
 				poolId="0"
 				priceFeed={priceFeed}
+				walletBal={walletBal}
 			/>
 		</div>
 	)

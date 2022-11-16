@@ -6,6 +6,7 @@ import Image from "next/image"
 import { useMoralis } from "react-moralis"
 import Stake from "./Stake"
 import About from "./About"
+import { useState, useEffect } from "react"
 
 export default function Dash() {
 	const { isWeb3Enabled } = useMoralis()
