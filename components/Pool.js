@@ -117,7 +117,7 @@ export default function Pool(props) {
 				cEth={cEth}
 				userBal={userBal}
 				contract={contract.address}
-				poolId="0"
+				poolId={poolId}
 				priceFeed={priceFeed}
 				walletBal={walletBal}
 			/>

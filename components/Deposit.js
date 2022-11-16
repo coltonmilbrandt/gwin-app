@@ -1,5 +1,7 @@
 import Image from "next/image"
 import { useState, useEffect } from "react"
+import { useMoralis, useWeb3Contract, useERC20Balances } from "react-moralis"
+import { chainDict } from "../constants/chainDict"
 
 const Deposit = ({
 	isOpen,
@@ -14,7 +16,52 @@ const Deposit = ({
 	priceFeed,
 	walletBal,
 }) => {
+	const {
+		isWeb3Enabled,
+		account,
+		chainId: chainIdHex,
+		Moralis,
+	} = useMoralis()
+	const chainId = parseInt(chainIdHex)
+	const chainName = chainDict[chainId]
 	const [depositAmount, setDepositAmount] = useState(0)
+
+	const [isStaking, setIsStaking] = useState(false)
+
+	const {
+		runContractFunction: deposit,
+		data: enterTxResponse,
+		isLoading,
+		isFetching,
+	} = useWeb3Contract({
+		abi: contract.abi,
+		contractAddress: contract.address,
+		functionName: "depositToTranche",
+		params: {
+			_poolId: poolId,
+			amount: Moralis.Units.ETH(depositAmount),
+		},
+	})
+
+	useEffect(() => {
+		async function handleStaking() {
+			if (isStaking == true) {
+				try {
+					await approveToken({
+						onSuccess: handleSuccess,
+						onError: (error) => handleError(error),
+					})
+				} catch (err) {
+					console.error(err)
+				}
+			} else {
+				setIsStaking(false)
+			}
+		}
+		if (isStaking == true) {
+			handleStaking()
+		}
+	}, [isStaking])
 
 	if (isOpen == false) return null
 	return (

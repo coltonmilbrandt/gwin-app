@@ -36,7 +36,7 @@ export default function Stake() {
 
 	const [gwin, setGwin] = useState({
 		address: "0x76DDAE3A81C4dBAa2a307f4545EB4EFC961A1a07",
-		abi: [0],
+		abi: abi,
 	})
 	const [daiToken, setDaiToken] = useState({
 		address: "0x0000000000000000000000000000000000000000",
@@ -534,7 +534,7 @@ export default function Stake() {
 					cEth={cEth5xPoolBal}
 					userBal={hEthUser5xPoolBal}
 					contract={gwin}
-					poolId="0"
+					poolId="1"
 					priceFeed={ethUsdPrice}
 					walletBal={userEthWalletBal}
 				/>
@@ -545,7 +545,7 @@ export default function Stake() {
 					cEth={cEth10xPoolBal}
 					userBal={hEthUser10xPoolBal}
 					contract={gwin}
-					poolId="0"
+					poolId="2"
 					priceFeed={ethUsdPrice}
 					walletBal={userEthWalletBal}
 				/>
