@@ -2,6 +2,7 @@ import Image from "next/image"
 import Price from "../components/Price"
 import Balances from "../components/Balances"
 import Deposit from "../components/Deposit"
+import Withdraw from "../components/Withdraw"
 import { useState, useEffect } from "react"
 
 export default function Pool(props) {
@@ -12,10 +13,13 @@ export default function Pool(props) {
 	const userBal = props.userBal
 	const contract = props.contract
 	const poolId = props.poolId
+	const isHeated = props.isHeated
+	const isCooled = props.isCooled
 	const priceFeed = props.priceFeed
 	const walletBal = props.walletBal
 
 	const [open, setOpen] = useState(false)
+	const [withdrawOpen, setWithdrawOpen] = useState(false)
 
 	return (
 		<div>
@@ -53,6 +57,9 @@ export default function Pool(props) {
 						&nbsp;
 					</div>
 				)}
+				<div class="whitespace-nowrap overflow-hidden text-ellipsis">
+					&nbsp;
+				</div>
 				<div className="grid grid-cols-2">
 					<div className="pr-1">
 						<button
@@ -87,7 +94,9 @@ export default function Pool(props) {
 							// 	isUnstaking ||
 							// 	isStaking
 							// }
-							onClick={async () => {}}
+							onClick={async () => {
+								setWithdrawOpen(true)
+							}}
 						>
 							{" "}
 							Withdraw
@@ -118,6 +127,23 @@ export default function Pool(props) {
 				userBal={userBal}
 				contract={contract.address}
 				poolId={poolId}
+				isHeated={isHeated}
+				isCooled={isCooled}
+				priceFeed={priceFeed}
+				walletBal={walletBal}
+			/>
+			<Withdraw
+				isOpen={withdrawOpen}
+				onClose={() => setWithdrawOpen(false)}
+				tokenPic={tokenPic}
+				name={name}
+				hEth={hEth}
+				cEth={cEth}
+				userBal={userBal}
+				contract={contract.address}
+				poolId={poolId}
+				isHeated={isHeated}
+				isCooled={isCooled}
 				priceFeed={priceFeed}
 				walletBal={walletBal}
 			/>

@@ -5,9 +5,9 @@ import { chainDict } from "../constants/chainDict"
 import { abi } from "../constants/Gwin_abi"
 import toast, { Toaster } from "react-hot-toast"
 
-const Deposit = ({
+const Withdraw = ({
 	isOpen,
-	onClose,
+	withdrawClose,
 	tokenPic,
 	name,
 	hEth,
@@ -28,50 +28,51 @@ const Deposit = ({
 	} = useMoralis()
 	const chainId = parseInt(chainIdHex)
 	const chainName = chainDict[chainId]
-	const [depositAmount, setDepositAmount] = useState(0)
-	const [cooledDepositAmount, setCooledDepositAmount] = useState(0)
-	const [heatedDepositAmount, setHeatedDepositAmount] = useState(0)
+	const [withdrawalAmount, setWithdrawalAmount] = useState(0)
+	const [cooledWithdrawalAmount, setCooledWithdrawalAmount] = useState(0)
+	const [heatedWithdrawalAmount, setHeatedWithdrawalAmount] = useState(0)
 	const contractAddress = "0x5119Ea4a43C2AdAe6dBA5DB8b45668610D20Ab7A"
 
-	const [isDepositing, setisDepositing] = useState(false)
+	const [isWithdrawing, setisWithdrawing] = useState(false)
+	const [withdrawOpen, setWithdrawOpen] = useState(false)
 
 	const {
-		runContractFunction: deposit,
+		runContractFunction: withdraw,
 		data: enterTxResponse,
 		isLoading,
 		isFetching,
 	} = useWeb3Contract({
 		abi: abi,
 		contractAddress: contractAddress,
-		functionName: "depositToTranche",
+		functionName: "withdrawFromTranche",
 		params: {
 			_poolId: poolId,
 			_isCooled: isCooled,
 			_isHeated: isHeated,
-			_cAmount: Moralis.Units.ETH(cooledDepositAmount),
-			_hAmount: Moralis.Units.ETH(heatedDepositAmount),
+			_cAmount: Moralis.Units.ETH(cooledWithdrawalAmount),
+			_hAmount: Moralis.Units.ETH(heatedWithdrawalAmount),
 		},
-		msgValue: Moralis.Units.ETH(depositAmount),
+		msgValue: Moralis.Units.ETH(withdrawalAmount),
 	})
 
 	///////////   Toast Messsage Updates   ////////////
 
-	const handleDepositSuccess = async (tx) => {
+	const handleWithdrawalSuccess = async (tx) => {
 		await tx.wait(1)
-		toast.success("Successfully Staked!")
+		toast.success("Successfully Withdrawn!")
 		// await updateUIValues()
 		// await getTokenBalances()
-		setisDepositing(false)
-		onClose()
+		setisWithdrawing(false)
+		withdrawClose()
 	}
 
-	const handleDepositError = async (error) => {
+	const handleWithdrawalError = async (error) => {
 		console.log(error)
 		toast.error(
-			"Uh oh! The deposit did not process. Check console for details."
+			"Uh oh! The withdrawal did not process. Check console for details."
 		)
-		setisDepositing(false)
-		onClose()
+		setisWithdrawing(false)
+		withdrawClose()
 	}
 
 	const handleUnstakeSuccess = async (tx) => {
@@ -87,49 +88,49 @@ const Deposit = ({
 		)
 	}
 
-	function setDeposits(bal) {
+	function setWithdrawals(bal) {
 		console.log("cooled: " + isCooled)
 		console.log("heated: " + isHeated)
-		setDepositAmount(bal)
-		console.log(depositAmount)
+		setWithdrawalAmount(bal)
+		console.log(withdrawalAmount)
 		if (isCooled == "true") {
-			setCooledDepositAmount(bal)
+			setCooledWithdrawalAmount(bal)
 			console.log("didCooled")
 		} else if (isHeated == "true") {
-			setHeatedDepositAmount(bal)
+			setHeatedWithdrawalAmount(bal)
 			console.log("didHeated")
 		}
-		console.log("cooledDep " + cooledDepositAmount)
-		console.log("heatedDep " + heatedDepositAmount)
-		console.log(depositAmount)
+		console.log("cooledWith " + cooledWithdrawalAmount)
+		console.log("heatedWith " + heatedWithdrawalAmount)
+		console.log(withdrawalAmount)
 	}
 
 	useEffect(() => {
-		async function handleDepositing() {
-			console.log("isDepositing: " + isDepositing)
-			if (isDepositing == true) {
+		async function handleWithdrawing() {
+			console.log("isWithdrawing: " + isWithdrawing)
+			if (isWithdrawing == true) {
 				try {
-					console.log(Moralis.Units.ETH(depositAmount))
+					console.log(Moralis.Units.ETH(withdrawalAmount))
 					console.log(poolId)
 					console.log(isCooled)
 					console.log(isHeated)
-					console.log(Moralis.Units.ETH(cooledDepositAmount))
-					console.log(Moralis.Units.ETH(heatedDepositAmount))
-					await deposit({
-						onSuccess: handleDepositSuccess,
-						onError: (error) => handleDepositError(error),
+					console.log(Moralis.Units.ETH(cooledWithdrawalAmount))
+					console.log(Moralis.Units.ETH(heatedWithdrawalAmount))
+					await withdraw({
+						onSuccess: handleWithdrawalSuccess,
+						onError: (error) => handleWithdrawalError(error),
 					})
 				} catch (err) {
 					console.error(err)
 				}
 			} else {
-				setisDepositing(false)
+				setisWithdrawing(false)
 			}
 		}
-		if (isDepositing == true) {
-			handleDepositing()
+		if (isWithdrawing == true) {
+			handleWithdrawing()
 		}
-	}, [isDepositing])
+	}, [isWithdrawing])
 
 	if (isOpen == false) return null
 	return (
@@ -160,7 +161,7 @@ const Deposit = ({
 									/>
 								</div>
 								<div class="col-span-5 font-bold pl-3 align-middle m-auto justify-center">
-									Deposit to {name}
+									Withdraw from {name}
 									{/* {contractAddress} */}
 								</div>
 							</h5>
@@ -169,7 +170,7 @@ const Deposit = ({
 								class="btn-close box-content w-4 h-4 p-1 text-black border-none rounded-none opacity-50 focus:shadow-none focus:outline-none focus:opacity-100 hover:text-black hover:opacity-75 hover:no-underline"
 								data-bs-dismiss="modal"
 								aria-label="Close"
-								onClick={() => onClose()}
+								onClick={() => withdrawClose()}
 							></button>
 						</div>
 						<div class="modal-body relative p-4">
@@ -196,11 +197,11 @@ const Deposit = ({
 									htmlFor="exampleInputEmail1"
 									class="form-label inline-block mb-2 text-gray-700"
 								>
-									Deposit Amount
+									Withdraw Amount
 									{/* isHeated - {isHeated} -
-									isCooled - {isCooled} - cooledDepositAmount
-									- {cooledDepositAmount}
-									heatedDepositAmount - {heatedDepositAmount} */}
+									isCooled - {isCooled} - cooledWithdrawalAmount
+									- {cooledWithdrawalAmount}
+									heatedWithdrawalAmount - {heatedWithdrawalAmount} */}
 								</label>
 								<div class="grid grid-cols-5 pb-3">
 									<div class="col">
@@ -208,7 +209,7 @@ const Deposit = ({
 											type="button"
 											class="inline-block w-full px-6 py-2.5 bg-[#7d71d1] text-white font-medium text-xs leading-tight uppercase rounded-l shadow-md hover:bg-purple-700 hover:shadow-lg focus:bg-purple-700 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-purple-800 active:shadow-lg transition duration-150 ease-in-out"
 											onClick={() =>
-												setDeposits(walletBal * 0.1)
+												setWithdrawals(walletBal * 0.1)
 											}
 										>
 											10%
@@ -219,7 +220,7 @@ const Deposit = ({
 											type="button"
 											class="inline-block w-full px-6 py-2.5 bg-[#7d71d1] text-white font-medium text-xs leading-tight uppercase shadow-md hover:bg-purple-700 hover:shadow-lg focus:bg-purple-700 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-purple-800 active:shadow-lg transition duration-150 ease-in-out"
 											onClick={() =>
-												setDeposits(walletBal * 0.25)
+												setWithdrawals(walletBal * 0.25)
 											}
 										>
 											25%
@@ -230,7 +231,7 @@ const Deposit = ({
 											type="button"
 											class="inline-block w-full px-6 py-2.5 bg-[#7d71d1] text-white font-medium text-xs leading-tight uppercase shadow-md hover:bg-purple-700 hover:shadow-lg focus:bg-purple-700 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-purple-800 active:shadow-lg transition duration-150 ease-in-out"
 											onClick={() =>
-												setDeposits(walletBal * 0.5)
+												setWithdrawals(walletBal * 0.5)
 											}
 										>
 											50%
@@ -241,7 +242,7 @@ const Deposit = ({
 											type="button"
 											class="inline-block w-full px-6 py-2.5 bg-[#7d71d1] text-white font-medium text-xs leading-tight uppercase shadow-md hover:bg-purple-700 hover:shadow-lg focus:bg-purple-700 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-purple-800 active:shadow-lg transition duration-150 ease-in-out"
 											onClick={() =>
-												setDeposits(walletBal * 0.75)
+												setWithdrawals(walletBal * 0.75)
 											}
 										>
 											75%
@@ -252,7 +253,7 @@ const Deposit = ({
 											type="button"
 											class="inline-block w-full px-6 py-2.5 bg-[#7d71d1] text-white font-medium text-xs leading-tight uppercase rounded-r shadow-md hover:bg-purple-700 hover:shadow-lg focus:bg-purple-700 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-purple-800 active:shadow-lg transition duration-150 ease-in-out"
 											onClick={() =>
-												setDeposits(walletBal)
+												setWithdrawals(walletBal)
 											}
 										>
 											100%
@@ -280,16 +281,20 @@ const Deposit = ({
 												focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none"
 											id="exampleInputEmail1"
 											aria-describedby="emailHelp"
-											placeholder="Deposit Amount (ether)"
+											placeholder="Withdrawal Amount (ether)"
 											max={walletBal}
 											onChange={(e) => {
-												setDepositAmount(e.target.value)
+												setWithdrawalAmount(
+													e.target.value
+												)
 											}}
 											onInput={(e) => {
-												setDepositAmount(e.target.value)
-												setDeposits(depositAmount)
+												setWithdrawalAmount(
+													e.target.value
+												)
+												setWithdrawals(withdrawalAmount)
 											}}
-											value={depositAmount}
+											value={withdrawalAmount}
 											required
 										/>
 									</div>
@@ -332,7 +337,7 @@ const Deposit = ({
 											aria-describedby="emailHelp"
 											placeholder="USD Amount"
 											value={(
-												depositAmount * priceFeed
+												withdrawalAmount * priceFeed
 											).toFixed(2)}
 											disabled
 										/>
@@ -389,17 +394,17 @@ const Deposit = ({
 								type="button"
 								class="inline-block px-6 py-2.5 bg-[#7d71d1] text-white font-medium text-sm leading-tight rounded shadow-md hover:bg-purple-700 hover:shadow-lg focus:bg-purple-700 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-purple-800 active:shadow-lg transition duration-150 ease-in-out"
 								data-bs-dismiss="modal"
-								onClick={() => onClose()}
+								onClick={() => withdrawClose()}
 							>
 								Close
 							</button>
 							<button
 								// type="submit"
-								onClick={() => setisDepositing(true)}
-								disabled={depositAmount == 0}
+								onClick={() => setisWithdrawing(true)}
+								disabled={withdrawalAmount == 0}
 								class="inline-block px-6 py-2.5 bg-indigo-500 text-white font-medium text-sm leading-tight rounded shadow-md disabled:opacity-40 hover:bg-blue-700 hover:shadow-lg focus:bg-blue-700 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-blue-800 active:shadow-lg transition duration-150 ease-in-out ml-1"
 							>
-								Deposit
+								Withdraw
 							</button>
 						</div>
 					</div>
@@ -409,4 +414,4 @@ const Deposit = ({
 	)
 }
 
-export default Deposit
+export default Withdraw

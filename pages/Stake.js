@@ -35,7 +35,7 @@ export default function Stake() {
 	const contractsInfo = require("../constants/contractInfo.json")
 
 	const [gwin, setGwin] = useState({
-		address: "0x76DDAE3A81C4dBAa2a307f4545EB4EFC961A1a07",
+		address: "0x5119Ea4a43C2AdAe6dBA5DB8b45668610D20Ab7A",
 		abi: abi,
 	})
 	const [daiToken, setDaiToken] = useState({
@@ -519,10 +519,12 @@ export default function Stake() {
 				<Pool // 2x
 					tokenPic="/../public/eth.png"
 					name="ETH/USD 2x Pool"
+					isHeated="true"
+					isCooled="false"
 					hEth={hEth2xPoolBal}
 					cEth={cEth2xPoolBal}
 					userBal={hEthUser2xPoolBal}
-					contract={gwin}
+					contract={gwin.address}
 					poolId="0"
 					priceFeed={ethUsdPrice}
 					walletBal={userEthWalletBal}
@@ -530,10 +532,12 @@ export default function Stake() {
 				<Pool // 5x
 					tokenPic="/../public/eth.png"
 					name="ETH/USD 5x Pool"
+					isHeated="true"
+					isCooled="false"
 					hEth={hEth5xPoolBal}
 					cEth={cEth5xPoolBal}
 					userBal={hEthUser5xPoolBal}
-					contract={gwin}
+					contract={gwin.address}
 					poolId="1"
 					priceFeed={ethUsdPrice}
 					walletBal={userEthWalletBal}
@@ -541,10 +545,12 @@ export default function Stake() {
 				<Pool // 10x
 					tokenPic="/../public/eth.png"
 					name="ETH/USD 10x Pool"
+					isHeated="true"
+					isCooled="false"
 					hEth={hEth10xPoolBal}
 					cEth={cEth10xPoolBal}
 					userBal={hEthUser10xPoolBal}
-					contract={gwin}
+					contract={gwin.address}
 					poolId="2"
 					priceFeed={ethUsdPrice}
 					walletBal={userEthWalletBal}
@@ -552,10 +558,12 @@ export default function Stake() {
 				<Pool // Cooled
 					tokenPic="/../public/eth.png"
 					name="ETH/USD Cooled Stable Pool"
+					isHeated="false"
+					isCooled="true"
 					hEth=""
 					cEth={parentZeroCETHPoolBal}
 					userBal={cEthUser2xPoolBal}
-					contract={gwin}
+					contract={gwin.address}
 					poolId="0"
 					priceFeed={ethUsdPrice}
 					walletBal={userEthWalletBal}
