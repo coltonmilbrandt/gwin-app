@@ -139,6 +139,16 @@ module.exports = {
 		{
 			inputs: [
 				{ internalType: "uint256", name: "_poolId", type: "uint256" },
+				{ internalType: "uint256", name: "_price", type: "uint256" },
+			],
+			name: "getEstCEthInParentPool",
+			outputs: [{ internalType: "uint256", name: "", type: "uint256" }],
+			stateMutability: "view",
+			type: "function",
+		},
+		{
+			inputs: [
+				{ internalType: "uint256", name: "_poolId", type: "uint256" },
 			],
 			name: "getParentPoolCEthBalance",
 			outputs: [{ internalType: "uint256", name: "", type: "uint256" }],
@@ -353,12 +363,100 @@ module.exports = {
 		{
 			inputs: [
 				{ internalType: "uint256", name: "_poolId", type: "uint256" },
+				{ internalType: "address", name: "_user", type: "address" },
+			],
+			name: "previewParentUserCEthBalance",
+			outputs: [{ internalType: "uint256", name: "", type: "uint256" }],
+			stateMutability: "view",
+			type: "function",
+		},
+		{
+			inputs: [
+				{ internalType: "uint256", name: "_poolId", type: "uint256" },
+				{ internalType: "uint256", name: "_price", type: "uint256" },
+				{ internalType: "address", name: "_user", type: "address" },
+			],
+			name: "previewParentUserCEthBalanceAtPrice",
+			outputs: [{ internalType: "uint256", name: "", type: "uint256" }],
+			stateMutability: "view",
+			type: "function",
+		},
+		{
+			inputs: [
+				{ internalType: "uint256", name: "_poolId", type: "uint256" },
+			],
+			name: "previewPoolBalances",
+			outputs: [
+				{ internalType: "uint256", name: "", type: "uint256" },
+				{ internalType: "uint256", name: "", type: "uint256" },
+			],
+			stateMutability: "view",
+			type: "function",
+		},
+		{
+			inputs: [
+				{ internalType: "uint256", name: "_poolId", type: "uint256" },
+				{ internalType: "uint256", name: "_price", type: "uint256" },
+			],
+			name: "previewPoolBalancesAtPrice",
+			outputs: [
+				{ internalType: "uint256", name: "", type: "uint256" },
+				{ internalType: "uint256", name: "", type: "uint256" },
+			],
+			stateMutability: "view",
+			type: "function",
+		},
+		{
+			inputs: [
+				{ internalType: "uint256", name: "_poolId", type: "uint256" },
 			],
 			name: "previewUserBalance",
 			outputs: [
 				{ internalType: "uint256", name: "", type: "uint256" },
 				{ internalType: "uint256", name: "", type: "uint256" },
 			],
+			stateMutability: "view",
+			type: "function",
+		},
+		{
+			inputs: [
+				{ internalType: "uint256", name: "_poolId", type: "uint256" },
+				{ internalType: "address", name: "_user", type: "address" },
+			],
+			name: "previewUserCEthBalance",
+			outputs: [{ internalType: "uint256", name: "", type: "uint256" }],
+			stateMutability: "view",
+			type: "function",
+		},
+		{
+			inputs: [
+				{ internalType: "uint256", name: "_poolId", type: "uint256" },
+				{ internalType: "uint256", name: "_price", type: "uint256" },
+				{ internalType: "address", name: "_user", type: "address" },
+			],
+			name: "previewUserCEthBalanceAtPrice",
+			outputs: [{ internalType: "uint256", name: "", type: "uint256" }],
+			stateMutability: "view",
+			type: "function",
+		},
+		{
+			inputs: [
+				{ internalType: "uint256", name: "_poolId", type: "uint256" },
+				{ internalType: "address", name: "_user", type: "address" },
+			],
+			name: "previewUserHEthBalance",
+			outputs: [{ internalType: "uint256", name: "", type: "uint256" }],
+			stateMutability: "view",
+			type: "function",
+		},
+		{
+			inputs: [
+				{ internalType: "uint256", name: "_poolId", type: "uint256" },
+				{ internalType: "uint256", name: "_price", type: "uint256" },
+				{ internalType: "address", name: "_user", type: "address" },
+			],
+			name: "previewUserHEthBalanceAtPrice",
+			outputs: [{ internalType: "uint256", name: "", type: "uint256" }],
 			stateMutability: "view",
 			type: "function",
 		},

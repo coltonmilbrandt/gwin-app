@@ -31,10 +31,11 @@ const Withdraw = ({
 	const [withdrawalAmount, setWithdrawalAmount] = useState(0)
 	const [cooledWithdrawalAmount, setCooledWithdrawalAmount] = useState(0)
 	const [heatedWithdrawalAmount, setHeatedWithdrawalAmount] = useState(0)
-	const contractAddress = "0x5119Ea4a43C2AdAe6dBA5DB8b45668610D20Ab7A"
+	const contractAddress = "0xe4d3900e47Aaa60494BA8F593Dd8c779D0fA0B3d"
 
 	const [isWithdrawing, setisWithdrawing] = useState(false)
 	const [withdrawOpen, setWithdrawOpen] = useState(false)
+	const [withdrawAll, setWithdrawAll] = useState(false)
 
 	const {
 		runContractFunction: withdraw,
@@ -51,8 +52,8 @@ const Withdraw = ({
 			_isHeated: isHeated,
 			_cAmount: Moralis.Units.ETH(cooledWithdrawalAmount),
 			_hAmount: Moralis.Units.ETH(heatedWithdrawalAmount),
+			_isAll: withdrawAll,
 		},
-		msgValue: Moralis.Units.ETH(withdrawalAmount),
 	})
 
 	///////////   Toast Messsage Updates   ////////////
@@ -88,9 +89,10 @@ const Withdraw = ({
 		)
 	}
 
-	function setWithdrawals(bal) {
+	function setWithdrawals(bal, isAllEth) {
 		console.log("cooled: " + isCooled)
 		console.log("heated: " + isHeated)
+		setWithdrawAll(isAllEth)
 		setWithdrawalAmount(bal)
 		console.log(withdrawalAmount)
 		if (isCooled == "true") {
@@ -107,6 +109,7 @@ const Withdraw = ({
 
 	useEffect(() => {
 		async function handleWithdrawing() {
+			setWithdrawals(withdrawalAmount, withdrawAll)
 			console.log("isWithdrawing: " + isWithdrawing)
 			if (isWithdrawing == true) {
 				try {
@@ -174,34 +177,60 @@ const Withdraw = ({
 							></button>
 						</div>
 						<div class="modal-body relative p-4">
-							{/* {contract} */}
+							{contract}
 							<div class="grid grid-cols-5">
 								<div class="col-span-3" />
-								<span class="text-md col-span-2 inline-block py-1 px-2.5 leading-none text-center whitespace-nowrap align-baseline font-bold bg-indigo-500 text-white rounded">
+								<span class="text-md col-span-2 inline-block py-1 px-2.5 leading-none text-center whitespace-nowrap align-middle font-bold bg-indigo-500 text-white rounded">
 									<svg
 										xmlns="http://www.w3.org/2000/svg"
 										viewBox="0 0 512 512"
-										class="w-7 h-7 inline-block"
+										class="w-6 h-6 inline-block"
 									>
 										<path
 											class="color-white"
 											fill="#fff"
-											d="M64 32C28.7 32 0 60.7 0 96V416c0 35.3 28.7 64 64 64H448c35.3 0 64-28.7 64-64V192c0-35.3-28.7-64-64-64H80c-8.8 0-16-7.2-16-16s7.2-16 16-16H448c17.7 0 32-14.3 32-32s-14.3-32-32-32H64zM416 336c-17.7 0-32-14.3-32-32s14.3-32 32-32s32 14.3 32 32s-14.3 32-32 32z"
+											d="M224 256c70.7 0 128-57.3 128-128S294.7 0 224 0S96 57.3 96 128s57.3 128 128 128zm-45.7 48C79.8 304 0 383.8 0 482.3C0 498.7 13.3 512 29.7 512H418.3c16.4 0 29.7-13.3 29.7-29.7C448 383.8 368.2 304 269.7 304H178.3z"
 										/>
 									</svg>
-									&nbsp;&nbsp;{walletBal.toFixed(5)} ETH
+									&nbsp;&nbsp;{Number(userBal).toFixed(5)} ETH
 								</span>
 							</div>
+							{Number(userBal) == 0 ? (
+								<div
+									class="bg-red-100 mt-3 rounded-lg py-5 px-6 mb-3 text-base text-red-700 inline-flex items-center w-full"
+									role="alert"
+								>
+									<svg
+										aria-hidden="true"
+										focusable="false"
+										data-prefix="fas"
+										data-icon="times-circle"
+										class="w-4 h-4 mr-2 fill-current"
+										role="img"
+										xmlns="http://www.w3.org/2000/svg"
+										viewBox="0 0 512 512"
+									>
+										<path
+											fill="currentColor"
+											d="M256 8C119 8 8 119 8 256s111 248 248 248 248-111 248-248S393 8 256 8zm121.6 313.1c4.7 4.7 4.7 12.3 0 17L338 377.6c-4.7 4.7-12.3 4.7-17 0L256 312l-65.1 65.6c-4.7 4.7-12.3 4.7-17 0L134.4 338c-4.7-4.7-4.7-12.3 0-17l65.6-65-65.6-65.1c-4.7-4.7-4.7-12.3 0-17l39.6-39.6c4.7-4.7 12.3-4.7 17 0l65 65.7 65.1-65.6c4.7-4.7 12.3-4.7 17 0l39.6 39.6c4.7 4.7 4.7 12.3 0 17L312 256l65.6 65.1z"
+										></path>
+									</svg>
+									You do not have any funds deposited to this
+									pool.
+								</div>
+							) : null}
 							<div class="form-group mb-6">
 								<label
 									htmlFor="exampleInputEmail1"
 									class="form-label inline-block mb-2 text-gray-700"
 								>
-									Withdraw Amount
-									{/* isHeated - {isHeated} -
-									isCooled - {isCooled} - cooledWithdrawalAmount
-									- {cooledWithdrawalAmount}
-									heatedWithdrawalAmount - {heatedWithdrawalAmount} */}
+									Withdraw Amount isHeated - {isHeated} -
+									isCooled - {isCooled} -
+									cooledWithdrawalAmount -{" "}
+									{cooledWithdrawalAmount}
+									heatedWithdrawalAmount -{" "}
+									{heatedWithdrawalAmount} isAll-
+									{withdrawAll.toString()}
 								</label>
 								<div class="grid grid-cols-5 pb-3">
 									<div class="col">
@@ -209,7 +238,10 @@ const Withdraw = ({
 											type="button"
 											class="inline-block w-full px-6 py-2.5 bg-[#7d71d1] text-white font-medium text-xs leading-tight uppercase rounded-l shadow-md hover:bg-purple-700 hover:shadow-lg focus:bg-purple-700 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-purple-800 active:shadow-lg transition duration-150 ease-in-out"
 											onClick={() =>
-												setWithdrawals(walletBal * 0.1)
+												setWithdrawals(
+													Number(userBal) * 0.1,
+													false
+												)
 											}
 										>
 											10%
@@ -220,7 +252,10 @@ const Withdraw = ({
 											type="button"
 											class="inline-block w-full px-6 py-2.5 bg-[#7d71d1] text-white font-medium text-xs leading-tight uppercase shadow-md hover:bg-purple-700 hover:shadow-lg focus:bg-purple-700 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-purple-800 active:shadow-lg transition duration-150 ease-in-out"
 											onClick={() =>
-												setWithdrawals(walletBal * 0.25)
+												setWithdrawals(
+													Number(userBal) * 0.25,
+													false
+												)
 											}
 										>
 											25%
@@ -231,7 +266,10 @@ const Withdraw = ({
 											type="button"
 											class="inline-block w-full px-6 py-2.5 bg-[#7d71d1] text-white font-medium text-xs leading-tight uppercase shadow-md hover:bg-purple-700 hover:shadow-lg focus:bg-purple-700 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-purple-800 active:shadow-lg transition duration-150 ease-in-out"
 											onClick={() =>
-												setWithdrawals(walletBal * 0.5)
+												setWithdrawals(
+													Number(userBal) * 0.5,
+													false
+												)
 											}
 										>
 											50%
@@ -242,7 +280,10 @@ const Withdraw = ({
 											type="button"
 											class="inline-block w-full px-6 py-2.5 bg-[#7d71d1] text-white font-medium text-xs leading-tight uppercase shadow-md hover:bg-purple-700 hover:shadow-lg focus:bg-purple-700 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-purple-800 active:shadow-lg transition duration-150 ease-in-out"
 											onClick={() =>
-												setWithdrawals(walletBal * 0.75)
+												setWithdrawals(
+													Number(userBal) * 0.75,
+													false
+												)
 											}
 										>
 											75%
@@ -253,7 +294,10 @@ const Withdraw = ({
 											type="button"
 											class="inline-block w-full px-6 py-2.5 bg-[#7d71d1] text-white font-medium text-xs leading-tight uppercase rounded-r shadow-md hover:bg-purple-700 hover:shadow-lg focus:bg-purple-700 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-purple-800 active:shadow-lg transition duration-150 ease-in-out"
 											onClick={() =>
-												setWithdrawals(walletBal)
+												setWithdrawals(
+													Number(userBal),
+													true
+												)
 											}
 										>
 											100%
@@ -282,17 +326,20 @@ const Withdraw = ({
 											id="exampleInputEmail1"
 											aria-describedby="emailHelp"
 											placeholder="Withdrawal Amount (ether)"
-											max={walletBal}
+											max={Number(userBal)}
 											onChange={(e) => {
 												setWithdrawalAmount(
-													e.target.value
+													Number(e.target.value)
 												)
 											}}
 											onInput={(e) => {
 												setWithdrawalAmount(
-													e.target.value
+													Number(e.target.value)
 												)
-												setWithdrawals(withdrawalAmount)
+												setWithdrawals(
+													withdrawalAmount,
+													false
+												)
 											}}
 											value={withdrawalAmount}
 											required

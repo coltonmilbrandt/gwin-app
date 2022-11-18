@@ -30,7 +30,7 @@ export default function Tokens(props) {
 												How to Get Testnet Tokens
 											</p>
 											<p class="mt-4 max-w-2xl text-xl text-gray-500 lg:mx-auto">
-												Gwin is deployed to Rinkeby
+												Gwin is deployed to Goerli
 												Testnet. Get tokens from a
 												faucet for free!
 											</p>
@@ -63,8 +63,8 @@ export default function Tokens(props) {
 													<dd class="mt-2 ml-16 text-base text-gray-500">
 														Gwin is not a main net
 														Dapp. It is currently
-														deployed to Rinkeby.
-														Rinkeby is an Ethereum
+														deployed to Goerli.
+														Goerli is an Ethereum
 														testnet. That's great,
 														because you can get
 														tokens from a faucet for
@@ -109,10 +109,8 @@ export default function Tokens(props) {
 														</a>
 														and be sure to get your
 														tokens on the
-														<b>
-															&nbsp;Rinkeby
-														</b>{" "}
-														test net.
+														<b>&nbsp;Goerli</b> test
+														net.
 													</dd>
 												</div>
 
@@ -145,8 +143,7 @@ export default function Tokens(props) {
 														your tokens, connect
 														your metamask wallet to
 														the site. You'll now be
-														ready to stake and earn
-														rewards!
+														ready to Gwin!
 													</dd>
 												</div>
 
@@ -170,26 +167,17 @@ export default function Tokens(props) {
 															</svg>
 														</div>
 														<p class="ml-16 text-lg leading-6 font-medium text-gray-900">
-															Add Your Tokens as
-															Assets
+															Gain Tokens with
+															Gwin
 														</p>
 													</dt>
 													<dd class="mt-2 ml-16 text-base text-gray-500">
-														To see the tokens that
-														you have received into
-														your wallet, you'll
-														likely need to add them.
-														You can do that by
-														selecting "import
-														tokens" on MetaMask. If
-														you need more help
-														follow&nbsp;
-														<a
-															href="https://metamask.zendesk.com/hc/en-us/articles/360015489031-How-to-add-unlisted-tokens-custom-tokens-in-MetaMask#h_01FWH492CHY60HWPC28RW0872H"
-															className="text-sky-600 hover:text-sky-900"
-														>
-															this&nbsp;link.
-														</a>
+														Gwin is a great way to
+														get more Goerli ETH and
+														practice your risk
+														management skills. Your
+														Goerli ETH can be heated
+														up by as much as 10x!
 													</dd>
 												</div>
 											</dl>

@@ -31,7 +31,7 @@ const Deposit = ({
 	const [depositAmount, setDepositAmount] = useState(0)
 	const [cooledDepositAmount, setCooledDepositAmount] = useState(0)
 	const [heatedDepositAmount, setHeatedDepositAmount] = useState(0)
-	const contractAddress = "0x5119Ea4a43C2AdAe6dBA5DB8b45668610D20Ab7A"
+	const contractAddress = "0xe4d3900e47Aaa60494BA8F593Dd8c779D0fA0B3d"
 
 	const [isDepositing, setisDepositing] = useState(false)
 
@@ -106,6 +106,7 @@ const Deposit = ({
 
 	useEffect(() => {
 		async function handleDepositing() {
+			setDeposits(depositAmount)
 			console.log("isDepositing: " + isDepositing)
 			if (isDepositing == true) {
 				try {
@@ -208,7 +209,9 @@ const Deposit = ({
 											type="button"
 											class="inline-block w-full px-6 py-2.5 bg-[#7d71d1] text-white font-medium text-xs leading-tight uppercase rounded-l shadow-md hover:bg-purple-700 hover:shadow-lg focus:bg-purple-700 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-purple-800 active:shadow-lg transition duration-150 ease-in-out"
 											onClick={() =>
-												setDeposits(walletBal * 0.1)
+												setDeposits(
+													Number(walletBal * 0.1)
+												)
 											}
 										>
 											10%
@@ -219,7 +222,9 @@ const Deposit = ({
 											type="button"
 											class="inline-block w-full px-6 py-2.5 bg-[#7d71d1] text-white font-medium text-xs leading-tight uppercase shadow-md hover:bg-purple-700 hover:shadow-lg focus:bg-purple-700 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-purple-800 active:shadow-lg transition duration-150 ease-in-out"
 											onClick={() =>
-												setDeposits(walletBal * 0.25)
+												setDeposits(
+													Number(walletBal * 0.25)
+												)
 											}
 										>
 											25%
@@ -230,7 +235,9 @@ const Deposit = ({
 											type="button"
 											class="inline-block w-full px-6 py-2.5 bg-[#7d71d1] text-white font-medium text-xs leading-tight uppercase shadow-md hover:bg-purple-700 hover:shadow-lg focus:bg-purple-700 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-purple-800 active:shadow-lg transition duration-150 ease-in-out"
 											onClick={() =>
-												setDeposits(walletBal * 0.5)
+												setDeposits(
+													Number(walletBal * 0.5)
+												)
 											}
 										>
 											50%
@@ -241,7 +248,9 @@ const Deposit = ({
 											type="button"
 											class="inline-block w-full px-6 py-2.5 bg-[#7d71d1] text-white font-medium text-xs leading-tight uppercase shadow-md hover:bg-purple-700 hover:shadow-lg focus:bg-purple-700 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-purple-800 active:shadow-lg transition duration-150 ease-in-out"
 											onClick={() =>
-												setDeposits(walletBal * 0.75)
+												setDeposits(
+													Number(walletBal * 0.75)
+												)
 											}
 										>
 											75%
@@ -252,7 +261,7 @@ const Deposit = ({
 											type="button"
 											class="inline-block w-full px-6 py-2.5 bg-[#7d71d1] text-white font-medium text-xs leading-tight uppercase rounded-r shadow-md hover:bg-purple-700 hover:shadow-lg focus:bg-purple-700 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-purple-800 active:shadow-lg transition duration-150 ease-in-out"
 											onClick={() =>
-												setDeposits(walletBal)
+												setDeposits(Number(walletBal))
 											}
 										>
 											100%
@@ -281,13 +290,19 @@ const Deposit = ({
 											id="exampleInputEmail1"
 											aria-describedby="emailHelp"
 											placeholder="Deposit Amount (ether)"
-											max={walletBal}
+											max={Number(walletBal)}
 											onChange={(e) => {
-												setDepositAmount(e.target.value)
+												setDepositAmount(
+													Number(e.target.value)
+												)
 											}}
 											onInput={(e) => {
-												setDepositAmount(e.target.value)
-												setDeposits(depositAmount)
+												setDepositAmount(
+													Number(e.target.value)
+												)
+												setDeposits(
+													Number(depositAmount)
+												)
 											}}
 											value={depositAmount}
 											required

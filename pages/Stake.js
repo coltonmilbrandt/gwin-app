@@ -19,8 +19,6 @@ export default function Stake() {
 	const chainId = parseInt(chainIdHex)
 	const chainName = chainDict[chainId]
 
-	// const [userAddress, userAddress] = useState(0)
-
 	let web3
 
 	if (
@@ -35,7 +33,7 @@ export default function Stake() {
 	const contractsInfo = require("../constants/contractInfo.json")
 
 	const [gwin, setGwin] = useState({
-		address: "0x5119Ea4a43C2AdAe6dBA5DB8b45668610D20Ab7A",
+		address: "0xe4d3900e47Aaa60494BA8F593Dd8c779D0fA0B3d",
 		abi: abi,
 	})
 	const [daiToken, setDaiToken] = useState({
@@ -66,11 +64,9 @@ export default function Stake() {
 	const [hEth5xPoolBal, sethEth5xPoolBal] = useState(0)
 	const [cEth5xPoolBal, setCEth5xPoolBal] = useState(0)
 	const [hEthUser5xPoolBal, setUserHEth5xPoolBal] = useState(0)
-	const [cEthUser5xPoolBal, setUserCEth5xPoolBal] = useState(0)
 	const [hEth10xPoolBal, sethEth10xPoolBal] = useState(0)
 	const [cEth10xPoolBal, setCEth10xPoolBal] = useState(0)
 	const [hEthUser10xPoolBal, setUserHEth10xPoolBal] = useState(0)
-	const [cEthUser10xPoolBal, setUserCEth10xPoolBal] = useState(0)
 	const [parentZeroCETHPoolBal, setParentZeroCETHPoolBal] = useState(0)
 
 	const [tokenAmount, setTokenAmount] = useState(0)
@@ -89,67 +85,21 @@ export default function Stake() {
 		}
 	}
 
-	///////////   Contract Functions   ////////////
-
-	// const {
-	// 	runContractFunction: approveToken,
-	// 	data: enterTxResponse,
-	// 	isLoading,
-	// 	isFetching,
-	// } = useWeb3Contract({
-	// 	abi: token.abi,
-	// 	contractAddress: token.address,
-	// 	functionName: "approve",
-	// 	params: {
-	// 		spender: tokenFarm.address,
-	// 		amount: Moralis.Units.ETH(tokenAmount),
-	// 	},
-	// })
-
-	// const { runContractFunction: stakeTokens } = useWeb3Contract({
-	// 	abi: tokenFarm.abi,
-	// 	contractAddress: tokenFarm.address,
-	// 	functionName: "stakeTokens",
-	// 	params: {
-	// 		_amount: Moralis.Units.ETH(tokenAmount),
-	// 		_token: token.address,
-	// 	},
-	// })
-
 	///////////   View Functions   ////////////
-
-	// getUserTotalValue()
-	// const { runContractFunction: getUserTotalValue } = useWeb3Contract({
-	// 	abi: abi,
-	// 	contractAddress: "0x48efFEBe8879A7024654dda2d90F1EF56b12f135",
-	// 	functionName: "getUserTotalValue",
-	// 	params: {
-	// 		_user: "0x3789F5efFb5022DEF4Fbc14d325e946c7B422eE3",
-	// 	},
-	// })
 
 	const { runContractFunction: getEthUsdPrice } = useWeb3Contract({
 		abi: abi,
-		contractAddress: "0x5119Ea4a43C2AdAe6dBA5DB8b45668610D20Ab7A",
+		contractAddress: "0xe4d3900e47Aaa60494BA8F593Dd8c779D0fA0B3d",
 		functionName: "retrieveCurrentPrice",
 		params: {
 			_poolId: 0,
 		},
 	})
 
-	const { runContractFunction: getPoolHEthBal } = useWeb3Contract({
+	const { runContractFunction: getTwoPoolBals } = useWeb3Contract({
 		abi: abi,
-		contractAddress: "0x5119Ea4a43C2AdAe6dBA5DB8b45668610D20Ab7A",
-		functionName: "retrieveProtocolHEthBalance",
-		params: {
-			_poolId: 0,
-		},
-	})
-
-	const { runContractFunction: getPoolCEthBal } = useWeb3Contract({
-		abi: abi,
-		contractAddress: "0x5119Ea4a43C2AdAe6dBA5DB8b45668610D20Ab7A",
-		functionName: "retrieveProtocolCEthBalance",
+		contractAddress: "0xe4d3900e47Aaa60494BA8F593Dd8c779D0fA0B3d",
+		functionName: "previewPoolBalances",
 		params: {
 			_poolId: 0,
 		},
@@ -157,8 +107,8 @@ export default function Stake() {
 
 	const { runContractFunction: getUserHEthBal } = useWeb3Contract({
 		abi: abi,
-		contractAddress: "0x5119Ea4a43C2AdAe6dBA5DB8b45668610D20Ab7A",
-		functionName: "retrieveHEthBalance",
+		contractAddress: "0xe4d3900e47Aaa60494BA8F593Dd8c779D0fA0B3d",
+		functionName: "previewUserHEthBalance",
 		params: {
 			_poolId: 0,
 			_user: account,
@@ -167,7 +117,7 @@ export default function Stake() {
 
 	const { runContractFunction: getParentPoolCEthBal } = useWeb3Contract({
 		abi: abi,
-		contractAddress: "0x5119Ea4a43C2AdAe6dBA5DB8b45668610D20Ab7A",
+		contractAddress: "0xe4d3900e47Aaa60494BA8F593Dd8c779D0fA0B3d",
 		functionName: "getParentUserCEthBalance",
 		params: {
 			_poolId: 0,
@@ -175,19 +125,10 @@ export default function Stake() {
 		},
 	})
 
-	const { runContractFunction: getPoolFiveHEthBal } = useWeb3Contract({
+	const { runContractFunction: getFivePoolBals } = useWeb3Contract({
 		abi: abi,
-		contractAddress: "0x5119Ea4a43C2AdAe6dBA5DB8b45668610D20Ab7A",
-		functionName: "retrieveProtocolHEthBalance",
-		params: {
-			_poolId: 1,
-		},
-	})
-
-	const { runContractFunction: getPoolFiveCEthBal } = useWeb3Contract({
-		abi: abi,
-		contractAddress: "0x5119Ea4a43C2AdAe6dBA5DB8b45668610D20Ab7A",
-		functionName: "retrieveProtocolCEthBalance",
+		contractAddress: "0xe4d3900e47Aaa60494BA8F593Dd8c779D0fA0B3d",
+		functionName: "previewPoolBalances",
 		params: {
 			_poolId: 1,
 		},
@@ -195,37 +136,18 @@ export default function Stake() {
 
 	const { runContractFunction: getUserFiveHEthBal } = useWeb3Contract({
 		abi: abi,
-		contractAddress: "0x5119Ea4a43C2AdAe6dBA5DB8b45668610D20Ab7A",
-		functionName: "retrieveHEthBalance",
+		contractAddress: "0xe4d3900e47Aaa60494BA8F593Dd8c779D0fA0B3d",
+		functionName: "previewUserHEthBalance",
 		params: {
 			_poolId: 1,
 			_user: account,
 		},
 	})
 
-	const { runContractFunction: getParentPoolFiveCEthBal } = useWeb3Contract({
+	const { runContractFunction: getTenPoolBals } = useWeb3Contract({
 		abi: abi,
-		contractAddress: "0x5119Ea4a43C2AdAe6dBA5DB8b45668610D20Ab7A",
-		functionName: "getParentUserCEthBalance",
-		params: {
-			_poolId: 1,
-			_user: account,
-		},
-	})
-
-	const { runContractFunction: getPoolTenHEthBal } = useWeb3Contract({
-		abi: abi,
-		contractAddress: "0x5119Ea4a43C2AdAe6dBA5DB8b45668610D20Ab7A",
-		functionName: "retrieveProtocolHEthBalance",
-		params: {
-			_poolId: 2,
-		},
-	})
-
-	const { runContractFunction: getPoolTenCEthBal } = useWeb3Contract({
-		abi: abi,
-		contractAddress: "0x5119Ea4a43C2AdAe6dBA5DB8b45668610D20Ab7A",
-		functionName: "retrieveProtocolCEthBalance",
+		contractAddress: "0xe4d3900e47Aaa60494BA8F593Dd8c779D0fA0B3d",
+		functionName: "previewPoolBalances",
 		params: {
 			_poolId: 2,
 		},
@@ -233,18 +155,8 @@ export default function Stake() {
 
 	const { runContractFunction: getUserTenHEthBal } = useWeb3Contract({
 		abi: abi,
-		contractAddress: "0x5119Ea4a43C2AdAe6dBA5DB8b45668610D20Ab7A",
-		functionName: "retrieveHEthBalance",
-		params: {
-			_poolId: 2,
-			_user: account,
-		},
-	})
-
-	const { runContractFunction: getParentPoolTenCEthBal } = useWeb3Contract({
-		abi: abi,
-		contractAddress: "0x5119Ea4a43C2AdAe6dBA5DB8b45668610D20Ab7A",
-		functionName: "getParentUserCEthBalance",
+		contractAddress: "0xe4d3900e47Aaa60494BA8F593Dd8c779D0fA0B3d",
+		functionName: "previewUserHEthBalance",
 		params: {
 			_poolId: 2,
 			_user: account,
@@ -254,8 +166,8 @@ export default function Stake() {
 	const { runContractFunction: getParentOnePoolCEthBalance } =
 		useWeb3Contract({
 			abi: abi,
-			contractAddress: "0x5119Ea4a43C2AdAe6dBA5DB8b45668610D20Ab7A",
-			functionName: "getParentPoolCEthBalance",
+			contractAddress: "0xe4d3900e47Aaa60494BA8F593Dd8c779D0fA0B3d",
+			functionName: "previewParentUserCEthBalance",
 			params: {
 				_poolId: 0,
 				_user: account,
@@ -267,14 +179,11 @@ export default function Stake() {
 		if (ethUsd) {
 			setEthUsdPrice(await updateUIValues(ethUsd))
 		}
-		let twoEthHEthBal = await getPoolHEthBal()
-		if (twoEthHEthBal) {
-			sethEth2xPoolBal(await handleBalanceValue(twoEthHEthBal))
-		}
-		let twoEthCEthBal = await getPoolCEthBal()
-		if (twoEthCEthBal) {
-			setCEth2xPoolBal(await handleBalanceValue(twoEthCEthBal))
-		}
+		let twoBals = await getTwoPoolBals()
+		let twoBalsHEth = twoBals[0]
+		let twoBalsCEth = twoBals[1]
+		sethEth2xPoolBal(await handleBalanceValue(twoBalsHEth))
+		setCEth2xPoolBal(await handleBalanceValue(twoBalsCEth))
 		let twoEthUserHEthBal = await getUserHEthBal()
 		if (twoEthUserHEthBal) {
 			setUserHEth2xPoolBal(await handleBalanceValue(twoEthUserHEthBal))
@@ -283,37 +192,23 @@ export default function Stake() {
 		if (twoEthUserCEthBal) {
 			setUserCEth2xPoolBal(await handleBalanceValue(twoEthUserCEthBal))
 		}
-		let fiveEthHEthBal = await getPoolFiveHEthBal()
-		if (fiveEthHEthBal) {
-			sethEth5xPoolBal(await handleBalanceValue(fiveEthHEthBal))
-		}
-		let fiveEthCEthBal = await getPoolFiveCEthBal()
-		if (fiveEthCEthBal) {
-			setCEth5xPoolBal(await handleBalanceValue(fiveEthCEthBal))
-		}
+		let fiveBals = await getFivePoolBals()
+		let fiveBalsHEth = fiveBals[0]
+		let fiveBalsCEth = fiveBals[1]
+		sethEth5xPoolBal(await handleBalanceValue(fiveBalsHEth))
+		setCEth5xPoolBal(await handleBalanceValue(fiveBalsCEth))
 		let fiveEthUserHEthBal = await getUserFiveHEthBal()
 		if (fiveEthUserHEthBal) {
 			setUserHEth5xPoolBal(await handleBalanceValue(fiveEthUserHEthBal))
 		}
-		let fiveEthUserCEthBal = await getParentPoolFiveCEthBal()
-		if (fiveEthUserCEthBal) {
-			setUserCEth5xPoolBal(await handleBalanceValue(fiveEthUserCEthBal))
-		}
-		let tenEthHEthBal = await getPoolTenHEthBal()
-		if (tenEthHEthBal) {
-			sethEth10xPoolBal(await handleBalanceValue(tenEthHEthBal))
-		}
-		let tenEthCEthBal = await getPoolTenCEthBal()
-		if (tenEthCEthBal) {
-			setCEth10xPoolBal(await handleBalanceValue(tenEthCEthBal))
-		}
+		let tenBals = await getTenPoolBals()
+		let tenBalsHEth = tenBals[0]
+		let tenBalsCEth = tenBals[1]
+		sethEth10xPoolBal(await handleBalanceValue(tenBalsHEth))
+		setCEth10xPoolBal(await handleBalanceValue(tenBalsCEth))
 		let tenEthUserHEthBal = await getUserTenHEthBal()
 		if (tenEthUserHEthBal) {
 			setUserHEth10xPoolBal(await handleBalanceValue(tenEthUserHEthBal))
-		}
-		let tenEthUserCEthBal = await getParentPoolTenCEthBal()
-		if (tenEthUserCEthBal) {
-			setUserCEth10xPoolBal(await handleBalanceValue(tenEthUserCEthBal))
 		}
 		let getParentZeroCEthBal = await getParentOnePoolCEthBalance()
 		if (getParentZeroCEthBal) {
@@ -329,29 +224,6 @@ export default function Stake() {
 			console.log(userEthWalletBal)
 		}
 	}
-
-	//////   Wallet Balance Functions   //////
-
-	// const { runContractFunction: getBalanceOfGwinToken } = useWeb3Contract({
-	// 	abi: gwinToken.abi,
-	// 	contractAddress: gwinToken.address,
-	// 	functionName: "balanceOf",
-	// 	params: {
-	// 		account: account,
-	// 	},
-	// })
-
-	//////   Staked Balance Functions   //////
-
-	// const { runContractFunction: getStakedDai } = useWeb3Contract({
-	// 	abi: tokenFarm.abi,
-	// 	contractAddress: tokenFarm.address,
-	// 	functionName: "getUserSingleTokenStakedValue",
-	// 	params: {
-	// 		_user: account,
-	// 		_token: daiToken.address,
-	// 	},
-	// })
 
 	///////////   Toast Messsage Updates   ////////////
 
@@ -517,7 +389,7 @@ export default function Stake() {
 			<Toaster />
 			<div className="grid grid-cols-1 md:grid-cols-3 text-gray-900 pb-4">
 				<Pool // 2x
-					tokenPic="/../public/eth.png"
+					tokenPic="/../public/hEth2.png"
 					name="ETH/USD 2x Pool"
 					isHeated="true"
 					isCooled="false"
@@ -530,7 +402,7 @@ export default function Stake() {
 					walletBal={userEthWalletBal}
 				/>
 				<Pool // 5x
-					tokenPic="/../public/eth.png"
+					tokenPic="/../public/hEth5.png"
 					name="ETH/USD 5x Pool"
 					isHeated="true"
 					isCooled="false"
@@ -543,7 +415,7 @@ export default function Stake() {
 					walletBal={userEthWalletBal}
 				/>
 				<Pool // 10x
-					tokenPic="/../public/eth.png"
+					tokenPic="/../public/hEth10.png"
 					name="ETH/USD 10x Pool"
 					isHeated="true"
 					isCooled="false"
@@ -561,8 +433,12 @@ export default function Stake() {
 					isHeated="false"
 					isCooled="true"
 					hEth=""
-					cEth={parentZeroCETHPoolBal}
-					userBal={cEthUser2xPoolBal}
+					cEth={(
+						Number(cEth2xPoolBal) +
+						Number(cEth5xPoolBal) +
+						Number(cEth10xPoolBal)
+					).toFixed(5)}
+					userBal={parentZeroCETHPoolBal}
 					contract={gwin.address}
 					poolId="0"
 					priceFeed={ethUsdPrice}

@@ -30,9 +30,10 @@ export default function About(props) {
 												About Using Gwin
 											</p>
 											<p class="mt-4 max-w-2xl text-xl text-gray-500 lg:mx-auto">
-												With Gwin Finance, it's so
-												simple to stake your WETH and
-												DAI to earn GWIN.
+												With Gwin Finance, it's simple
+												to create stable value and
+												manage your risk on the Ethereum
+												Blockchain.
 											</p>
 										</div>
 										<div class="mt-10">
