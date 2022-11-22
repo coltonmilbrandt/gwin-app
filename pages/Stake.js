@@ -69,6 +69,27 @@ export default function Stake() {
 	const [hEthUser10xPoolBal, setUserHEth10xPoolBal] = useState(0)
 	const [parentZeroCETHPoolBal, setParentZeroCETHPoolBal] = useState(0)
 
+	// ETH XAU
+	const [ethXauPrice, setEthXauPrice] = useState(0)
+	const [xauHEth, setXauHEth] = useState(0)
+	const [xauCEth, setXauCEth] = useState(0)
+	const [userXauHEth, setUserXauHEth] = useState(0)
+	const [userXauCEth, setUserXauCEth] = useState(0)
+
+	// ETH BTC
+	const [ethBtcPrice, setEthBtcPrice] = useState(0)
+	const [btcHEth, setBtcHEth] = useState(0)
+	const [btcCEth, setBtcCEth] = useState(0)
+	const [userBtcHEth, setUserBtcHEth] = useState(0)
+	const [userBtcCEth, setUserBtcCEth] = useState(0)
+
+	// ETH JPY
+	const [ethJpyPrice, setEthJpyPrice] = useState(0)
+	const [jpyHEth, setJpyHEth] = useState(0)
+	const [jpyCEth, setJpyCEth] = useState(0)
+	const [userJpyHEth, setUserJpyHEth] = useState(0)
+	const [userJpyCEth, setUserJpyCEth] = useState(0)
+
 	const [tokenAmount, setTokenAmount] = useState(0)
 	const [isUnstaking, setIsUnstaking] = useState(false)
 	const [isStaking, setIsStaking] = useState(false)
@@ -86,6 +107,8 @@ export default function Stake() {
 	}
 
 	///////////   View Functions   ////////////
+
+	/// ETH ///
 
 	const { runContractFunction: getEthUsdPrice } = useWeb3Contract({
 		abi: abi,
@@ -174,6 +197,126 @@ export default function Stake() {
 			},
 		})
 
+	/// XAU ///
+
+	const { runContractFunction: getEthXauPrice } = useWeb3Contract({
+		abi: abi,
+		contractAddress: "0xe4d3900e47Aaa60494BA8F593Dd8c779D0fA0B3d",
+		functionName: "retrieveCurrentPrice",
+		params: {
+			_poolId: 3,
+		},
+	})
+
+	const { runContractFunction: getXauPoolBals } = useWeb3Contract({
+		abi: abi,
+		contractAddress: "0xe4d3900e47Aaa60494BA8F593Dd8c779D0fA0B3d",
+		functionName: "previewPoolBalances",
+		params: {
+			_poolId: 3,
+		},
+	})
+
+	const { runContractFunction: getUserXauHBal } = useWeb3Contract({
+		abi: abi,
+		contractAddress: "0xe4d3900e47Aaa60494BA8F593Dd8c779D0fA0B3d",
+		functionName: "previewUserHEthBalance",
+		params: {
+			_poolId: 3,
+			_user: account,
+		},
+	})
+
+	const { runContractFunction: getUserXauCBal } = useWeb3Contract({
+		abi: abi,
+		contractAddress: "0xe4d3900e47Aaa60494BA8F593Dd8c779D0fA0B3d",
+		functionName: "previewUserCEthBalance",
+		params: {
+			_poolId: 3,
+			_user: account,
+		},
+	})
+
+	// ETH BTC
+
+	const { runContractFunction: getEthBtcPrice } = useWeb3Contract({
+		abi: abi,
+		contractAddress: "0xe4d3900e47Aaa60494BA8F593Dd8c779D0fA0B3d",
+		functionName: "retrieveCurrentPrice",
+		params: {
+			_poolId: 5,
+		},
+	})
+
+	const { runContractFunction: getBtcPoolBals } = useWeb3Contract({
+		abi: abi,
+		contractAddress: "0xe4d3900e47Aaa60494BA8F593Dd8c779D0fA0B3d",
+		functionName: "previewPoolBalances",
+		params: {
+			_poolId: 5,
+		},
+	})
+
+	const { runContractFunction: getUserBtcHBal } = useWeb3Contract({
+		abi: abi,
+		contractAddress: "0xe4d3900e47Aaa60494BA8F593Dd8c779D0fA0B3d",
+		functionName: "previewUserHEthBalance",
+		params: {
+			_poolId: 5,
+			_user: account,
+		},
+	})
+
+	const { runContractFunction: getUserBtcCBal } = useWeb3Contract({
+		abi: abi,
+		contractAddress: "0xe4d3900e47Aaa60494BA8F593Dd8c779D0fA0B3d",
+		functionName: "previewUserHEthBalance",
+		params: {
+			_poolId: 5,
+			_user: account,
+		},
+	})
+
+	// ETH JPY
+
+	const { runContractFunction: getEthJpyPrice } = useWeb3Contract({
+		abi: abi,
+		contractAddress: "0xe4d3900e47Aaa60494BA8F593Dd8c779D0fA0B3d",
+		functionName: "retrieveCurrentPrice",
+		params: {
+			_poolId: 6,
+		},
+	})
+
+	const { runContractFunction: getJpyPoolBals } = useWeb3Contract({
+		abi: abi,
+		contractAddress: "0xe4d3900e47Aaa60494BA8F593Dd8c779D0fA0B3d",
+		functionName: "previewPoolBalances",
+		params: {
+			_poolId: 6,
+		},
+	})
+
+	const { runContractFunction: getUserJpyHBal } = useWeb3Contract({
+		abi: abi,
+		contractAddress: "0xe4d3900e47Aaa60494BA8F593Dd8c779D0fA0B3d",
+		functionName: "previewUserHEthBalance",
+		params: {
+			_poolId: 6,
+			_user: account,
+		},
+	})
+
+	const { runContractFunction: getUserJpyCBal } = useWeb3Contract({
+		abi: abi,
+		contractAddress: "0xe4d3900e47Aaa60494BA8F593Dd8c779D0fA0B3d",
+		functionName: "previewUserHEthBalance",
+		params: {
+			_poolId: 6,
+			_user: account,
+		},
+	})
+
 	const getContractValue = async () => {
 		let ethUsd = await getEthUsdPrice()
 		if (ethUsd) {
@@ -222,6 +365,63 @@ export default function Stake() {
 			userWalletBal = Number(userWalletBal)
 			setUserEthWalletBal(userWalletBal)
 			console.log(userEthWalletBal)
+		}
+
+		// ETH XAU
+		let ethXau = await getEthXauPrice()
+		if (ethUsd) {
+			setEthXauPrice(await updateUIValues(ethXau))
+		}
+		let xauBals = await getXauPoolBals()
+		let hXau = xauBals[0]
+		let cXau = xauBals[1]
+		setXauHEth(await handleBalanceValue(hXau))
+		setXauCEth(await handleBalanceValue(cXau))
+		let userHXau = await getUserXauHBal()
+		if (userHXau) {
+			setUserXauHEth(await handleBalanceValue(userHXau))
+		}
+		let userCXau = await getUserXauCBal()
+		if (userCXau) {
+			setUserXauCEth(await handleBalanceValue(userCXau))
+		}
+
+		// ETH BTC
+		let ethBtc = await getEthBtcPrice()
+		if (ethUsd) {
+			setEthBtcPrice(await updateUIValues(ethBtc))
+		}
+		let btcBals = await getBtcPoolBals()
+		let hBtc = btcBals[0]
+		let cBtc = btcBals[1]
+		setBtcHEth(await handleBalanceValue(hBtc))
+		setBtcCEth(await handleBalanceValue(cBtc))
+		let userHBtc = await getUserBtcHBal()
+		if (userHBtc) {
+			setUserBtcHEth(await handleBalanceValue(userHBtc))
+		}
+		let userCBtc = await getUserBtcCBal()
+		if (userCBtc) {
+			setUserBtcCEth(await handleBalanceValue(userCBtc))
+		}
+
+		// ETH JPY
+		let ethJpy = await getEthJpyPrice()
+		if (ethUsd) {
+			setEthJpyPrice(await updateUIValues(ethJpy))
+		}
+		let jpyBals = await getJpyPoolBals()
+		let hJpy = jpyBals[0]
+		let cJpy = jpyBals[1]
+		setJpyHEth(await handleBalanceValue(hJpy))
+		setJpyCEth(await handleBalanceValue(cJpy))
+		let userHJpy = await getUserJpyHBal()
+		if (userHJpy) {
+			setUserJpyHEth(await handleBalanceValue(userHJpy))
+		}
+		let userCJpy = await getUserJpyCBal()
+		if (userCJpy) {
+			setUserJpyCEth(await handleBalanceValue(userCJpy))
 		}
 	}
 
@@ -390,7 +590,7 @@ export default function Stake() {
 			<div className="grid grid-cols-1 md:grid-cols-3 text-gray-900 pb-4">
 				<Pool // 2x
 					tokenPic="/../public/hEth2.png"
-					name="ETH/USD 2x Pool"
+					name="ETH/USD - 2x Pool"
 					isHeated="true"
 					isCooled="false"
 					hEth={hEth2xPoolBal}
@@ -400,10 +600,11 @@ export default function Stake() {
 					poolId="0"
 					priceFeed={ethUsdPrice}
 					walletBal={userEthWalletBal}
+					symbol="ETH"
 				/>
 				<Pool // 5x
 					tokenPic="/../public/hEth5.png"
-					name="ETH/USD 5x Pool"
+					name="ETH/USD - 5x Pool"
 					isHeated="true"
 					isCooled="false"
 					hEth={hEth5xPoolBal}
@@ -413,10 +614,11 @@ export default function Stake() {
 					poolId="1"
 					priceFeed={ethUsdPrice}
 					walletBal={userEthWalletBal}
+					symbol="ETH"
 				/>
 				<Pool // 10x
 					tokenPic="/../public/hEth10.png"
-					name="ETH/USD 10x Pool"
+					name="ETH/USD - 10x Pool"
 					isHeated="true"
 					isCooled="false"
 					hEth={hEth10xPoolBal}
@@ -426,10 +628,11 @@ export default function Stake() {
 					poolId="2"
 					priceFeed={ethUsdPrice}
 					walletBal={userEthWalletBal}
+					symbol="ETH"
 				/>
 				<Pool // Cooled
-					tokenPic="/../public/eth.png"
-					name="ETH/USD Cooled Stable Pool"
+					tokenPic="/../public/cooledEth.png"
+					name="ETH/USD - Cooled USD"
 					isHeated="false"
 					isCooled="true"
 					hEth=""
@@ -443,6 +646,108 @@ export default function Stake() {
 					poolId="0"
 					priceFeed={ethUsdPrice}
 					walletBal={userEthWalletBal}
+					symbol="ETH"
+				/>
+			</div>
+			<div className="grid grid-cols-1 md:grid-cols-3 text-gray-900 pb-4">
+				<div className="col-span-3 pb-6 pt-4">
+					<h2 className="text-3xl font-bold w-full text-cyan-900">
+						Emulated Assets
+					</h2>
+					<h5 className="text-xl w-full text-cyan-800">
+						Created on chain by fire and ice
+					</h5>
+				</div>
+				<Pool // XAU Stable
+					tokenPic="/../public/gold.png"
+					name="ETH/XAU - 1oz Gold"
+					isHeated="false"
+					isCooled="true"
+					hEth={xauHEth}
+					cEth={xauCEth}
+					userBal={userXauCEth}
+					contract={gwin.address}
+					poolId="2"
+					priceFeed={ethXauPrice}
+					walletBal={userEthWalletBal}
+					symbol="XAU"
+				/>
+				<Pool // BTC Stable
+					tokenPic="/../public/Bitcoin.png"
+					name="ETH/BTC - Cooled Bitcoin"
+					isHeated="false"
+					isCooled="true"
+					hEth={btcHEth}
+					cEth={btcCEth}
+					userBal={userBtcCEth}
+					contract={gwin.address}
+					poolId="6"
+					priceFeed={ethBtcPrice}
+					walletBal={userEthWalletBal}
+					symbol="BTC"
+				/>
+				<Pool // JPY Stable
+					tokenPic="/../public/yen.png"
+					name="ETH/JPY - Cooled Yen"
+					isHeated="false"
+					isCooled="true"
+					hEth={jpyHEth}
+					cEth={jpyCEth}
+					userBal={userJpyCEth}
+					contract={gwin.address}
+					poolId="6"
+					priceFeed={ethJpyPrice}
+					walletBal={userEthWalletBal}
+					symbol="JPY"
+				/>
+			</div>
+			<div className="grid grid-cols-1 md:grid-cols-3 text-gray-900 pb-4">
+				<div className="col-span-3 pb-6 pt-4">
+					<h2 className="text-3xl font-bold w-full text-cyan-900">
+						Shorted Emulated Assets
+					</h2>
+				</div>
+				<Pool // XAU Short
+					tokenPic="/../public/gold.png"
+					name="ETH/XAU - 1oz Gold"
+					isHeated="true"
+					isCooled="false"
+					hEth={xauHEth}
+					cEth={xauCEth}
+					userBal={userXauHEth}
+					contract={gwin.address}
+					poolId="2"
+					priceFeed={ethXauPrice}
+					walletBal={userEthWalletBal}
+					symbol="XAU"
+				/>
+				<Pool // BTC Stable
+					tokenPic="/../public/Bitcoin.png"
+					name="ETH/BTC - Bitcoin"
+					isHeated="true"
+					isCooled="false"
+					hEth={btcHEth}
+					cEth={btcCEth}
+					userBal={userBtcHEth}
+					contract={gwin.address}
+					poolId="6"
+					priceFeed={ethBtcPrice}
+					walletBal={userEthWalletBal}
+					symbol="BTC"
+				/>
+				<Pool // JPY Stable
+					tokenPic="/../public/yen.png"
+					name="ETH/JPY - Bitcoin"
+					isHeated="true"
+					isCooled="false"
+					hEth={jpyHEth}
+					cEth={jpyCEth}
+					userBal={userJpyHEth}
+					contract={gwin.address}
+					poolId="6"
+					priceFeed={ethJpyPrice}
+					walletBal={userEthWalletBal}
+					symbol="JPY"
 				/>
 			</div>
 		</div>

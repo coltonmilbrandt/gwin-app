@@ -17,6 +17,7 @@ export default function Pool(props) {
 	const isCooled = props.isCooled
 	const priceFeed = props.priceFeed
 	const walletBal = props.walletBal
+	const symbol = props.symbol
 
 	const [open, setOpen] = useState(false)
 	const [withdrawOpen, setWithdrawOpen] = useState(false)
@@ -34,7 +35,22 @@ export default function Pool(props) {
 					/>
 				</div>
 				<div class="whitespace-nowrap overflow-hidden text-ellipsis">
-					{name} - ${priceFeed.toFixed(2)}
+					{name}
+				</div>
+				<div class="whitespace-nowrap overflow-hidden text-ellipsis">
+					{symbol == "JPY" ? (
+						<div>
+							{priceFeed.toFixed(0)} {symbol}
+						</div>
+					) : symbol == "BTC" ? (
+						<div>
+							{priceFeed.toFixed(3)} {symbol}
+						</div>
+					) : symbol == "XAU" ? (
+						<div>{priceFeed.toFixed(3)}/oz</div>
+					) : (
+						<div>${priceFeed.toFixed(2)}</div>
+					)}
 				</div>
 				{hEth != "" ? (
 					<div class="whitespace-nowrap overflow-hidden text-ellipsis">
@@ -116,6 +132,7 @@ export default function Pool(props) {
 				price="price"
 				tokenPic={tokenPic}
 				contract={0}
+				symbol={symbol}
 			/>
 			<Deposit
 				isOpen={open}

@@ -224,13 +224,14 @@ const Withdraw = ({
 									htmlFor="exampleInputEmail1"
 									class="form-label inline-block mb-2 text-gray-700"
 								>
-									Withdraw Amount isHeated - {isHeated} -
+									Withdrawal Amount
+									{/* isHeated - {isHeated} -
 									isCooled - {isCooled} -
 									cooledWithdrawalAmount -{" "}
 									{cooledWithdrawalAmount}
 									heatedWithdrawalAmount -{" "}
 									{heatedWithdrawalAmount} isAll-
-									{withdrawAll.toString()}
+									{withdrawAll.toString()} */}
 								</label>
 								<div class="grid grid-cols-5 pb-3">
 									<div class="col">
@@ -442,13 +443,17 @@ const Withdraw = ({
 								class="inline-block px-6 py-2.5 bg-[#7d71d1] text-white font-medium text-sm leading-tight rounded shadow-md hover:bg-purple-700 hover:shadow-lg focus:bg-purple-700 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-purple-800 active:shadow-lg transition duration-150 ease-in-out"
 								data-bs-dismiss="modal"
 								onClick={() => withdrawClose()}
+								disabled={isWithdrawing == true}
 							>
 								Close
 							</button>
 							<button
 								// type="submit"
 								onClick={() => setisWithdrawing(true)}
-								disabled={withdrawalAmount == 0}
+								disabled={
+									withdrawalAmount == 0 ||
+									isWithdrawing == true
+								}
 								class="inline-block px-6 py-2.5 bg-indigo-500 text-white font-medium text-sm leading-tight rounded shadow-md disabled:opacity-40 hover:bg-blue-700 hover:shadow-lg focus:bg-blue-700 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-blue-800 active:shadow-lg transition duration-150 ease-in-out ml-1"
 							>
 								Withdraw

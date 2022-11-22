@@ -6,6 +6,7 @@ export default function Balances(props) {
 	const balance = props.balance
 	const convertedBal = props.convertedBal
 	const tokenPic = props.tokenPic
+	const symbol = props.symbol
 	return (
 		<div className="grid grid-cols-7 bg-sky-50 m-3 mb-6 shadow-lg p-4 rounded-lg text-gray-600">
 			<div className="flex flex-col col-span-2 items-center justify-center pr-4">
@@ -25,7 +26,21 @@ export default function Balances(props) {
 					{balance} {name}
 				</div>
 				<div className="col-span-7 flex flex-col text-right">
-					${convertedBal.toFixed(2)}
+					{symbol == "JPY" ? (
+						<div>
+							{convertedBal.toFixed(0)} {symbol}
+						</div>
+					) : symbol == "BTC" ? (
+						<div>
+							{convertedBal.toFixed(5)} {symbol}
+						</div>
+					) : symbol == "XAU" ? (
+						<div>
+							{convertedBal.toFixed(2)} {symbol}
+						</div>
+					) : (
+						<div>${convertedBal.toFixed(2)}</div>
+					)}
 				</div>
 			</div>
 		</div>

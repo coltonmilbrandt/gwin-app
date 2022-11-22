@@ -405,13 +405,16 @@ const Deposit = ({
 								class="inline-block px-6 py-2.5 bg-[#7d71d1] text-white font-medium text-sm leading-tight rounded shadow-md hover:bg-purple-700 hover:shadow-lg focus:bg-purple-700 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-purple-800 active:shadow-lg transition duration-150 ease-in-out"
 								data-bs-dismiss="modal"
 								onClick={() => onClose()}
+								disabled={isDepositing == true}
 							>
 								Close
 							</button>
 							<button
 								// type="submit"
 								onClick={() => setisDepositing(true)}
-								disabled={depositAmount == 0}
+								disabled={
+									depositAmount == 0 || isDepositing == true
+								}
 								class="inline-block px-6 py-2.5 bg-indigo-500 text-white font-medium text-sm leading-tight rounded shadow-md disabled:opacity-40 hover:bg-blue-700 hover:shadow-lg focus:bg-blue-700 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-blue-800 active:shadow-lg transition duration-150 ease-in-out ml-1"
 							>
 								Deposit

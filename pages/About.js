@@ -58,15 +58,22 @@ export default function About(props) {
 															</svg>
 														</div>
 														<p class="ml-16 text-lg leading-6 font-medium text-gray-900">
-															Use Gwin to Stake &
-															Earn
+															Absurdly Simple,
+															Incredibly Powerful
 														</p>
 													</dt>
 													<dd class="mt-2 ml-16 text-base text-gray-500">
-														Gwin is a staking app
-														where you can stake your
-														assets in order to earn
-														GWIN tokens.
+														Gwin is a simple
+														alternative to other
+														complex options.{" "}
+														<br></br>- No order
+														book,
+														<br></br>- No specific
+														counter party <br></br>-
+														And no contract length{" "}
+														<br></br>
+														<br></br>Get in, get
+														out, and Gwin!
 													</dd>
 												</div>
 
@@ -90,23 +97,28 @@ export default function About(props) {
 															</svg>
 														</div>
 														<p class="ml-16 text-lg leading-6 font-medium text-gray-900">
-															Runs on the Testnet
+															Designed to
+															Self-Sustain
 														</p>
 													</dt>
 													<dd class="mt-2 ml-16 text-base text-gray-500">
-														You can easily use Gwin
-														Finance for free! It's
-														easy to get testnet
-														assets to stake and
-														earn.
-														<a
-															href="/Tokens"
-															className="text-sky-600 hover:text-sky-900"
-														>
-															&nbsp;See how to get
-															tokens
-														</a>
-														.
+														Gwin targets return
+														rates rather than
+														cementing them. This
+														allows the protocol to
+														adjust expected returns
+														more favorably for
+														underweight pools to
+														incentivize users to
+														serve the overweight
+														pool interest, and it
+														further encourages users
+														to achieve the necessary
+														balance via withdrawals
+														from the profiting
+														pools. Or help balance
+														pools via risk
+														arbitrage!
 													</dd>
 												</div>
 
@@ -130,15 +142,35 @@ export default function About(props) {
 															</svg>
 														</div>
 														<p class="ml-16 text-lg leading-6 font-medium text-gray-900">
-															Reliable and
 															Decentralized
+															Finance at its Best
 														</p>
 													</dt>
 													<dd class="mt-2 ml-16 text-base text-gray-500">
-														Gwin is a decentralized
-														application and secured
-														by the Ethereum
-														blockchain.
+														Gwin is the secure DeFi
+														that we all need.
+														<br></br>
+														<br></br>- Funds are
+														settled in an automated,
+														unbiased manner.
+														<br></br>- Pools can be
+														operated with any amount
+														of funds.
+														<br></br>- Pools are
+														balanced by natural
+														incentives.
+														<br></br>- Bribed LPs
+														not needed, only users
+														seeking legit value.
+														<br></br>- No need for
+														funds to be locked up.
+														<br></br>- Free flowing
+														funds actually serve to
+														balance the pools.
+														<br></br>- Stable,
+														on-chain funds create
+														endless possibilities
+														for true DeFi.
 													</dd>
 												</div>
 
@@ -162,15 +194,32 @@ export default function About(props) {
 															</svg>
 														</div>
 														<p class="ml-16 text-lg leading-6 font-medium text-gray-900">
-															Ustake at Any time
+															Stable, On-Chain
+															Value
 														</p>
 													</dt>
 													<dd class="mt-2 ml-16 text-base text-gray-500">
-														Your tokens can be
-														unstaked at any time!
-														There is no lock period
-														for your staked WETH,
-														DAI, or GWIN.
+														The cooled pools serve
+														the heated pools. They
+														are designed to be as
+														stable in value as the
+														Blockchain can
+														reasonably allow,
+														essentially selling off
+														all profit potential in
+														exchange for price
+														stability. So by
+														depositing to a cooled
+														pool on Gwin, you get
+														stable, on-chain value,
+														and the future fees
+														generated from heated
+														users will be deposited
+														directly into the shared
+														cooled pool. Voila!
+														Stable, yield-generating
+														value that actually
+														serves a true utility.
 													</dd>
 												</div>
 											</dl>
