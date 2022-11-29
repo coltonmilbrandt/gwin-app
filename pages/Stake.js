@@ -737,7 +737,7 @@ export default function Stake() {
 				/>
 				<Pool // JPY Stable
 					tokenPic="/../public/yen.png"
-					name="ETH/JPY - Bitcoin"
+					name="ETH/JPY - Yen"
 					isHeated="true"
 					isCooled="false"
 					hEth={jpyHEth}
