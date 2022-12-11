@@ -7,6 +7,7 @@ import Image from "next/image"
 import toast, { Toaster } from "react-hot-toast"
 import Balances from "../components/Balances"
 import Pool from "../components/Pool"
+import Withdraw from "../components/Withdraw"
 import Web3 from "web3"
 
 export default function Stake() {
