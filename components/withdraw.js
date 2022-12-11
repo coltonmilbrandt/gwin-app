@@ -139,7 +139,7 @@ const Withdraw = ({
 	return (
 		<>
 			<div
-				class="modal backdrop-blur-sm fixed bg-black bg-opacity-10 top-0 z-10 left-0 w-full h-full outline-none overflow-x-hidden overflow-y-auto"
+				className="modal backdrop-blur-sm fixed bg-black bg-opacity-10 top-0 z-10 left-0 w-full h-full outline-none overflow-x-hidden overflow-y-auto"
 				id="exampleModalCenter"
 				tabIndex="-2"
 				aria-labelledby="exampleModalCenterTitle"
@@ -147,47 +147,47 @@ const Withdraw = ({
 				aria-hidden="true"
 				role="dialog"
 			>
-				<div class="modal-dialog modal-dialog-centered relative max-w-lg pointer-events-none">
-					<div class="modal-content border-none shadow-lg relative flex flex-col w-full pointer-events-auto bg-white bg-clip-padding rounded-lg outline-none text-current">
-						<div class="modal-header flex flex-shrink-0 items-center justify-between p-4 border-b border-gray-200 rounded-t-md">
+				<div className="modal-dialog modal-dialog-centered relative max-w-lg pointer-events-none">
+					<div className="modal-content border-none shadow-lg relative flex flex-col w-full pointer-events-auto bg-white bg-clip-padding rounded-lg outline-none text-current">
+						<div className="modal-header flex flex-shrink-0 items-center justify-between p-4 border-b border-gray-200 rounded-t-md">
 							<h5
-								class="text-xl grid grid-cols-6 font-medium leading-normal text-gray-800"
+								className="text-xl grid grid-cols-6 font-medium leading-normal text-gray-800"
 								id="exampleModalScrollableLabel"
 							>
-								<div class="m-auto">
+								<div className="m-auto">
 									<Image
 										src={tokenPic}
-										class="bg-white rounded-full"
+										className="bg-white rounded-full"
 										width="50px"
 										height="50px"
 										alt="/"
 									/>
 								</div>
-								<div class="col-span-5 font-bold pl-3 align-middle m-auto justify-center">
+								<div className="col-span-5 font-bold pl-3 align-middle m-auto justify-center">
 									Withdraw from {name}
 									{/* {contractAddress} */}
 								</div>
 							</h5>
 							<button
 								type="button"
-								class="btn-close box-content w-4 h-4 p-1 text-black border-none rounded-none opacity-50 focus:shadow-none focus:outline-none focus:opacity-100 hover:text-black hover:opacity-75 hover:no-underline"
+								className="btn-close box-content w-4 h-4 p-1 text-black border-none rounded-none opacity-50 focus:shadow-none focus:outline-none focus:opacity-100 hover:text-black hover:opacity-75 hover:no-underline"
 								data-bs-dismiss="modal"
 								aria-label="Close"
 								onClick={() => withdrawClose()}
 							></button>
 						</div>
-						<div class="modal-body relative p-4">
+						<div className="modal-body relative p-4">
 							{contract}
-							<div class="grid grid-cols-5">
-								<div class="col-span-3" />
-								<span class="text-md col-span-2 inline-block py-1 px-2.5 leading-none text-center whitespace-nowrap align-middle font-bold bg-indigo-500 text-white rounded">
+							<div className="grid grid-cols-5">
+								<div className="col-span-3" />
+								<span className="text-md col-span-2 inline-block py-1 px-2.5 leading-none text-center whitespace-nowrap align-middle font-bold bg-indigo-500 text-white rounded">
 									<svg
 										xmlns="http://www.w3.org/2000/svg"
 										viewBox="0 0 512 512"
-										class="w-6 h-6 inline-block"
+										className="w-6 h-6 inline-block"
 									>
 										<path
-											class="color-white"
+											className="color-white"
 											fill="#fff"
 											d="M224 256c70.7 0 128-57.3 128-128S294.7 0 224 0S96 57.3 96 128s57.3 128 128 128zm-45.7 48C79.8 304 0 383.8 0 482.3C0 498.7 13.3 512 29.7 512H418.3c16.4 0 29.7-13.3 29.7-29.7C448 383.8 368.2 304 269.7 304H178.3z"
 										/>
@@ -197,7 +197,7 @@ const Withdraw = ({
 							</div>
 							{Number(userBal) == 0 ? (
 								<div
-									class="bg-red-100 mt-3 rounded-lg py-5 px-6 mb-3 text-base text-red-700 inline-flex items-center w-full"
+									className="bg-red-100 mt-3 rounded-lg py-5 px-6 mb-3 text-base text-red-700 inline-flex items-center w-full"
 									role="alert"
 								>
 									<svg
@@ -205,7 +205,7 @@ const Withdraw = ({
 										focusable="false"
 										data-prefix="fas"
 										data-icon="times-circle"
-										class="w-4 h-4 mr-2 fill-current"
+										className="w-4 h-4 mr-2 fill-current"
 										role="img"
 										xmlns="http://www.w3.org/2000/svg"
 										viewBox="0 0 512 512"
@@ -219,10 +219,10 @@ const Withdraw = ({
 									pool.
 								</div>
 							) : null}
-							<div class="form-group mb-6">
+							<div className="form-group mb-6">
 								<label
 									htmlFor="exampleInputEmail1"
-									class="form-label inline-block mb-2 text-gray-700"
+									className="form-label inline-block mb-2 text-gray-700"
 								>
 									Withdrawal Amount
 									{/* isHeated - {isHeated} -
@@ -233,11 +233,11 @@ const Withdraw = ({
 									{heatedWithdrawalAmount} isAll-
 									{withdrawAll.toString()} */}
 								</label>
-								<div class="grid grid-cols-5 pb-3">
-									<div class="col">
+								<div className="grid grid-cols-5 pb-3">
+									<div className="col">
 										<button
 											type="button"
-											class="inline-block w-full px-6 py-2.5 bg-[#7d71d1] text-white font-medium text-xs leading-tight uppercase rounded-l shadow-md hover:bg-purple-700 hover:shadow-lg focus:bg-purple-700 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-purple-800 active:shadow-lg transition duration-150 ease-in-out"
+											className="inline-block w-full px-6 py-2.5 bg-[#7d71d1] text-white font-medium text-xs leading-tight uppercase rounded-l shadow-md hover:bg-purple-700 hover:shadow-lg focus:bg-purple-700 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-purple-800 active:shadow-lg transition duration-150 ease-in-out"
 											onClick={() =>
 												setWithdrawals(
 													Number(userBal) * 0.1,
@@ -248,10 +248,10 @@ const Withdraw = ({
 											10%
 										</button>
 									</div>
-									<div class="col">
+									<div className="col">
 										<button
 											type="button"
-											class="inline-block w-full px-6 py-2.5 bg-[#7d71d1] text-white font-medium text-xs leading-tight uppercase shadow-md hover:bg-purple-700 hover:shadow-lg focus:bg-purple-700 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-purple-800 active:shadow-lg transition duration-150 ease-in-out"
+											className="inline-block w-full px-6 py-2.5 bg-[#7d71d1] text-white font-medium text-xs leading-tight uppercase shadow-md hover:bg-purple-700 hover:shadow-lg focus:bg-purple-700 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-purple-800 active:shadow-lg transition duration-150 ease-in-out"
 											onClick={() =>
 												setWithdrawals(
 													Number(userBal) * 0.25,
@@ -262,10 +262,10 @@ const Withdraw = ({
 											25%
 										</button>
 									</div>
-									<div class="col">
+									<div className="col">
 										<button
 											type="button"
-											class="inline-block w-full px-6 py-2.5 bg-[#7d71d1] text-white font-medium text-xs leading-tight uppercase shadow-md hover:bg-purple-700 hover:shadow-lg focus:bg-purple-700 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-purple-800 active:shadow-lg transition duration-150 ease-in-out"
+											className="inline-block w-full px-6 py-2.5 bg-[#7d71d1] text-white font-medium text-xs leading-tight uppercase shadow-md hover:bg-purple-700 hover:shadow-lg focus:bg-purple-700 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-purple-800 active:shadow-lg transition duration-150 ease-in-out"
 											onClick={() =>
 												setWithdrawals(
 													Number(userBal) * 0.5,
@@ -276,10 +276,10 @@ const Withdraw = ({
 											50%
 										</button>
 									</div>
-									<div class="col">
+									<div className="col">
 										<button
 											type="button"
-											class="inline-block w-full px-6 py-2.5 bg-[#7d71d1] text-white font-medium text-xs leading-tight uppercase shadow-md hover:bg-purple-700 hover:shadow-lg focus:bg-purple-700 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-purple-800 active:shadow-lg transition duration-150 ease-in-out"
+											className="inline-block w-full px-6 py-2.5 bg-[#7d71d1] text-white font-medium text-xs leading-tight uppercase shadow-md hover:bg-purple-700 hover:shadow-lg focus:bg-purple-700 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-purple-800 active:shadow-lg transition duration-150 ease-in-out"
 											onClick={() =>
 												setWithdrawals(
 													Number(userBal) * 0.75,
@@ -290,10 +290,10 @@ const Withdraw = ({
 											75%
 										</button>
 									</div>
-									<div class="col">
+									<div className="col">
 										<button
 											type="button"
-											class="inline-block w-full px-6 py-2.5 bg-[#7d71d1] text-white font-medium text-xs leading-tight uppercase rounded-r shadow-md hover:bg-purple-700 hover:shadow-lg focus:bg-purple-700 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-purple-800 active:shadow-lg transition duration-150 ease-in-out"
+											className="inline-block w-full px-6 py-2.5 bg-[#7d71d1] text-white font-medium text-xs leading-tight uppercase rounded-r shadow-md hover:bg-purple-700 hover:shadow-lg focus:bg-purple-700 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-purple-800 active:shadow-lg transition duration-150 ease-in-out"
 											onClick={() =>
 												setWithdrawals(
 													Number(userBal),
@@ -305,11 +305,11 @@ const Withdraw = ({
 										</button>
 									</div>
 								</div>
-								<div class="grid grid-cols-5 py-3">
-									<div class="col-span-4">
+								<div className="grid grid-cols-5 py-3">
+									<div className="col-span-4">
 										<input
 											type="number"
-											class="form-control
+											className="form-control
 												block
 												w-full
 												px-3
@@ -347,7 +347,7 @@ const Withdraw = ({
 										/>
 									</div>
 									<div
-										class="col-span-1 block text-center 
+										className="col-span-1 block text-center 
 												text-white												
 												bg-indigo-500
 												w-full
@@ -362,11 +362,11 @@ const Withdraw = ({
 									</div>
 								</div>
 
-								<div class="grid grid-cols-5">
-									<div class="col-span-4">
+								<div className="grid grid-cols-5">
+									<div className="col-span-4">
 										<input
 											type="number"
-											class="form-control
+											className="form-control
 											block
 											w-full
 											px-3
@@ -391,7 +391,7 @@ const Withdraw = ({
 										/>
 									</div>
 									<div
-										class="col-span-1 block text-center 
+										className="col-span-1 block text-center 
 												text-white												
 												bg-teal-400
 												w-full
@@ -408,7 +408,7 @@ const Withdraw = ({
 
 								{/* <small
 										id="emailHelp"
-										class="block mt-1 text-xs text-gray-600"
+										className="block mt-1 text-xs text-gray-600"
 									>
 										We'll never share your email with anyone
 										else.
@@ -416,7 +416,7 @@ const Withdraw = ({
 							</div>
 							{/* <button
 									type="submit"
-									class="
+									className="
 											px-6
 											py-2.5
 											bg-blue-600
@@ -437,10 +437,10 @@ const Withdraw = ({
 									Submit
 								</button> */}
 						</div>
-						<div class="modal-footer flex flex-shrink-0 flex-wrap items-center justify-end p-4 border-t border-gray-200 rounded-b-md">
+						<div className="modal-footer flex flex-shrink-0 flex-wrap items-center justify-end p-4 border-t border-gray-200 rounded-b-md">
 							<button
 								type="button"
-								class="inline-block px-6 py-2.5 bg-[#7d71d1] text-white font-medium text-sm leading-tight rounded shadow-md hover:bg-purple-700 hover:shadow-lg focus:bg-purple-700 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-purple-800 active:shadow-lg transition duration-150 ease-in-out"
+								className="inline-block px-6 py-2.5 bg-[#7d71d1] text-white font-medium text-sm leading-tight rounded shadow-md hover:bg-purple-700 hover:shadow-lg focus:bg-purple-700 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-purple-800 active:shadow-lg transition duration-150 ease-in-out"
 								data-bs-dismiss="modal"
 								onClick={() => withdrawClose()}
 								disabled={isWithdrawing == true}
@@ -454,7 +454,7 @@ const Withdraw = ({
 									withdrawalAmount == 0 ||
 									isWithdrawing == true
 								}
-								class="inline-block px-6 py-2.5 bg-indigo-500 text-white font-medium text-sm leading-tight rounded shadow-md disabled:opacity-40 hover:bg-blue-700 hover:shadow-lg focus:bg-blue-700 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-blue-800 active:shadow-lg transition duration-150 ease-in-out ml-1"
+								className="inline-block px-6 py-2.5 bg-indigo-500 text-white font-medium text-sm leading-tight rounded shadow-md disabled:opacity-40 hover:bg-blue-700 hover:shadow-lg focus:bg-blue-700 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-blue-800 active:shadow-lg transition duration-150 ease-in-out ml-1"
 							>
 								Withdraw
 							</button>

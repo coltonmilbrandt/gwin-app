@@ -21,7 +21,7 @@ export default function Dash() {
 			</header>
 			<main>
 				<div className="max-w-7xl mx-auto pt-2 pb-3 sm:px-6 lg:px-8 text-gray-100">
-					<div class="grid grid-cols-1 gap-4">
+					<div className="grid grid-cols-1 gap-4">
 						<div className="bg-none p-4">
 							{isWeb3Enabled ? (
 								<></>

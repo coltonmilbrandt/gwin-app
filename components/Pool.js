@@ -25,19 +25,19 @@ export default function Pool(props) {
 	return (
 		<div>
 			<div className="bg-sky-50 m-3 shadow-lg p-4 rounded-lg text-gray-700">
-				<div class="justify-center flex pb-4">
+				<div className="justify-center flex pb-4">
 					<Image
 						src={tokenPic}
-						class="bg-white rounded-full"
+						className="bg-white rounded-full"
 						width="100px"
 						height="100px"
 						alt="/"
 					/>
 				</div>
-				<div class="whitespace-nowrap overflow-hidden text-ellipsis">
+				<div className="whitespace-nowrap overflow-hidden text-ellipsis">
 					{name}
 				</div>
-				<div class="whitespace-nowrap overflow-hidden text-ellipsis">
+				<div className="whitespace-nowrap overflow-hidden text-ellipsis">
 					{symbol == "JPY" ? (
 						<div>
 							{priceFeed.toFixed(0)} {symbol}
@@ -53,27 +53,27 @@ export default function Pool(props) {
 					)}
 				</div>
 				{hEth != "" ? (
-					<div class="whitespace-nowrap overflow-hidden text-ellipsis">
+					<div className="whitespace-nowrap overflow-hidden text-ellipsis">
 						Heated: {hEth} ETH
 					</div>
 				) : (
-					<div class="whitespace-nowrap overflow-hidden text-ellipsis">
+					<div className="whitespace-nowrap overflow-hidden text-ellipsis">
 						<></>
 					</div>
 				)}
-				<div class="whitespace-nowrap overflow-hidden text-ellipsis">
+				<div className="whitespace-nowrap overflow-hidden text-ellipsis">
 					Cooled: {cEth} ETH
 				</div>
 				{hEth != "" ? (
-					<div class="whitespace-nowrap overflow-hidden text-ellipsis">
+					<div className="whitespace-nowrap overflow-hidden text-ellipsis">
 						<></>
 					</div>
 				) : (
-					<div class="whitespace-nowrap overflow-hidden text-ellipsis">
+					<div className="whitespace-nowrap overflow-hidden text-ellipsis">
 						&nbsp;
 					</div>
 				)}
-				<div class="whitespace-nowrap overflow-hidden text-ellipsis">
+				<div className="whitespace-nowrap overflow-hidden text-ellipsis">
 					&nbsp;
 				</div>
 				<div className="grid grid-cols-2">

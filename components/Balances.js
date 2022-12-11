@@ -12,7 +12,7 @@ export default function Balances(props) {
 			<div className="flex flex-col col-span-2 items-center justify-center pr-4">
 				<Image
 					src={tokenPic}
-					class="bg-white rounded-full"
+					className="bg-white rounded-full"
 					width="50px"
 					height="50px"
 					alt={name}
