@@ -4,6 +4,7 @@ import { useMoralis, useWeb3Contract, useERC20Balances } from "react-moralis"
 import { chainDict } from "../constants/chainDict"
 import { abi } from "../constants/Gwin_abi"
 import toast, { Toaster } from "react-hot-toast"
+import React from "react"
 
 const Withdraw = ({
 	isOpen,
