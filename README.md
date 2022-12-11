@@ -16,7 +16,7 @@ The contract will deploy and send you mock tokens to use to interact with the co
 
 Take note of your private key for the first wallet that Ganache spins up.
 
-Afterwards, follow the instructions below to get the front end going. 
+Afterwards, follow the instructions below to get the front end going.
 
 This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
 
