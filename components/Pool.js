@@ -2,7 +2,7 @@ import Image from "next/image"
 import Price from "../components/Price"
 import Balances from "../components/Balances"
 import Deposit from "../components/Deposit"
-import Withdraw from "../components/Withdraw"
+import Withdraw from "./Withdraw"
 import { useState, useEffect } from "react"
 
 export default function Pool(props) {
