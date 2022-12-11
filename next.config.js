@@ -9,4 +9,7 @@ module.exports = {
 	eslint: {
 		ignoreDuringBuilds: true,
 	},
+	resolve: {
+		extensions: ["", ".js", ".jsx"],
+	},
 }
