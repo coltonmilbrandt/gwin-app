@@ -10,6 +10,10 @@ const otherConfigSettings = {
 	resolve: {
 		extensions: ["", ".js", ".jsx"],
 	},
+	images: {
+		loader: "akamai",
+		path: "",
+	},
 }
 
 module.exports = withPlugins([
