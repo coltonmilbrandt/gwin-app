@@ -589,7 +589,7 @@ export default function Stake() {
 			<Toaster />
 			<div className="grid grid-cols-1 md:grid-cols-3 text-gray-900 pb-4">
 				<Pool // 2x
-					tokenPic="/../public/hEth2.png"
+					tokenPic={require("./public/hEth2.png?original")}
 					name="ETH/USD - 2x Pool"
 					isHeated="true"
 					isCooled="false"
