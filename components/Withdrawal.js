@@ -6,7 +6,7 @@ import { abi } from "../constants/Gwin_abi"
 import toast, { Toaster } from "react-hot-toast"
 import React from "react"
 
-const Withdraw = ({
+const Withdrawal = ({
 	isOpen,
 	withdrawClose,
 	tokenPic,
@@ -467,4 +467,4 @@ const Withdraw = ({
 	)
 }
 
-export default Withdraw
+export default Withdrawal
