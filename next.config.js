@@ -8,6 +8,9 @@ const nextConfig = {
 	resolve: {
 		extensions: ["", ".js", ".jsx"],
 	},
+	images: {
+		unoptimized: true,
+	},
 }
 
 module.exports = nextConfig
