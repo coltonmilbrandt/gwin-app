@@ -1,7 +1,9 @@
+/** @type {import('next').NextConfig} */
+
 const withOptimizedImages = require("next-optimized-images")
 
-/** @type {import('next').NextConfig} */
-const nextConfig = {
+module.exports = withOptimizedImages({
+	// your other Next.js configuration options
 	reactStrictMode: true,
 	swcMinify: true,
 	eslint: {
@@ -10,8 +12,4 @@ const nextConfig = {
 	resolve: {
 		extensions: ["", ".js", ".jsx"],
 	},
-}
-module.exports = withOptimizedImages({
-	// your other Next.js configuration options
-	nextConfig,
 })
