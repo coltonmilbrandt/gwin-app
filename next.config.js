@@ -14,6 +14,12 @@ const otherConfigSettings = {
 		loader: "akamai",
 		path: "",
 	},
+	exportTrailingSlash: true,
+	exportPathMap: function () {
+		return {
+			"/": { page: "/" },
+		}
+	},
 }
 
 module.exports = withPlugins([
