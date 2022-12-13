@@ -8,6 +8,7 @@ import toast, { Toaster } from "react-hot-toast"
 import Balances from "../components/Balances"
 import Pool from "../components/Pool"
 import Web3 from "web3"
+import hEthTwoImage from "/public/hEth2.png"
 
 export default function Stake() {
 	const {
@@ -589,7 +590,7 @@ export default function Stake() {
 			<Toaster />
 			<div className="grid grid-cols-1 md:grid-cols-3 text-gray-900 pb-4">
 				<Pool // 2x
-					tokenPic="/../public/hEth2.png"
+					tokenPic={hEthTwoImage}
 					name="ETH/USD - 2x Pool"
 					isHeated="true"
 					isCooled="false"
@@ -602,7 +603,7 @@ export default function Stake() {
 					walletBal={userEthWalletBal}
 					symbol="ETH"
 				/>
-				<Pool // 5x
+				{/* <Pool // 5x
 					tokenPic="/../public/hEth5.png"
 					name="ETH/USD - 5x Pool"
 					isHeated="true"
@@ -647,7 +648,7 @@ export default function Stake() {
 					priceFeed={ethUsdPrice}
 					walletBal={userEthWalletBal}
 					symbol="ETH"
-				/>
+				/> */}
 			</div>
 			<div className="grid grid-cols-1 md:grid-cols-3 text-gray-900 pb-4">
 				<div className="col-span-3 pb-6 pt-4">
@@ -658,7 +659,7 @@ export default function Stake() {
 						Created on chain by fire and ice
 					</h5>
 				</div>
-				<Pool // XAU Stable
+				{/* <Pool // XAU Stable
 					tokenPic="/../public/gold.png"
 					name="ETH/XAU - 1oz Gold"
 					isHeated="false"
@@ -699,7 +700,7 @@ export default function Stake() {
 					priceFeed={ethJpyPrice}
 					walletBal={userEthWalletBal}
 					symbol="JPY"
-				/>
+				/> */}
 			</div>
 			<div className="grid grid-cols-1 md:grid-cols-3 text-gray-900 pb-4">
 				<div className="col-span-3 pb-6 pt-4">
@@ -707,7 +708,7 @@ export default function Stake() {
 						Shorted Emulated Assets
 					</h2>
 				</div>
-				<Pool // XAU Short
+				{/* <Pool // XAU Short
 					tokenPic="/../public/gold.png"
 					name="ETH/XAU - 1oz Gold"
 					isHeated="true"
@@ -748,7 +749,7 @@ export default function Stake() {
 					priceFeed={ethJpyPrice}
 					walletBal={userEthWalletBal}
 					symbol="JPY"
-				/>
+				/> */}
 			</div>
 		</div>
 	)

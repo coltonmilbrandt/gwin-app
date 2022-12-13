@@ -26,7 +26,7 @@ export default function Pool(props) {
 		<div>
 			<div className="bg-sky-50 m-3 shadow-lg p-4 rounded-lg text-gray-700">
 				<div className="justify-center flex pb-4">
-					<img
+					<Image
 						src={tokenPic}
 						className="bg-white rounded-full"
 						width="100px"
