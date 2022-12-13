@@ -657,7 +657,7 @@ export default function Stake() {
 				/>
 			</div>
 			<div className="grid grid-cols-1 md:grid-cols-3 text-gray-900 pb-4">
-				<div className="col-span-3 pb-6 pt-4">
+				<div className="col-span-1 md:col-span-3 pb-6 pt-4">
 					<h2 className="text-3xl font-bold w-full text-cyan-900">
 						Emulated Assets
 					</h2>
@@ -709,7 +709,7 @@ export default function Stake() {
 				/>
 			</div>
 			<div className="grid grid-cols-1 md:grid-cols-3 text-gray-900 pb-4">
-				<div className="col-span-3 pb-6 pt-4">
+				<div className="col-span-1 md:col-span-3 pb-6 pt-4">
 					<h2 className="text-3xl font-bold w-full text-cyan-900">
 						Shorted Emulated Assets
 					</h2>
