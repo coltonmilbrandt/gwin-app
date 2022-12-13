@@ -10,10 +10,6 @@ const otherConfigSettings = {
 	resolve: {
 		extensions: ["", ".js", ".jsx"],
 	},
-	images: {
-		loader: "akamai",
-		path: "",
-	},
 	trailingSlash: true,
 	exportPathMap: function () {
 		return {
