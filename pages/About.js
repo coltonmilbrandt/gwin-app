@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react"
 import Nav from "../components/Nav"
 import Image from "next/image"
+import penguinChestPic from "/public/penguinChest.png"
 
 export default function About(props) {
 	return (
@@ -17,7 +18,7 @@ export default function About(props) {
 											className="w-max h-max rounded-full "
 											width="200px"
 											height="200px"
-											src="/../public/penguinChest.png"
+											src={penguinChestPic}
 											alt="gwin"
 										/>
 									</div>

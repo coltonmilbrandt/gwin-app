@@ -8,6 +8,7 @@ import React from "react"
 import Link from "next/link"
 import { useRouter } from "next/router"
 import propTypes from "prop-types"
+import gwinPic from "/public/gwin-rect.webp"
 
 let navLinks = [
 	{ name: "Dashboard", path: "/", current: true },
@@ -72,7 +73,7 @@ export default function Example() {
 												className="h-8 w-8 rounded-full"
 												width="45%"
 												height="45%"
-												src="/../public/gwin-rect.webp"
+												src={gwinPic}
 												alt="gwin"
 											/>
 										</div>

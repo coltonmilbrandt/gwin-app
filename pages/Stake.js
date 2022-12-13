@@ -8,7 +8,13 @@ import toast, { Toaster } from "react-hot-toast"
 import Balances from "../components/Balances"
 import Pool from "../components/Pool"
 import Web3 from "web3"
-import hEthTwoImage from "/public/hEth2.png"
+import hEthTwoPic from "/public/hEth2.png"
+import hEthFivePic from "/public/hEth5.png"
+import hEthTenPic from "/public/hEth10.png"
+import cEthPic from "/public/cooledEth.png"
+import goldPic from "/public/gold.png"
+import btcPic from "/public/Bitcoin.png"
+import yenPic from "/public/yen.png"
 
 export default function Stake() {
 	const {
@@ -590,7 +596,7 @@ export default function Stake() {
 			<Toaster />
 			<div className="grid grid-cols-1 md:grid-cols-3 text-gray-900 pb-4">
 				<Pool // 2x
-					tokenPic={hEthTwoImage}
+					tokenPic={hEthTwoPic}
 					name="ETH/USD - 2x Pool"
 					isHeated="true"
 					isCooled="false"
@@ -603,8 +609,8 @@ export default function Stake() {
 					walletBal={userEthWalletBal}
 					symbol="ETH"
 				/>
-				{/* <Pool // 5x
-					tokenPic="/../public/hEth5.png"
+				<Pool // 5x
+					tokenPic={hEthFivePic}
 					name="ETH/USD - 5x Pool"
 					isHeated="true"
 					isCooled="false"
@@ -618,7 +624,7 @@ export default function Stake() {
 					symbol="ETH"
 				/>
 				<Pool // 10x
-					tokenPic="/../public/hEth10.png"
+					tokenPic={hEthTenPic}
 					name="ETH/USD - 10x Pool"
 					isHeated="true"
 					isCooled="false"
@@ -632,7 +638,7 @@ export default function Stake() {
 					symbol="ETH"
 				/>
 				<Pool // Cooled
-					tokenPic="/../public/cooledEth.png"
+					tokenPic={cEthPic}
 					name="ETH/USD - Cooled USD"
 					isHeated="false"
 					isCooled="true"
@@ -648,7 +654,7 @@ export default function Stake() {
 					priceFeed={ethUsdPrice}
 					walletBal={userEthWalletBal}
 					symbol="ETH"
-				/> */}
+				/>
 			</div>
 			<div className="grid grid-cols-1 md:grid-cols-3 text-gray-900 pb-4">
 				<div className="col-span-3 pb-6 pt-4">
@@ -659,8 +665,8 @@ export default function Stake() {
 						Created on chain by fire and ice
 					</h5>
 				</div>
-				{/* <Pool // XAU Stable
-					tokenPic="/../public/gold.png"
+				<Pool // XAU Stable
+					tokenPic={goldPic}
 					name="ETH/XAU - 1oz Gold"
 					isHeated="false"
 					isCooled="true"
@@ -674,7 +680,7 @@ export default function Stake() {
 					symbol="XAU"
 				/>
 				<Pool // BTC Stable
-					tokenPic="/../public/Bitcoin.png"
+					tokenPic={btcPic}
 					name="ETH/BTC - Cooled Bitcoin"
 					isHeated="false"
 					isCooled="true"
@@ -688,7 +694,7 @@ export default function Stake() {
 					symbol="BTC"
 				/>
 				<Pool // JPY Stable
-					tokenPic="/../public/yen.png"
+					tokenPic={yenPic}
 					name="ETH/JPY - Cooled Yen"
 					isHeated="false"
 					isCooled="true"
@@ -700,7 +706,7 @@ export default function Stake() {
 					priceFeed={ethJpyPrice}
 					walletBal={userEthWalletBal}
 					symbol="JPY"
-				/> */}
+				/>
 			</div>
 			<div className="grid grid-cols-1 md:grid-cols-3 text-gray-900 pb-4">
 				<div className="col-span-3 pb-6 pt-4">
@@ -708,8 +714,8 @@ export default function Stake() {
 						Shorted Emulated Assets
 					</h2>
 				</div>
-				{/* <Pool // XAU Short
-					tokenPic="/../public/gold.png"
+				<Pool // XAU Short
+					tokenPic={goldPic}
 					name="ETH/XAU - 1oz Gold"
 					isHeated="true"
 					isCooled="false"
@@ -722,8 +728,8 @@ export default function Stake() {
 					walletBal={userEthWalletBal}
 					symbol="XAU"
 				/>
-				<Pool // BTC Stable
-					tokenPic="/../public/Bitcoin.png"
+				<Pool // BTC Short
+					tokenPic={btcPic}
 					name="ETH/BTC - Bitcoin"
 					isHeated="true"
 					isCooled="false"
@@ -736,8 +742,8 @@ export default function Stake() {
 					walletBal={userEthWalletBal}
 					symbol="BTC"
 				/>
-				<Pool // JPY Stable
-					tokenPic="/../public/yen.png"
+				<Pool // JPY Short
+					tokenPic={yenPic}
 					name="ETH/JPY - Yen"
 					isHeated="true"
 					isCooled="false"
@@ -749,7 +755,7 @@ export default function Stake() {
 					priceFeed={ethJpyPrice}
 					walletBal={userEthWalletBal}
 					symbol="JPY"
-				/> */}
+				/>
 			</div>
 		</div>
 	)

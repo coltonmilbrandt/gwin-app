@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react"
 import Nav from "../components/Nav"
 import Image from "next/image"
+import penguinParachutePic from "/public/parachutingPenguins.png"
 
 export default function Tokens(props) {
 	return (
@@ -18,7 +19,7 @@ export default function Tokens(props) {
 												className="w-max h-max rounded-full "
 												width="200px"
 												height="200px"
-												src="/../public/parachutingPenguins.png"
+												src={penguinParachutePic}
 												alt="gwin"
 											/>
 										</div>
