@@ -148,30 +148,32 @@ export default function About(props) {
 														</p>
 													</dt>
 													<dd className="mt-2 ml-16 text-base text-gray-500">
-														Gwin is the secure DeFi
-														that we all need.
-														<br></br>
-														<br></br>- Funds are
-														settled in an automated,
-														unbiased manner.
-														<br></br>- Pools can be
-														operated with any amount
-														of funds.
-														<br></br>- Pools are
-														balanced by natural
-														incentives.
-														<br></br>- Bribed LPs
-														not needed, only users
-														seeking legit value.
-														<br></br>- No need for
-														funds to be locked up.
-														<br></br>- Free flowing
-														funds actually serve to
-														balance the pools.
-														<br></br>- Stable,
-														on-chain funds create
-														endless possibilities
-														for true DeFi.
+														Gwin provides a unique
+														solution for trading in
+														low liquidity markets.
+														Our platform uses
+														advanced mathematical
+														algorithms to ensure
+														optimal performance and
+														pricing, even in markets
+														with limited liquidity.
+														This allows you to
+														confidently trade in
+														even the most obscure
+														markets, knowing that
+														your trades will be
+														executed at their best
+														potential. All you need
+														is a price feed and some
+														interest in the market.
+														Even if liquidity for
+														your trade is low, we
+														can accommodate it with
+														the liquidity available,
+														without costly exposure
+														or worry about exiting
+														your position - which
+														you can do at any time.
 													</dd>
 												</div>
 
