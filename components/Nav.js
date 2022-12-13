@@ -7,6 +7,7 @@ import Image from "next/image"
 import React from "react"
 import Link from "next/link"
 import { useRouter } from "next/router"
+// Use HashRouter instead to
 import propTypes from "prop-types"
 import gwinPic from "/public/gwin-rect.webp"
 
