@@ -2,10 +2,16 @@ import { useState, useEffect } from "react"
 import Nav from "../components/Nav"
 import Image from "next/image"
 import penguinChestPic from "/public/penguinChest.png"
+import Head from "next/head"
 
 export default function About(props) {
 	return (
 		<>
+			<Head>
+				<title>About | Gwin</title>
+				<link rel="icon" href="/favicon.ico" />
+				<link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+			</Head>
 			<Nav />
 			<main className="bg-gradient-to-br from-slate-100 to-sky-400 min-h-screen">
 				<div className="max-w-7xl mx-auto pt-2 pb-3 sm:px-6 lg:px-8 text-gray-100">

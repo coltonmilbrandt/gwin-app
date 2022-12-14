@@ -1,4 +1,5 @@
 import { useState, useEffect } from "react"
+import Head from "next/head"
 import Nav from "../components/Nav"
 import Image from "next/image"
 import penguinParachutePic from "/public/parachutingPenguins.png"
@@ -6,6 +7,11 @@ import penguinParachutePic from "/public/parachutingPenguins.png"
 export default function Tokens(props) {
 	return (
 		<>
+			<Head>
+				<title>Get Tokens | Gwin</title>
+				<link rel="icon" href="/favicon.ico" />
+				<link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+			</Head>
 			<Nav />
 			<main className="bg-gradient-to-br from-slate-100 to-sky-400 min-h-screen">
 				<div className="max-w-7xl mx-auto pt-2 pb-3 sm:px-6 lg:px-8 text-gray-100">
@@ -100,9 +106,9 @@ export default function Tokens(props) {
 														With your Metamask
 														wallet, you can easily
 														get free tokens from
-														Chainlink's faucet
+														Alchemy's faucet
 														<a
-															href="https://faucets.chain.link/rinkeby"
+															href="https://goerlifaucet.com/"
 															className="text-sky-600 hover:text-sky-900"
 														>
 															&nbsp;by clicking
