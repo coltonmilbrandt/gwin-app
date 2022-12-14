@@ -18,7 +18,7 @@ export default function Balances(props) {
 					alt={name}
 				/>
 			</div>
-			<div className="grid col-span-5 grid-cols-7">
+			<div className="grid col-span-5 grid-cols-7 text-sm sm:text-base">
 				<div className="flex col-span-4 flex-col">
 					<b>User Balance:</b>
 				</div>

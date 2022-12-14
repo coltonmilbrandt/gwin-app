@@ -30,14 +30,9 @@ const user = {
 	email: "tom@example.com",
 }
 const navigation = [
-	{ name: "Dashboard", href: "/dash", current: true },
+	{ name: "Dashboard", href: "/", current: true },
 	{ name: "About", href: "/About", current: false },
-	{ name: "Get Tokens", href: "/About", current: false },
-]
-const userNavigation = [
-	{ name: "Your Profile", href: "#" },
-	{ name: "Settings", href: "#" },
-	{ name: "Sign out", href: "#" },
+	{ name: "Get Tokens", href: "/Tokens", current: false },
 ]
 
 function setCurrent() {
@@ -134,7 +129,7 @@ export default function Example() {
 								</div>
 							</div>
 
-							<Disclosure.Panel className="md:hidden">
+							<Disclosure.Panel className="md:hidden bg-white bg-opacity-80 rounded-b-lg">
 								<div className="px-2 pt-2 pb-3 space-y-1 sm:px-3">
 									{navigation.map((item) => (
 										<Disclosure.Button
@@ -142,63 +137,20 @@ export default function Example() {
 											as="a"
 											href={item.href}
 											className={classNames(
-												item.current
-													? "bg-gray-900 text-white"
-													: "text-gray-300 hover:bg-gray-700 hover:text-white",
-												"block px-3 py-2 rounded-md text-base font-medium"
+												"block px-3 py-2 rounded-md text-base font-medium hover:bg-indigo-200 hover:text-indigo-800"
 											)}
 											aria-current={
 												item.current
 													? "page"
 													: undefined
 											}
+											onClick={async () => {
+												item.current = true
+											}}
 										>
 											{item.name}
 										</Disclosure.Button>
 									))}
-								</div>
-								<div className="pt-4 pb-3 border-t border-gray-700">
-									<div className="flex items-center px-5">
-										<div className="flex-shrink-0">
-											<img
-												className="h-10 w-10 rounded-full"
-												src={user.imageUrl}
-												alt=""
-											/>
-										</div>
-										<div className="ml-3">
-											<div className="text-base font-medium leading-none text-white">
-												{user.name}
-											</div>
-											<div className="text-sm font-medium leading-none text-gray-400">
-												{user.email}
-											</div>
-										</div>
-										<button
-											type="button"
-											className="ml-auto bg-gray-800 flex-shrink-0 p-1 rounded-full text-gray-400 hover:text-white focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-800 focus:ring-white"
-										>
-											<span className="sr-only">
-												View notifications
-											</span>
-											<BellIcon
-												className="h-6 w-6"
-												aria-hidden="true"
-											/>
-										</button>
-									</div>
-									<div className="mt-3 px-2 space-y-1">
-										{userNavigation.map((item) => (
-											<Disclosure.Button
-												key={item.name}
-												as="a"
-												href={item.href}
-												className="block px-3 py-2 rounded-md text-base font-medium text-gray-400 hover:text-white hover:bg-gray-700"
-											>
-												{item.name}
-											</Disclosure.Button>
-										))}
-									</div>
 								</div>
 							</Disclosure.Panel>
 						</>

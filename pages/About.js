@@ -41,7 +41,7 @@ export default function About(props) {
 											<dl className="space-y-10 md:space-y-0 md:grid md:grid-cols-2 md:gap-x-8 md:gap-y-10">
 												<div className="relative">
 													<dt>
-														<div className="absolute flex items-center justify-center h-12 w-12 rounded-md bg-gradient-to-tl from-[#9e92ff] to-[#95e4d7] text-white">
+														<div className="relative w-12 sm:absolute flex items-center justify-center h-12 rounded-md bg-gradient-to-tl from-[#9e92ff] to-[#95e4d7] text-white">
 															<svg
 																className="h-6 w-6"
 																xmlns="http://www.w3.org/2000/svg"
@@ -58,12 +58,12 @@ export default function About(props) {
 																/>
 															</svg>
 														</div>
-														<p className="ml-16 text-lg leading-6 font-medium text-gray-900">
+														<p className="mt-4 sm:mt-0 sm:ml-16 text-lg leading-6 font-medium text-gray-900">
 															Absurdly Simple,
 															Incredibly Powerful
 														</p>
 													</dt>
-													<dd className="mt-2 ml-16 text-base text-gray-500">
+													<dd className="mt-2 sm:ml-16 text-base text-gray-500">
 														Gwin is a simple
 														alternative to other
 														complex options.{" "}
@@ -80,7 +80,7 @@ export default function About(props) {
 
 												<div className="relative">
 													<dt>
-														<div className="absolute flex items-center justify-center h-12 w-12 rounded-md bg-gradient-to-tl from-[#9e92ff] to-[#95e4d7] text-white">
+														<div className="relative w-12 sm:absolute flex items-center justify-center h-12 rounded-md bg-gradient-to-tl from-[#9e92ff] to-[#95e4d7] text-white">
 															<svg
 																className="h-6 w-6"
 																xmlns="http://www.w3.org/2000/svg"
@@ -97,12 +97,12 @@ export default function About(props) {
 																/>
 															</svg>
 														</div>
-														<p className="ml-16 text-lg leading-6 font-medium text-gray-900">
+														<p className="mt-4 sm:mt-0 sm:ml-16 text-lg leading-6 font-medium text-gray-900">
 															Designed to
 															Self-Sustain
 														</p>
 													</dt>
-													<dd className="mt-2 ml-16 text-base text-gray-500">
+													<dd className="mt-2 sm:ml-16 text-base text-gray-500">
 														Gwin targets return
 														rates rather than
 														cementing them. This
@@ -125,7 +125,7 @@ export default function About(props) {
 
 												<div className="relative">
 													<dt>
-														<div className="absolute flex items-center justify-center h-12 w-12 rounded-md bg-gradient-to-tl from-[#9e92ff] to-[#95e4d7] text-white">
+														<div className="relative w-12 sm:absolute flex items-center justify-center h-12 rounded-md bg-gradient-to-tl from-[#9e92ff] to-[#95e4d7] text-white">
 															<svg
 																className="h-6 w-6"
 																xmlns="http://www.w3.org/2000/svg"
@@ -142,12 +142,12 @@ export default function About(props) {
 																/>
 															</svg>
 														</div>
-														<p className="ml-16 text-lg leading-6 font-medium text-gray-900">
+														<p className="mt-4 sm:mt-0 sm:ml-16 text-lg leading-6 font-medium text-gray-900">
 															Decentralized
 															Finance at its Best
 														</p>
 													</dt>
-													<dd className="mt-2 ml-16 text-base text-gray-500">
+													<dd className="mt-2 sm:ml-16 text-base text-gray-500">
 														Gwin provides a unique
 														solution for trading in
 														low liquidity markets.
@@ -179,7 +179,7 @@ export default function About(props) {
 
 												<div className="relative">
 													<dt>
-														<div className="absolute flex items-center justify-center h-12 w-12 rounded-md bg-gradient-to-tl from-[#9e92ff] to-[#95e4d7] text-white">
+														<div className="relative w-12 sm:absolute flex items-center justify-center h-12 rounded-md bg-gradient-to-tl from-[#9e92ff] to-[#95e4d7] text-white">
 															<svg
 																className="h-6 w-6"
 																xmlns="http://www.w3.org/2000/svg"
@@ -196,12 +196,12 @@ export default function About(props) {
 																/>
 															</svg>
 														</div>
-														<p className="ml-16 text-lg leading-6 font-medium text-gray-900">
+														<p className="mt-4 sm:mt-0 sm:ml-16 text-lg leading-6 font-medium text-gray-900">
 															Stable, On-Chain
 															Value
 														</p>
 													</dt>
-													<dd className="mt-2 ml-16 text-base text-gray-500">
+													<dd className="mt-2 sm:ml-16 text-base text-gray-500">
 														The cooled pools serve
 														the heated pools. They
 														are designed to be as

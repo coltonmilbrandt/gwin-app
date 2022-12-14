@@ -181,7 +181,7 @@ const Withdrawal = ({
 							{contract}
 							<div className="grid grid-cols-5">
 								<div className="col-span-3" />
-								<span className="text-md col-span-2 inline-block py-1 px-2.5 leading-none text-center whitespace-nowrap align-middle font-bold bg-indigo-500 text-white rounded">
+								<span className="text-sm sm:text-base col-span-2 inline-block py-1 px-2.5 leading-none text-center whitespace-nowrap align-middle font-bold bg-indigo-500 text-white rounded">
 									<svg
 										xmlns="http://www.w3.org/2000/svg"
 										viewBox="0 0 512 512"
@@ -348,13 +348,12 @@ const Withdrawal = ({
 										/>
 									</div>
 									<div
-										className="col-span-1 block text-center 
+										className="text-sm sm:text-base col-span-1 block text-center 
 												text-white												
 												bg-indigo-500
 												w-full
 												px-3
 												py-1.5
-												text-base
 												font-bold
 												bg-clip-padding
 											 	border-y border-r border-solid border-indigo-600 rounded-r"
@@ -398,7 +397,7 @@ const Withdrawal = ({
 												w-full
 												px-3
 												py-1.5
-												text-base
+												text-sm sm:text-base 
 												font-bold
 												bg-clip-padding
 											 	border-y border-r border-solid border-teal-500 rounded-r"

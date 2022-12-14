@@ -40,7 +40,7 @@ export default function Tokens(props) {
 											<dl className="space-y-10 md:space-y-0 md:grid md:grid-cols-2 md:gap-x-8 md:gap-y-10">
 												<div className="relative">
 													<dt>
-														<div className="absolute flex items-center justify-center h-12 w-12 rounded-md bg-gradient-to-tl from-[#9e92ff] to-sky-300 text-white">
+														<div className="relative w-12 sm:absolute flex items-center justify-center h-12 rounded-md bg-gradient-to-tl from-[#9e92ff] to-[#95e4d7] text-white">
 															<svg
 																className="h-6 w-6"
 																xmlns="http://www.w3.org/2000/svg"
@@ -57,11 +57,11 @@ export default function Tokens(props) {
 																/>
 															</svg>
 														</div>
-														<p className="ml-16 text-lg leading-6 font-medium text-gray-900">
+														<p className="mt-4 sm:mt-0 sm:ml-16 text-lg leading-6 font-medium text-gray-900">
 															Test Net
 														</p>
 													</dt>
-													<dd className="mt-2 ml-16 text-base text-gray-500">
+													<dd className="mt-2 sm:ml-16 text-base text-gray-500">
 														Gwin is not a main net
 														Dapp. It is currently
 														deployed to Goerli.
@@ -75,7 +75,7 @@ export default function Tokens(props) {
 
 												<div className="relative">
 													<dt>
-														<div className="absolute flex items-center justify-center h-12 w-12 rounded-md bg-gradient-to-tl from-[#9e92ff] to-sky-300 text-white">
+														<div className="relative w-12 sm:absolute flex items-center justify-center h-12 rounded-md bg-gradient-to-tl from-[#9e92ff] to-[#95e4d7] text-white">
 															<svg
 																className="h-6 w-6"
 																xmlns="http://www.w3.org/2000/svg"
@@ -92,11 +92,11 @@ export default function Tokens(props) {
 																/>
 															</svg>
 														</div>
-														<p className="ml-16 text-lg leading-6 font-medium text-gray-900">
+														<p className="mt-4 sm:mt-0 sm:ml-16 text-lg leading-6 font-medium text-gray-900">
 															Getting Tokens
 														</p>
 													</dt>
-													<dd className="mt-2 ml-16 text-base text-gray-500">
+													<dd className="mt-2 sm:ml-16 text-base text-gray-500">
 														With your Metamask
 														wallet, you can easily
 														get free tokens from
@@ -117,7 +117,7 @@ export default function Tokens(props) {
 
 												<div className="relative">
 													<dt>
-														<div className="absolute flex items-center justify-center h-12 w-12 rounded-md bg-gradient-to-tl from-[#9e92ff] to-sky-300 text-white">
+														<div className="relative w-12 sm:absolute flex items-center justify-center h-12 rounded-md bg-gradient-to-tl from-[#9e92ff] to-[#95e4d7] text-white">
 															<svg
 																className="h-6 w-6"
 																xmlns="http://www.w3.org/2000/svg"
@@ -134,12 +134,12 @@ export default function Tokens(props) {
 																/>
 															</svg>
 														</div>
-														<p className="ml-16 text-lg leading-6 font-medium text-gray-900">
+														<p className="mt-4 sm:mt-0 sm:ml-16 text-lg leading-6 font-medium text-gray-900">
 															Once You Have Your
 															Tokens
 														</p>
 													</dt>
-													<dd className="mt-2 ml-16 text-base text-gray-500">
+													<dd className="mt-2 sm:ml-16 text-base text-gray-500">
 														Once you've received
 														your tokens, connect
 														your metamask wallet to
@@ -150,7 +150,7 @@ export default function Tokens(props) {
 
 												<div className="relative">
 													<dt>
-														<div className="absolute flex items-center justify-center h-12 w-12 rounded-md bg-gradient-to-tl from-[#9e92ff] to-sky-300 text-white">
+														<div className="relative w-12 sm:absolute flex items-center justify-center h-12 rounded-md bg-gradient-to-tl from-[#9e92ff] to-[#95e4d7] text-white">
 															<svg
 																className="h-6 w-6"
 																xmlns="http://www.w3.org/2000/svg"
@@ -167,12 +167,12 @@ export default function Tokens(props) {
 																/>
 															</svg>
 														</div>
-														<p className="ml-16 text-lg leading-6 font-medium text-gray-900">
+														<p className="mt-4 sm:mt-0 sm:ml-16 text-lg leading-6 font-medium text-gray-900">
 															Gain Tokens with
 															Gwin
 														</p>
 													</dt>
-													<dd className="mt-2 ml-16 text-base text-gray-500">
+													<dd className="mt-2 sm:ml-16 text-base text-gray-500">
 														Gwin is a great way to
 														get more Goerli ETH and
 														practice your risk
