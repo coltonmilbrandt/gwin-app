@@ -39,10 +39,9 @@ export default function Stake() {
 
 	const contractsInfo = require("../constants/contractInfo.json")
 
-	const [gwin, setGwin] = useState({
-		address: "0xe4d3900e47Aaa60494BA8F593Dd8c779D0fA0B3d",
-		abi: abi,
-	})
+	const [gwin, setGwin] = useState(
+		"0xe4d3900e47Aaa60494BA8F593Dd8c779D0fA0B3d"
+	)
 	const [daiToken, setDaiToken] = useState({
 		address: "0x0000000000000000000000000000000000000000",
 		abi: [0],
@@ -61,6 +60,8 @@ export default function Stake() {
 		address: "0x0000000000000000000000000000000000000000",
 		abi: [0],
 	})
+
+	const [poolsWithBalances, setPoolsWithBalances] = useState([])
 
 	const [ethUsdPrice, setEthUsdPrice] = useState(0)
 	const [userEthWalletBal, setUserEthWalletBal] = useState(0)
@@ -119,10 +120,19 @@ export default function Stake() {
 
 	const { runContractFunction: getEthUsdPrice } = useWeb3Contract({
 		abi: abi,
-		contractAddress: "0xe4d3900e47Aaa60494BA8F593Dd8c779D0fA0B3d",
+		contractAddress: gwin,
 		functionName: "retrieveCurrentPrice",
 		params: {
 			_poolId: 0,
+		},
+	})
+
+	const { runContractFunction: getAllPoolsWithBalances } = useWeb3Contract({
+		abi: abi,
+		contractAddress: gwin,
+		functionName: "getAllPoolsWithBalances",
+		params: {
+			_user: account,
 		},
 	})
 
@@ -531,6 +541,14 @@ export default function Stake() {
 	}, [isWeb3Enabled])
 
 	useEffect(() => {
+		async function getPools() {
+			const pools = await getAllPoolsWithBalances()
+			setPoolsWithBalances(pools)
+		}
+		getPools()
+	}, [])
+
+	useEffect(() => {
 		if (gwinToken.address != "0x0000000000000000000000000000000000000000") {
 			async function updateBalances() {
 				try {
@@ -591,10 +609,27 @@ export default function Stake() {
 		}
 	}, [isStaking])
 
+	useEffect(() => {
+		if (chainId === 5) {
+			setGwin("0xe4d3900e47Aaa60494BA8F593Dd8c779D0fA0B3d")
+		} else if (chainId === 1337) {
+			setGwin("0xdC0F3E6999e355a9E64CC52D793F5D252C6DFb72")
+		}
+	})
+
 	return (
 		<div>
 			<Toaster />
 			<div className="grid grid-cols-1 md:grid-cols-3 text-gray-900 pb-4">
+				<div>
+					{poolsWithBalances
+						? poolsWithBalances.map((pool) => (
+								<h2 key={pool.id}>
+									{parseInt(pool.lastSettledUsdPrice)}
+								</h2>
+						  ))
+						: null}
+				</div>
 				<Pool // 2x
 					tokenPic={hEthTwoPic}
 					name="ETH/USD - 2x Pool"
@@ -603,7 +638,7 @@ export default function Stake() {
 					hEth={hEth2xPoolBal}
 					cEth={cEth2xPoolBal}
 					userBal={hEthUser2xPoolBal}
-					contract={gwin.address}
+					contract={gwin}
 					poolId="0"
 					priceFeed={ethUsdPrice}
 					walletBal={userEthWalletBal}
@@ -617,7 +652,7 @@ export default function Stake() {
 					hEth={hEth5xPoolBal}
 					cEth={cEth5xPoolBal}
 					userBal={hEthUser5xPoolBal}
-					contract={gwin.address}
+					contract={gwin}
 					poolId="1"
 					priceFeed={ethUsdPrice}
 					walletBal={userEthWalletBal}
@@ -631,7 +666,7 @@ export default function Stake() {
 					hEth={hEth10xPoolBal}
 					cEth={cEth10xPoolBal}
 					userBal={hEthUser10xPoolBal}
-					contract={gwin.address}
+					contract={gwin}
 					poolId="2"
 					priceFeed={ethUsdPrice}
 					walletBal={userEthWalletBal}
@@ -649,7 +684,7 @@ export default function Stake() {
 						Number(cEth10xPoolBal)
 					).toFixed(5)}
 					userBal={parentZeroCETHPoolBal}
-					contract={gwin.address}
+					contract={gwin}
 					poolId="0"
 					priceFeed={ethUsdPrice}
 					walletBal={userEthWalletBal}
@@ -673,7 +708,7 @@ export default function Stake() {
 					hEth={xauHEth}
 					cEth={xauCEth}
 					userBal={userXauCEth}
-					contract={gwin.address}
+					contract={gwin}
 					poolId="2"
 					priceFeed={ethXauPrice}
 					walletBal={userEthWalletBal}
@@ -687,7 +722,7 @@ export default function Stake() {
 					hEth={btcHEth}
 					cEth={btcCEth}
 					userBal={userBtcCEth}
-					contract={gwin.address}
+					contract={gwin}
 					poolId="6"
 					priceFeed={ethBtcPrice}
 					walletBal={userEthWalletBal}
@@ -701,7 +736,7 @@ export default function Stake() {
 					hEth={jpyHEth}
 					cEth={jpyCEth}
 					userBal={userJpyCEth}
-					contract={gwin.address}
+					contract={gwin}
 					poolId="6"
 					priceFeed={ethJpyPrice}
 					walletBal={userEthWalletBal}
@@ -722,7 +757,7 @@ export default function Stake() {
 					hEth={xauHEth}
 					cEth={xauCEth}
 					userBal={userXauHEth}
-					contract={gwin.address}
+					contract={gwin}
 					poolId="2"
 					priceFeed={ethXauPrice}
 					walletBal={userEthWalletBal}
@@ -736,7 +771,7 @@ export default function Stake() {
 					hEth={btcHEth}
 					cEth={btcCEth}
 					userBal={userBtcHEth}
-					contract={gwin.address}
+					contract={gwin}
 					poolId="6"
 					priceFeed={ethBtcPrice}
 					walletBal={userEthWalletBal}
@@ -750,7 +785,7 @@ export default function Stake() {
 					hEth={jpyHEth}
 					cEth={jpyCEth}
 					userBal={userJpyHEth}
-					contract={gwin.address}
+					contract={gwin}
 					poolId="6"
 					priceFeed={ethJpyPrice}
 					walletBal={userEthWalletBal}
