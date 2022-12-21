@@ -7,6 +7,7 @@ export default function Balances(props) {
 	const convertedBal = props.convertedBal
 	const tokenPic = props.tokenPic
 	const symbol = props.symbol
+	const underlying = props.underlying
 	return (
 		<div className="grid grid-cols-7 bg-sky-50 m-3 mb-6 shadow-lg p-4 rounded-lg text-gray-600">
 			<div className="flex flex-col col-span-2 items-center justify-center pr-4">
@@ -23,7 +24,7 @@ export default function Balances(props) {
 					<b>User Balance:</b>
 				</div>
 				<div className="col-span-3 flex flex-col text-right">
-					{balance} {symbol}
+					{balance} {underlying}
 				</div>
 				<div className="col-span-7 flex flex-col text-right">
 					{symbol == "JPY" ? (

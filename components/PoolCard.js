@@ -59,8 +59,22 @@ export default function PoolCard({ pool, contract, walletBal, tokenPic }) {
 	}
 	const symbol = () => {
 		// return the base currency of the pair as the symbol
-		const base = splitPair(pool.basePriceFeedKey, 0)
-		return base
+		console.log("Base 1:", splitPair(pool.basePriceFeedKey, 0))
+		console.log("Base 2:", splitPair(pool.basePriceFeedKey, 1))
+		console.log("Quote 1:", splitPair(pool.quotePriceFeedKey, 0))
+		console.log("Quote 2:", splitPair(pool.quotePriceFeedKey, 1))
+		const base1 = splitPair(pool.basePriceFeedKey, 0)
+		const base2 = splitPair(pool.basePriceFeedKey, 1)
+		const quote1 = splitPair(pool.quotePriceFeedKey, 0)
+		const quote2 = splitPair(pool.quotePriceFeedKey, 1)
+		if (quote1 && quote1 != "") {
+			return quote1
+		}
+		return base1
+	}
+
+	const underlying = () => {
+		return splitPair(pool.basePriceFeedKey, 0)
 	}
 
 	const splitPair = function (pair, element) {
@@ -225,6 +239,7 @@ export default function PoolCard({ pool, contract, walletBal, tokenPic }) {
 				tokenPic={tokenPic}
 				contract={0}
 				symbol={symbol()}
+				underlying={underlying()}
 			/>
 			<Deposit
 				isOpen={open}
