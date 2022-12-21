@@ -226,19 +226,28 @@ export default function Stake() {
 		<div>
 			<Toaster />
 			<div className="grid grid-cols-1 md:grid-cols-3 text-gray-900 pb-4">
-				{poolsWithBalances
-					? poolsWithBalances.map((pool) => (
-							<PoolCard
-								key={pool.id}
-								pool={pool}
-								walletBal={userEthWalletBal}
-								contract={gwin}
-								isHeated={true}
-								isCooled={false}
-								tokenPic={hEthTwoPic}
-							/>
-					  ))
-					: null}
+				{poolsWithBalances.length > 0 ? (
+					poolsWithBalances.map((pool) => (
+						<PoolCard
+							key={pool.id}
+							pool={pool}
+							walletBal={userEthWalletBal}
+							contract={gwin}
+							isHeated={true}
+							isCooled={false}
+							tokenPic={hEthTwoPic}
+						/>
+					))
+				) : (
+					<div className="absolute top-1/2 left-1/2 justify-center items-center">
+						<div
+							className="text-white spinner-border animate-spin inline-block w-16 h-16 border-4 rounded-full"
+							role="status"
+						>
+							<span className="visually-hidden">Loading...</span>
+						</div>
+					</div>
+				)}
 			</div>
 		</div>
 	)

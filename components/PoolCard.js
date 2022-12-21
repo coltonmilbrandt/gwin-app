@@ -43,8 +43,14 @@ export default function PoolCard({ pool, contract, walletBal, tokenPic }) {
 			console.log("quote1: " + quote1)
 			const leverage = isHeated ? convertRate(hRate) : convertRate(cRate)
 			let poolName
-			// if quote1 is "N/A", set poolName to be base1/base2
-			if (quote1 == "N/A" || quote1 == "") {
+			if (
+				typeof base2 === "undefined" &&
+				(quote1 == "N/A" || quote1 == "")
+			) {
+				poolName = base1 + "/??? " + leverage
+				return poolName
+			} else if (quote1 == "N/A" || quote1 == "") {
+				// if quote1 is "N/A", set poolName to be base1/base2
 				poolName = base1 + "/" + base2 + " " + leverage
 				return poolName
 			} else {
@@ -58,15 +64,9 @@ export default function PoolCard({ pool, contract, walletBal, tokenPic }) {
 		}
 	}
 	const symbol = () => {
-		// return the base currency of the pair as the symbol
-		console.log("Base 1:", splitPair(pool.basePriceFeedKey, 0))
-		console.log("Base 2:", splitPair(pool.basePriceFeedKey, 1))
-		console.log("Quote 1:", splitPair(pool.quotePriceFeedKey, 0))
-		console.log("Quote 2:", splitPair(pool.quotePriceFeedKey, 1))
+		// return the target
 		const base1 = splitPair(pool.basePriceFeedKey, 0)
-		const base2 = splitPair(pool.basePriceFeedKey, 1)
 		const quote1 = splitPair(pool.quotePriceFeedKey, 0)
-		const quote2 = splitPair(pool.quotePriceFeedKey, 1)
 		if (quote1 && quote1 != "") {
 			return quote1
 		}
