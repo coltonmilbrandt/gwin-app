@@ -42,7 +42,7 @@ export default function Stake() {
 	const contractsInfo = require("../constants/contractInfo.json")
 
 	const [gwin, setGwin] = useState(
-		"0x883DD858672C65DA43980AfCDfd16627c94F8Ca0"
+		"0x0aceEE4f17bB2bb65c69B01c66BBa51Ce6DfB1cA"
 	)
 
 	const [ethUsdPrice, setEthUsdPrice] = useState(0)
@@ -218,7 +218,7 @@ export default function Stake() {
 		if (chainIdReadable == 5) {
 			setGwin("0xe4d3900e47Aaa60494BA8F593Dd8c779D0fA0B3d")
 		} else if (chainIdReadable == 1337) {
-			setGwin("0x883DD858672C65DA43980AfCDfd16627c94F8Ca0")
+			setGwin("0x0aceEE4f17bB2bb65c69B01c66BBa51Ce6DfB1cA")
 		}
 	})
 
@@ -226,22 +226,19 @@ export default function Stake() {
 		<div>
 			<Toaster />
 			<div className="grid grid-cols-1 md:grid-cols-3 text-gray-900 pb-4">
-				<div>
-					{poolsWithBalances
-						? poolsWithBalances.map((pool) => (
-								<PoolCard
-									key={pool.id}
-									pool={pool}
-									walletBal={userEthWalletBal}
-									contract={gwin}
-									isHeated={true}
-									isCooled={false}
-									priceFeed={ethUsdPrice}
-									tokenPic={hEthTwoPic}
-								/>
-						  ))
-						: null}
-				</div>
+				{poolsWithBalances
+					? poolsWithBalances.map((pool) => (
+							<PoolCard
+								key={pool.id}
+								pool={pool}
+								walletBal={userEthWalletBal}
+								contract={gwin}
+								isHeated={true}
+								isCooled={false}
+								tokenPic={hEthTwoPic}
+							/>
+					  ))
+					: null}
 			</div>
 		</div>
 	)

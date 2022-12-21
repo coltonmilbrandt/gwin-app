@@ -348,7 +348,7 @@ module.exports = {
 						},
 						{
 							internalType: "uint256",
-							name: "currentUsdPrice",
+							name: "currentPrice",
 							type: "uint256",
 						},
 						{

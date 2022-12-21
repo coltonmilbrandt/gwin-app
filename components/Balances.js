@@ -23,7 +23,7 @@ export default function Balances(props) {
 					<b>User Balance:</b>
 				</div>
 				<div className="col-span-3 flex flex-col text-right">
-					{balance} {name}
+					{balance} {symbol}
 				</div>
 				<div className="col-span-7 flex flex-col text-right">
 					{symbol == "JPY" ? (
