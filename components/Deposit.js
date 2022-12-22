@@ -1,4 +1,5 @@
 import Image from "next/image"
+import AssetImage from "../components/AssetImage"
 import { useState, useEffect } from "react"
 import { useMoralis, useWeb3Contract, useERC20Balances } from "react-moralis"
 import { chainDict } from "../constants/chainDict"
@@ -8,7 +9,9 @@ import toast, { Toaster } from "react-hot-toast"
 const Deposit = ({
 	isOpen,
 	onClose,
-	tokenPic,
+	symbol,
+	target,
+	leverage,
 	name,
 	hEth,
 	cEth,
@@ -31,7 +34,6 @@ const Deposit = ({
 	const [depositAmount, setDepositAmount] = useState(0)
 	const [cooledDepositAmount, setCooledDepositAmount] = useState(0)
 	const [heatedDepositAmount, setHeatedDepositAmount] = useState(0)
-	const contractAddress = "0xe4d3900e47Aaa60494BA8F593Dd8c779D0fA0B3d"
 
 	const [isDepositing, setisDepositing] = useState(false)
 
@@ -42,7 +44,7 @@ const Deposit = ({
 		isFetching,
 	} = useWeb3Contract({
 		abi: abi,
-		contractAddress: contractAddress,
+		contractAddress: contract,
 		functionName: "depositToTranche",
 		params: {
 			_poolId: poolId,
@@ -152,17 +154,16 @@ const Deposit = ({
 								id="exampleModalScrollableLabel"
 							>
 								<div className="m-auto">
-									<Image
-										src={tokenPic}
-										className="bg-white rounded-full"
-										width="50px"
-										height="50px"
-										alt="/"
+									<AssetImage
+										symbol={symbol}
+										target={target}
+										leverage={leverage}
+										width="60"
+										height="60"
 									/>
 								</div>
 								<div className="col-span-5 font-bold pl-3 align-middle m-auto justify-center">
 									Deposit to {name}
-									{/* {contractAddress} */}
 								</div>
 							</h5>
 							<button
@@ -174,7 +175,6 @@ const Deposit = ({
 							></button>
 						</div>
 						<div className="modal-body relative p-4">
-							{/* {contract} */}
 							<div className="grid grid-cols-5">
 								<div className="col-span-3" />
 								<span className="text-sm sm:text-base col-span-2 inline-block py-1 px-2.5 leading-none text-center whitespace-nowrap align-baseline font-bold bg-indigo-500 text-white rounded">
@@ -198,10 +198,6 @@ const Deposit = ({
 									className="form-label inline-block mb-2 text-gray-700"
 								>
 									Deposit Amount
-									{/* isHeated - {isHeated} -
-									isCooled - {isCooled} - cooledDepositAmount
-									- {cooledDepositAmount}
-									heatedDepositAmount - {heatedDepositAmount} */}
 								</label>
 								<div className="grid grid-cols-5 pb-3">
 									<div className="col">
@@ -367,37 +363,7 @@ const Deposit = ({
 										$ USD
 									</div>
 								</div>
-
-								{/* <small
-										id="emailHelp"
-										className="block mt-1 text-xs text-gray-600"
-									>
-										We'll never share your email with anyone
-										else.
-									</small> */}
 							</div>
-							{/* <button
-									type="submit"
-									className="
-											px-6
-											py-2.5
-											bg-blue-600
-											text-white
-											font-medium
-											text-xs
-											leading-tight
-											uppercase
-											rounded
-											shadow-md
-											hover:bg-blue-700 hover:shadow-lg
-											focus:bg-blue-700 focus:shadow-lg focus:outline-none focus:ring-0
-											active:bg-blue-800 active:shadow-lg
-											transition
-											duration-150
-											ease-in-out"
-								>
-									Submit
-								</button> */}
 						</div>
 						<div className="modal-footer flex flex-shrink-0 flex-wrap items-center justify-end p-4 border-t border-gray-200 rounded-b-md">
 							<button
@@ -410,7 +376,6 @@ const Deposit = ({
 								Close
 							</button>
 							<button
-								// type="submit"
 								onClick={() => setisDepositing(true)}
 								disabled={
 									depositAmount == 0 || isDepositing == true

@@ -1,4 +1,5 @@
 import Image from "next/image"
+import AssetImage from "../components/AssetImage"
 import { useState, useEffect } from "react"
 import { useMoralis, useWeb3Contract, useERC20Balances } from "react-moralis"
 import { chainDict } from "../constants/chainDict"
@@ -9,7 +10,9 @@ import React from "react"
 const Withdrawal = ({
 	isOpen,
 	withdrawClose,
-	tokenPic,
+	symbol,
+	target,
+	leverage,
 	name,
 	hEth,
 	cEth,
@@ -62,8 +65,6 @@ const Withdrawal = ({
 	const handleWithdrawalSuccess = async (tx) => {
 		await tx.wait(1)
 		toast.success("Successfully Withdrawn!")
-		// await updateUIValues()
-		// await getTokenBalances()
 		setisWithdrawing(false)
 		withdrawClose()
 	}
@@ -156,17 +157,16 @@ const Withdrawal = ({
 								id="exampleModalScrollableLabel"
 							>
 								<div className="m-auto">
-									<Image
-										src={tokenPic}
-										className="bg-white rounded-full"
-										width="50px"
-										height="50px"
-										alt="/"
+									<AssetImage
+										symbol={symbol}
+										target={target}
+										leverage={leverage}
+										width="60"
+										height="60"
 									/>
 								</div>
 								<div className="col-span-5 font-bold pl-3 align-middle m-auto justify-center">
 									Withdraw from {name}
-									{/* {contractAddress} */}
 								</div>
 							</h5>
 							<button
@@ -178,7 +178,6 @@ const Withdrawal = ({
 							></button>
 						</div>
 						<div className="modal-body relative p-4">
-							{contract}
 							<div className="grid grid-cols-5">
 								<div className="col-span-3" />
 								<span className="text-sm sm:text-base col-span-2 inline-block py-1 px-2.5 leading-none text-center whitespace-nowrap align-middle font-bold bg-indigo-500 text-white rounded">
@@ -226,13 +225,6 @@ const Withdrawal = ({
 									className="form-label inline-block mb-2 text-gray-700"
 								>
 									Withdrawal Amount
-									{/* isHeated - {isHeated} -
-									isCooled - {isCooled} -
-									cooledWithdrawalAmount -{" "}
-									{cooledWithdrawalAmount}
-									heatedWithdrawalAmount -{" "}
-									{heatedWithdrawalAmount} isAll-
-									{withdrawAll.toString()} */}
 								</label>
 								<div className="grid grid-cols-5 pb-3">
 									<div className="col">

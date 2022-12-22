@@ -1,4 +1,5 @@
 import Image from "next/image"
+import AssetImage from "../components/AssetImage"
 import Price from "../components/Price"
 
 export default function Balances(props) {
@@ -7,16 +8,18 @@ export default function Balances(props) {
 	const convertedBal = props.convertedBal
 	const tokenPic = props.tokenPic
 	const symbol = props.symbol
+	const target = props.target
+	const leverage = props.leverage
 	const underlying = props.underlying
 	return (
 		<div className="grid grid-cols-7 bg-sky-50 m-3 mb-6 shadow-lg p-4 rounded-lg text-gray-600">
 			<div className="flex flex-col col-span-2 items-center justify-center pr-4">
-				<Image
-					src={tokenPic}
-					className="bg-white rounded-full"
-					width="50px"
-					height="50px"
-					alt={name}
+				<AssetImage
+					symbol={symbol}
+					target={target}
+					leverage={leverage}
+					width="60"
+					height="60"
 				/>
 			</div>
 			<div className="grid col-span-5 grid-cols-7 text-sm sm:text-base">

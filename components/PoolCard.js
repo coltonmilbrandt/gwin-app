@@ -5,10 +5,19 @@ import { useMoralis, useWeb3Contract, useERC20Balances } from "react-moralis"
 import Balances from "../components/Balances"
 import Deposit from "../components/Deposit"
 import Withdrawal from "./Withdrawal"
+import AssetImage from "../components/AssetImage"
+import HeatLevel from "../components/HeatLevel"
 import web3 from "web3"
 import { useState, useEffect } from "react"
 
-export default function PoolCard({ pool, contract, walletBal, tokenPic }) {
+export default function PoolCard({
+	pool,
+	contract,
+	walletBal,
+	isHeated,
+	isCooled,
+	tokenPic,
+}) {
 	const hEth = (decimals) => {
 		const value = web3.utils.fromWei(pool.hBalancePreview.toString())
 		return Number(value).toFixed(decimals)
@@ -22,10 +31,18 @@ export default function PoolCard({ pool, contract, walletBal, tokenPic }) {
 		const value = web3.utils.fromWei(pool.userCEthBalPreview.toString())
 		return Number(value).toFixed(decimals)
 	}
+	const description = () => {
+		let description
+		console.log("isHeated: " + isHeated)
+		if (isHeated == true) {
+			description = "Long"
+		} else if (isCooled == true) {
+			description = "Short"
+		}
+		return description
+	}
 
 	const poolId = pool.poolId
-	const isHeated = pool.isHeated
-	const isCooled = pool.isCooled
 	const cRate = pool.cRate
 	const hRate = pool.hRate
 	const priceFeed = () => {
@@ -47,15 +64,17 @@ export default function PoolCard({ pool, contract, walletBal, tokenPic }) {
 				typeof base2 === "undefined" &&
 				(quote1 == "N/A" || quote1 == "")
 			) {
-				poolName = base1 + "/??? " + leverage
+				poolName = base1 + "/??? " + leverage + " " + description()
 				return poolName
 			} else if (quote1 == "N/A" || quote1 == "") {
 				// if quote1 is "N/A", set poolName to be base1/base2
-				poolName = base1 + "/" + base2 + " " + leverage
+				poolName =
+					base1 + "/" + base2 + " " + leverage + " " + description()
 				return poolName
 			} else {
 				// otherwise, set poolName to be base1/quote1
-				poolName = base1 + "/" + quote1 + " " + leverage
+				poolName =
+					base1 + "/" + quote1 + " " + leverage + " " + description()
 				return poolName
 			}
 		} catch (error) {
@@ -71,6 +90,18 @@ export default function PoolCard({ pool, contract, walletBal, tokenPic }) {
 			return quote1
 		}
 		return base1
+	}
+
+	const target = () => {
+		// return the target
+		const base1 = splitPair(pool.basePriceFeedKey, 0)
+		const base2 = splitPair(pool.basePriceFeedKey, 1)
+		const quote1 = splitPair(pool.quotePriceFeedKey, 0)
+		if (symbol() == base1) {
+			return base2
+		} else if (symbol() == quote1) {
+			return base1
+		}
 	}
 
 	const underlying = () => {
@@ -115,7 +146,7 @@ export default function PoolCard({ pool, contract, walletBal, tokenPic }) {
 		if (rate && rate != "0x0") {
 			try {
 				// convert int to readable value (f.e. "5x")
-				convertedRate = parseInt(rate) / 10 ** 12
+				convertedRate = parseInt(rate) / 10 ** 12 + 1
 				convertedRate = convertedRate.toString() + "x"
 				return convertedRate
 			} catch (error) {
@@ -130,14 +161,19 @@ export default function PoolCard({ pool, contract, walletBal, tokenPic }) {
 
 	return (
 		<div>
-			<div className="bg-sky-50 m-3 shadow-lg p-4 rounded-lg text-gray-700">
+			<div className="relative bg-sky-50 m-3 shadow-lg p-4 rounded-lg text-gray-700">
+				<HeatLevel
+					leverage={isHeated ? hRate : cRate}
+					width="30px"
+					height="30px"
+				/>
 				<div className="justify-center flex pb-4">
-					<Image
-						src={tokenPic}
-						className="bg-white rounded-full"
-						width="100px"
-						height="100px"
-						alt="/"
+					<AssetImage
+						symbol={symbol()}
+						target={target()}
+						leverage={isHeated ? hRate : cRate}
+						width="100"
+						height="100"
 					/>
 				</div>
 				<div className="whitespace-nowrap overflow-hidden text-ellipsis">
@@ -235,21 +271,23 @@ export default function PoolCard({ pool, contract, walletBal, tokenPic }) {
 				name={name()}
 				balance={userBal(5)}
 				convertedBal={userBal(5) * priceFeed()}
-				price="price"
-				tokenPic={tokenPic}
 				contract={0}
 				symbol={symbol()}
+				target={target()}
+				leverage={isHeated ? hRate : cRate}
 				underlying={underlying()}
 			/>
 			<Deposit
 				isOpen={open}
 				onClose={() => setOpen(false)}
-				tokenPic={tokenPic}
+				symbol={symbol()}
+				target={target()}
+				leverage={isHeated ? hRate : cRate}
 				name={name()}
 				hEth={hEth(5)}
 				cEth={cEth(5)}
 				userBal={userBal(5)}
-				contract={contract.address}
+				contract={contract}
 				poolId={poolId}
 				isHeated={isHeated}
 				isCooled={isCooled}
@@ -259,12 +297,14 @@ export default function PoolCard({ pool, contract, walletBal, tokenPic }) {
 			<Withdrawal
 				isOpen={withdrawOpen}
 				withdrawClose={() => setWithdrawOpen(false)}
-				tokenPic={tokenPic}
+				symbol={symbol()}
+				target={target()}
+				leverage={isHeated ? hRate : cRate}
 				name={name()}
 				hEth={hEth(5)}
 				cEth={cEth(5)}
 				userBal={userBal(5)}
-				contract={contract.address}
+				contract={contract}
 				poolId={poolId}
 				isHeated={isHeated}
 				isCooled={isCooled}

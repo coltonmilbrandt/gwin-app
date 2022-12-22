@@ -235,7 +235,34 @@ export default function Stake() {
 							contract={gwin}
 							isHeated={true}
 							isCooled={false}
-							tokenPic={hEthTwoPic}
+						/>
+					))
+				) : (
+					<div className="absolute top-1/2 left-1/2 justify-center items-center">
+						<div
+							className="text-white spinner-border animate-spin inline-block w-16 h-16 border-4 rounded-full"
+							role="status"
+						>
+							<span className="visually-hidden">Loading...</span>
+						</div>
+					</div>
+				)}
+			</div>
+			<div className="grid grid-cols-1 md:grid-cols-3 text-gray-900 pb-4">
+				<div className="col-span-1 md:col-span-3 pb-6 pt-4">
+					<h2 className="text-3xl font-bold w-full text-cyan-900">
+						Shorted Assets
+					</h2>
+				</div>
+				{poolsWithBalances.length > 0 ? (
+					poolsWithBalances.map((pool) => (
+						<PoolCard
+							key={pool.id}
+							pool={pool}
+							walletBal={userEthWalletBal}
+							contract={gwin}
+							isHeated={false}
+							isCooled={true}
 						/>
 					))
 				) : (
