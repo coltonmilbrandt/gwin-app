@@ -83,23 +83,27 @@ export default function PoolCard({
 		}
 	}
 	const symbol = () => {
-		// return the target
+		// returns the featured asset
 		const base1 = splitPair(pool.basePriceFeedKey, 0)
 		const quote1 = splitPair(pool.quotePriceFeedKey, 0)
 		if (quote1 && quote1 != "") {
+			// if quote1 exists, it is the featured asset
 			return quote1
 		}
+		// if quote1 doesn't exist, base1 is the featured asset
 		return base1
 	}
 
 	const target = () => {
-		// return the target
+		// returns the asset opposite of the featured asset
 		const base1 = splitPair(pool.basePriceFeedKey, 0)
 		const base2 = splitPair(pool.basePriceFeedKey, 1)
 		const quote1 = splitPair(pool.quotePriceFeedKey, 0)
 		if (symbol() == base1) {
+			// if base1 is the featured asset, base2 is the target
 			return base2
 		} else if (symbol() == quote1) {
+			// if quote1 is the featured asset, base1 is the target
 			return base1
 		}
 	}
