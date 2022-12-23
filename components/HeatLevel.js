@@ -77,6 +77,12 @@ const svgIcon = (leverage) => {
 				</div>
 			)
 			break
+		default:
+			return (
+				<div className="absolute top-2 left-2 w-12 h-12">
+					<div className="flex content-center bg-red-300 rounded-full p-1 w-10 h-10"></div>
+				</div>
+			)
 	}
 }
 

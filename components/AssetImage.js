@@ -9,6 +9,7 @@ import btcPic from "/public/Bitcoin.png"
 import yenPic from "/public/yen.png"
 import dollarPic from "/public/dollar.png"
 import gwinPic from "/public/gwin-rect.webp"
+import defaultPic from "/public/default.png"
 
 // This component returns the featured symbol and target images
 
@@ -34,14 +35,19 @@ const icePoint = -1000000000000
 const getHeat = (leverage) => {
 	// use 'leverage' to determine heat
 	if (leverage == icePoint) {
+		// asset target is stable
 		return "iced"
 	} else if (leverage < 0 && leverage > icePoint) {
+		// asset target is not totally stabilized, but cooled
 		return "cooled"
 	} else if (leverage > 0) {
+		// asset target is long
 		return "heated"
 	} else if (leverage < icePoint) {
+		// asset target is shorted
 		return "shorted"
 	} else {
+		// fallback
 		return "none"
 	}
 }
@@ -50,7 +56,7 @@ const determineTarget = (symbol, target, leverage) => {
 	// selects the target symbol based on the featured asset (symbol) and leverage
 	if (target === undefined) {
 		// return default value as fallback
-		return gwinPic
+		return defaultPic
 	} else {
 		switch (getHeat(leverage)) {
 			case "iced":
@@ -78,7 +84,7 @@ const determineTarget = (symbol, target, leverage) => {
 				}
 			default:
 				// return default value as fallback
-				return btcPic
+				return defaultPic
 		}
 	}
 }
@@ -97,13 +103,13 @@ const selectSymbol = (symbol, target, leverage) => {
 				return hEthTwoPic
 			} else {
 				// return default ETH value as fallback
-				return ethPic
+				return defaultPic
 			}
 		} else {
 			// if heated but not ETH
 			if (symbol === undefined) {
 				// return default value as fallback
-				return gwinPic
+				return defaultPic
 			} else {
 				// heated, defined, and not ETH
 				if (symbol !== undefined && symbol in symbolImages) {
@@ -115,7 +121,7 @@ const selectSymbol = (symbol, target, leverage) => {
 		// if leverage is negative, i.e. cooled
 		if (symbol === undefined) {
 			// return default value as fallback
-			return gwinPic
+			return defaultPic
 		} else {
 			switch (getHeat(leverage)) {
 				case "iced":
@@ -133,7 +139,7 @@ const selectSymbol = (symbol, target, leverage) => {
 				case "cooled":
 					// target is featured
 					if (target === undefined) {
-						return btcPic
+						return defaultPic
 					} else {
 						if (target in symbolImages) {
 							return symbolImages[target]
@@ -142,13 +148,14 @@ const selectSymbol = (symbol, target, leverage) => {
 					break
 				default:
 					// return default value as fallback
-					return btcPic
+					return defaultPic
 			}
 		}
 	}
 }
 
 const symbolImage = ({ symbol, target, leverage, width, height }) => {
+	// returns a featured image in a set width/height with a smaller image showing its pair
 	return (
 		<div
 			className="relative"
@@ -158,6 +165,7 @@ const symbolImage = ({ symbol, target, leverage, width, height }) => {
 			}}
 		>
 			<Image
+				// featured Image
 				className="bg-white rounded-full"
 				src={selectSymbol(symbol, target, leverage)}
 				width={width}
@@ -166,6 +174,7 @@ const symbolImage = ({ symbol, target, leverage, width, height }) => {
 			/>
 			<div className="absolute flex content-center bottom-0 right-0 w-1/3 h-1/3 bg-orange-300 rounded-full">
 				<Image
+					// paired Image
 					className="bg-white rounded-full"
 					src={determineTarget(symbol, target, leverage)}
 					width={width}

@@ -18,6 +18,22 @@ export default function PoolCard({
 	isCooled,
 	tokenPic,
 }) {
+	const icePoint = -1000000000000
+
+	const getHeat = (leverage) => {
+		if (leverage == icePoint) {
+			return "iced"
+		} else if (leverage < 0 && leverage > icePoint) {
+			return "cooled"
+		} else if (leverage > 0) {
+			return "heated"
+		} else if (leverage < icePoint) {
+			return "shorted"
+		} else {
+			return "none"
+		}
+	}
+
 	const hEth = (decimals) => {
 		const value = web3.utils.fromWei(pool.hBalancePreview.toString())
 		return Number(value).toFixed(decimals)
@@ -31,13 +47,24 @@ export default function PoolCard({
 		const value = web3.utils.fromWei(pool.userCEthBalPreview.toString())
 		return Number(value).toFixed(decimals)
 	}
-	const description = () => {
+	const description = (leverage) => {
 		let description
-		console.log("isHeated: " + isHeated)
+		const heat = getHeat(leverage)
+		const inX = convertRate(leverage)
 		if (isHeated == true) {
-			description = "Long"
+			description = inX + " Long"
 		} else if (isCooled == true) {
-			description = "Short"
+			switch (heat) {
+				case "iced":
+					description = "Stablized"
+					break
+				case "cooled":
+					description = inX + " Cooled"
+					break
+				case "shorted":
+					description = inX + " Short"
+					break
+			}
 		}
 		return description
 	}
@@ -64,17 +91,26 @@ export default function PoolCard({
 				typeof base2 === "undefined" &&
 				(quote1 == "N/A" || quote1 == "")
 			) {
-				poolName = base1 + "/??? " + leverage + " " + description()
+				poolName =
+					base1 + "/??? " + description(isHeated ? hRate : cRate)
 				return poolName
 			} else if (quote1 == "N/A" || quote1 == "") {
 				// if quote1 is "N/A", set poolName to be base1/base2
 				poolName =
-					base1 + "/" + base2 + " " + leverage + " " + description()
+					base1 +
+					"/" +
+					base2 +
+					" " +
+					description(isHeated ? hRate : cRate)
 				return poolName
 			} else {
 				// otherwise, set poolName to be base1/quote1
 				poolName =
-					base1 + "/" + quote1 + " " + leverage + " " + description()
+					base1 +
+					"/" +
+					quote1 +
+					" " +
+					description(isHeated ? hRate : cRate)
 				return poolName
 			}
 		} catch (error) {
@@ -151,6 +187,7 @@ export default function PoolCard({
 			try {
 				// convert int to readable value (f.e. "5x")
 				convertedRate = parseInt(rate) / 10 ** 12 + 1
+				convertedRate = Math.abs(convertedRate)
 				convertedRate = convertedRate.toString() + "x"
 				return convertedRate
 			} catch (error) {
