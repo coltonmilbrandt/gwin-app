@@ -9,6 +9,7 @@ import btcPic from "/public/Bitcoin.png"
 import yenPic from "/public/yen.png"
 import dollarPic from "/public/dollar.png"
 import defaultPic from "/public/default.png"
+import getHeat from "../helpers/getHeat"
 
 // This component returns the featured symbol and target images
 
@@ -27,29 +28,6 @@ const threshold1 = 0
 const threshold2 = 2999999999999
 // threshold representing an extremely leveraged long
 const threshold3 = 5999999999999
-
-// represents an "iced" or emulated asset
-const icePoint = -1000000000000
-
-const getHeat = (leverage) => {
-	// use 'leverage' to determine heat
-	if (leverage == icePoint) {
-		// asset target is stable
-		return "iced"
-	} else if (leverage < 0 && leverage > icePoint) {
-		// asset target is not totally stabilized, but cooled
-		return "cooled"
-	} else if (leverage > 0) {
-		// asset target is long
-		return "heated"
-	} else if (leverage < icePoint) {
-		// asset target is shorted
-		return "shorted"
-	} else {
-		// fallback
-		return "none"
-	}
-}
 
 const determineTarget = (symbol, target, leverage) => {
 	// selects the target symbol based on the featured asset (symbol) and leverage

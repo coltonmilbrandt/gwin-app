@@ -5,6 +5,12 @@ import AssetImage from "../components/AssetImage"
 import HeatLevel from "../components/HeatLevel"
 import web3 from "web3"
 import { useState, useEffect } from "react"
+import splitPair from "../helpers/splitPair"
+import target from "../helpers/target"
+import featuredSymbol from "../helpers/featuredSymbol"
+import getHeat from "../helpers/getHeat"
+import convertHex from "../helpers/convertHex"
+import generatePoolName from "../helpers/generatePoolName"
 
 // returns a Pool Card that shows the information for a pool
 
@@ -16,28 +22,6 @@ export default function PoolCard({
 	isCooled,
 	tokenPic,
 }) {
-	const icePoint = -1000000000000
-
-	const getHeat = (leverage) => {
-		// use 'leverage' to determine heat
-		if (leverage == icePoint) {
-			// asset target is stable
-			return "iced"
-		} else if (leverage < 0 && leverage > icePoint) {
-			// asset target is not totally stabilized, but cooled
-			return "cooled"
-		} else if (leverage > 0) {
-			// asset target is long
-			return "heated"
-		} else if (leverage < icePoint) {
-			// asset target is shorted
-			return "shorted"
-		} else {
-			// fallback
-			return "none"
-		}
-	}
-
 	// convert hEth value from smart contract
 	const hEth = (decimals) => {
 		const value = web3.utils.fromWei(pool.hBalancePreview.toString())
@@ -56,31 +40,6 @@ export default function PoolCard({
 		return Number(value).toFixed(decimals)
 	}
 
-	// generate Description from leverage
-	const description = (leverage) => {
-		let description
-		// get leverage
-		const heat = getHeat(leverage)
-		// convert leverage to human readable (i.e. 10x)
-		const inX = convertRate(leverage)
-		if (isHeated == true) {
-			description = inX + " Long"
-		} else if (isCooled == true) {
-			switch (heat) {
-				case "iced":
-					description = "Stablized"
-					break
-				case "cooled":
-					description = inX + " Cooled"
-					break
-				case "shorted":
-					description = inX + " Short"
-					break
-			}
-		}
-		return description
-	}
-
 	// set values from pool prop
 	const poolId = pool.poolId
 	const cRate = pool.cRate
@@ -92,127 +51,27 @@ export default function PoolCard({
 	}
 	// generate name based on price feeds
 	const name = () => {
-		try {
-			// split basePriceFeedKey into base1 and base2
-			const base1 = splitPair(pool.basePriceFeedKey, 0)
-			const base2 = splitPair(pool.basePriceFeedKey, 1)
-			console.log("base1: " + base1)
-			console.log("base2: " + base2)
-			// split quotePriceFeedKey into quote1
-			const quote1 = splitPair(pool.quotePriceFeedKey, 0)
-			console.log("quote1: " + quote1)
-			// get leverage based on whether Pool Card is heated, and convert rate to human readable
-			const leverage = isHeated ? convertRate(hRate) : convertRate(cRate)
-			let poolName
-			if (
-				// check if base2 is undefined
-				typeof base2 === "undefined" &&
-				(quote1 == "N/A" || quote1 == "")
-			) {
-				poolName =
-					base1 + "/??? " + description(isHeated ? hRate : cRate)
-				return poolName
-			} else if (quote1 == "N/A" || quote1 == "") {
-				// if quote1 is "N/A", set poolName to be base1/base2
-				poolName =
-					base1 +
-					"/" +
-					base2 +
-					" " +
-					description(isHeated ? hRate : cRate)
-				return poolName
-			} else {
-				// otherwise, set poolName to be base1/quote1
-				poolName =
-					base1 +
-					"/" +
-					quote1 +
-					" " +
-					description(isHeated ? hRate : cRate)
-				return poolName
-			}
-		} catch (error) {
-			console.error(error)
-			return "N/A" // return default value when the hexToUtf8 throws an error
-		}
+		return generatePoolName(
+			pool.basePriceFeedKey,
+			pool.quotePriceFeedKey,
+			isHeated,
+			isCooled,
+			hRate,
+			cRate
+		)
 	}
 	const symbol = () => {
 		// returns the featured asset
-		const base1 = splitPair(pool.basePriceFeedKey, 0)
-		const quote1 = splitPair(pool.quotePriceFeedKey, 0)
-		if (quote1 && quote1 != "") {
-			// if quote1 exists, it is the featured asset
-			return quote1
-		}
-		// if quote1 doesn't exist, base1 is the featured asset
-		return base1
+		return featuredSymbol(pool.basePriceFeedKey, pool.quotePriceFeedKey)
 	}
 
-	const target = () => {
+	const targetSymbol = () => {
 		// returns the asset opposite of the featured asset
-		const base1 = splitPair(pool.basePriceFeedKey, 0)
-		const base2 = splitPair(pool.basePriceFeedKey, 1)
-		const quote1 = splitPair(pool.quotePriceFeedKey, 0)
-		if (symbol() == base1) {
-			// if base1 is the featured asset, base2 is the target
-			return base2
-		} else if (symbol() == quote1) {
-			// if quote1 is the featured asset, base1 is the target
-			return base1
-		}
+		return target(pool.basePriceFeedKey, pool.quotePriceFeedKey)
 	}
 
 	const underlying = () => {
 		return splitPair(pool.basePriceFeedKey, 0)
-	}
-
-	const splitPair = function (pair, element) {
-		// only proceed if pair is a hex value and is not equal to "0x0"
-		if (web3.utils.isHex(pair) && pair != "0x0") {
-			try {
-				// convert the hex value to a string and split it into parts
-				const str = web3.utils.hexToUtf8(pair)
-				const parts = str.split("/")
-				const result = parts[element]
-				return result
-			} catch (error) {
-				console.error(error)
-				return "N/A" // return default value when the hexToUtf8 throws an error
-			}
-		} else {
-			return "N/A"
-		}
-	}
-
-	const convertHex = function (hexVal, decimals) {
-		// only proceed if pair is a hex value and is not equal to "0x0"
-		try {
-			// convert the hex value to a string and split it into parts
-			const val = web3.utils.hexToNumber(hexVal)
-			if (decimals && decimals != 0) {
-				val = val / 10 ** decimals
-			}
-			return val
-		} catch (error) {
-			console.error(error)
-			return 0 // return default value
-		}
-	}
-
-	const convertRate = function (rate) {
-		let convertedRate
-		if (rate && rate != "0x0") {
-			try {
-				// convert int to readable value (f.e. "5x")
-				convertedRate = parseInt(rate) / 10 ** 12 + 1
-				convertedRate = Math.abs(convertedRate)
-				convertedRate = convertedRate.toString() + "x"
-				return convertedRate
-			} catch (error) {
-				console.error(error)
-				return "N/A" // return default value when error thrown
-			}
-		}
 	}
 
 	const [open, setOpen] = useState(false)
@@ -231,7 +90,7 @@ export default function PoolCard({
 					{/* show featured asset image */}
 					<AssetImage
 						symbol={symbol()}
-						target={target()}
+						target={targetSymbol()}
 						leverage={isHeated ? hRate : cRate}
 						width="100"
 						height="100"
@@ -317,7 +176,7 @@ export default function PoolCard({
 				convertedBal={userBal(5) * priceFeed()}
 				contract={0}
 				symbol={symbol()}
-				target={target()}
+				target={targetSymbol()}
 				leverage={isHeated ? hRate : cRate}
 				underlying={underlying()}
 			/>
@@ -326,7 +185,7 @@ export default function PoolCard({
 				isOpen={open}
 				onClose={() => setOpen(false)}
 				symbol={symbol()}
-				target={target()}
+				target={targetSymbol()}
 				leverage={isHeated ? hRate : cRate}
 				name={name()}
 				hEth={hEth(5)}
@@ -344,7 +203,7 @@ export default function PoolCard({
 				isOpen={withdrawOpen}
 				withdrawClose={() => setWithdrawOpen(false)}
 				symbol={symbol()}
-				target={target()}
+				target={targetSymbol()}
 				leverage={isHeated ? hRate : cRate}
 				name={name()}
 				hEth={hEth(5)}
