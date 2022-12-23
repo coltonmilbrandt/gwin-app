@@ -1,19 +1,29 @@
+// returns an SVG icon representing the Heat Level of pool
+
+// this is the rate that stabilizes an asset
 const icePoint = -1000000000000
 
 const getHeat = (leverage) => {
+	// use 'leverage' to determine heat
 	if (leverage == icePoint) {
+		// asset target is stable
 		return "iced"
 	} else if (leverage < 0 && leverage > icePoint) {
+		// asset target is not totally stabilized, but cooled
 		return "cooled"
 	} else if (leverage > 0) {
+		// asset target is long
 		return "heated"
 	} else if (leverage < icePoint) {
+		// asset target is shorted
 		return "shorted"
 	} else {
+		// fallback
 		return "none"
 	}
 }
 
+// take leverage and return div containing svg
 const svgIcon = (leverage) => {
 	switch (getHeat(leverage)) {
 		case "iced":
@@ -86,7 +96,8 @@ const svgIcon = (leverage) => {
 	}
 }
 
-const HeatLevel = ({ leverage, width, height }) => {
+// return svg snippet
+const HeatLevel = ({ leverage }) => {
 	return svgIcon(leverage)
 }
 

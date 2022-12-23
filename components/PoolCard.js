@@ -1,7 +1,3 @@
-import Image from "next/image"
-import Price from "../components/Price"
-import { abi } from "../constants/Gwin_abi"
-import { useMoralis, useWeb3Contract, useERC20Balances } from "react-moralis"
 import Balances from "../components/Balances"
 import Deposit from "../components/Deposit"
 import Withdrawal from "./Withdrawal"
@@ -9,6 +5,8 @@ import AssetImage from "../components/AssetImage"
 import HeatLevel from "../components/HeatLevel"
 import web3 from "web3"
 import { useState, useEffect } from "react"
+
+// returns a Pool Card that shows the information for a pool
 
 export default function PoolCard({
 	pool,
@@ -21,35 +19,49 @@ export default function PoolCard({
 	const icePoint = -1000000000000
 
 	const getHeat = (leverage) => {
+		// use 'leverage' to determine heat
 		if (leverage == icePoint) {
+			// asset target is stable
 			return "iced"
 		} else if (leverage < 0 && leverage > icePoint) {
+			// asset target is not totally stabilized, but cooled
 			return "cooled"
 		} else if (leverage > 0) {
+			// asset target is long
 			return "heated"
 		} else if (leverage < icePoint) {
+			// asset target is shorted
 			return "shorted"
 		} else {
+			// fallback
 			return "none"
 		}
 	}
 
+	// convert hEth value from smart contract
 	const hEth = (decimals) => {
 		const value = web3.utils.fromWei(pool.hBalancePreview.toString())
 		return Number(value).toFixed(decimals)
 	}
 
+	// convert cEth value from smart contract
 	const cEth = (decimals) => {
 		const value = web3.utils.fromWei(pool.cBalancePreview.toString())
 		return Number(value).toFixed(decimals)
 	}
+
+	// convert User Balance from smart contract
 	const userBal = (decimals) => {
 		const value = web3.utils.fromWei(pool.userCEthBalPreview.toString())
 		return Number(value).toFixed(decimals)
 	}
+
+	// generate Description from leverage
 	const description = (leverage) => {
 		let description
+		// get leverage
 		const heat = getHeat(leverage)
+		// convert leverage to human readable (i.e. 10x)
 		const inX = convertRate(leverage)
 		if (isHeated == true) {
 			description = inX + " Long"
@@ -69,12 +81,16 @@ export default function PoolCard({
 		return description
 	}
 
+	// set values from pool prop
 	const poolId = pool.poolId
 	const cRate = pool.cRate
 	const hRate = pool.hRate
+
+	// convert price from smart contract
 	const priceFeed = () => {
 		return convertHex(pool.currentPrice, 8)
 	}
+	// generate name based on price feeds
 	const name = () => {
 		try {
 			// split basePriceFeedKey into base1 and base2
@@ -85,9 +101,11 @@ export default function PoolCard({
 			// split quotePriceFeedKey into quote1
 			const quote1 = splitPair(pool.quotePriceFeedKey, 0)
 			console.log("quote1: " + quote1)
+			// get leverage based on whether Pool Card is heated, and convert rate to human readable
 			const leverage = isHeated ? convertRate(hRate) : convertRate(cRate)
 			let poolName
 			if (
+				// check if base2 is undefined
 				typeof base2 === "undefined" &&
 				(quote1 == "N/A" || quote1 == "")
 			) {
@@ -203,12 +221,14 @@ export default function PoolCard({
 	return (
 		<div>
 			<div className="relative bg-sky-50 m-3 shadow-lg p-4 rounded-lg text-gray-700">
+				{/* show heat level as icon */}
 				<HeatLevel
 					leverage={isHeated ? hRate : cRate}
 					width="30px"
 					height="30px"
 				/>
 				<div className="justify-center flex pb-4">
+					{/* show featured asset image */}
 					<AssetImage
 						symbol={symbol()}
 						target={target()}
@@ -221,20 +241,24 @@ export default function PoolCard({
 					{name()}
 				</div>
 				<div className="whitespace-nowrap overflow-hidden text-ellipsis">
-					{symbol() == "JPY" ? (
-						<div>
-							{priceFeed().toFixed(0)} {symbol}
-						</div>
-					) : symbol() == "BTC" ? (
-						<div>
-							{priceFeed().toFixed(3)} {symbol}
-						</div>
-					) : symbol() == "XAU" ? (
-						<div>{priceFeed().toFixed(3)}/oz</div>
-					) : (
-						<div>${priceFeed().toFixed(2)}</div>
-					)}
+					{
+						// determine formatting based on symbol
+						symbol() == "JPY" ? (
+							<div>
+								{priceFeed().toFixed(0)} {symbol}
+							</div>
+						) : symbol() == "BTC" ? (
+							<div>
+								{priceFeed().toFixed(3)} {symbol}
+							</div>
+						) : symbol() == "XAU" ? (
+							<div>{priceFeed().toFixed(3)}/oz</div>
+						) : (
+							<div>${priceFeed().toFixed(2)}</div>
+						)
+					}
 				</div>
+				{/* show balances */}
 				{hEth(5) != "" ? (
 					<div className="whitespace-nowrap overflow-hidden text-ellipsis">
 						Heated: {hEth(5)} ETH
@@ -247,6 +271,7 @@ export default function PoolCard({
 				<div className="whitespace-nowrap overflow-hidden text-ellipsis">
 					Cooled: {cEth(5)} ETH
 				</div>
+				{/* to keep spacing even */}
 				{hEth(5) != "" ? (
 					<div className="whitespace-nowrap overflow-hidden text-ellipsis">
 						<></>
@@ -261,53 +286,31 @@ export default function PoolCard({
 				</div>
 				<div className="grid grid-cols-2">
 					<div className="pr-1">
+						{/* deposit button */}
 						<button
 							className="w-full flex justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-[#7d71d1] hover:bg-indigo-500 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-200 disabled:opacity-50 disabled:bg-[#9e92ff]"
-							// disabled={
-							// 	daiStakedBalance <= 0 ||
-							// 	isUnstaking ||
-							// 	isStaking
-							// }
-							// onClick={async () => {
-							// 	setToken(daiToken)
-							// 	setIsUnstaking(true)
-							// }}
 							onClick={async () => {
 								setOpen(true)
 							}}
 						>
 							Deposit
-							{/* {isUnstaking && token == daiToken ? (
-									<div className="animate-spin spinner-border h-6 w-6 border-b-2 rounded-full"></div>
-								) : (
-									"Unstake All"
-								)} */}
 						</button>
 					</div>
 					<div className="pl-1">
+						{/* withdraw button */}
 						<button
 							className="w-full flex justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-[#7d71d1] hover:bg-indigo-500 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-200 disabled:opacity-50 disabled:bg-[#9e92ff]"
-							// disabled={
-							// 	daiValue == 0 ||
-							// 	daiValue == "" ||
-							// 	isUnstaking ||
-							// 	isStaking
-							// }
 							onClick={async () => {
 								setWithdrawOpen(true)
 							}}
 						>
 							{" "}
 							Withdraw
-							{/* {isStaking && daiValue > 0 ? (
-									<div className="animate-spin spinner-border h-6 w-6 border-b-2 rounded-full"></div>
-								) : (
-									"Stake Tokens"
-								)} */}
 						</button>
 					</div>
 				</div>
 			</div>
+			{/* show user balance */}
 			<Balances
 				name={name()}
 				balance={userBal(5)}
@@ -318,6 +321,7 @@ export default function PoolCard({
 				leverage={isHeated ? hRate : cRate}
 				underlying={underlying()}
 			/>
+			{/* deposit modal */}
 			<Deposit
 				isOpen={open}
 				onClose={() => setOpen(false)}
@@ -335,6 +339,7 @@ export default function PoolCard({
 				priceFeed={priceFeed()}
 				walletBal={walletBal}
 			/>
+			{/* withdrawal modal */}
 			<Withdrawal
 				isOpen={withdrawOpen}
 				withdrawClose={() => setWithdrawOpen(false)}

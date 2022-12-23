@@ -1,27 +1,19 @@
-import { Fragment } from "react"
-import { Disclosure, Menu, Transition } from "@headlessui/react"
-import { BellIcon, MenuIcon, XIcon } from "@heroicons/react/outline"
-import { ConnectButton } from "web3uikit"
-import Image from "next/image"
 import { useMoralis } from "react-moralis"
 import Stake from "./Stake"
-import About from "./About"
-import { useState, useEffect } from "react"
+
+// this is the main container for the functional portion of the app
 
 export default function Dash() {
-	// const [showMe, setShowMe] = useState(true)
-
-	// function toggleShowMe() {
-	// 	setShowMe(!showMe)
-	// }
-
+	// initialize Moralis web hooks
 	const { isWeb3Enabled, chainId: chainIdHex } = useMoralis()
+	// get chain id
 	const chainId = parseInt(chainIdHex)
 
 	return (
 		<div className="bg-gradient-to-br from-slate-100 to-sky-400 min-h-screen">
 			<header>
 				<div className="max-w-7xl mx-auto pt-6 px-4 sm:px-6 lg:px-8">
+					{/* title */}
 					<h1 className="text-3xl font-bold text-[#565264]">
 						Gwin Protocol
 					</h1>
@@ -33,6 +25,7 @@ export default function Dash() {
 						<div className="bg-none p-4">
 							{isWeb3Enabled ? (
 								<div>
+									{/* if chainId is not Goerli or local */}
 									<div
 										class="bg-yellow-100 rounded-lg py-5 px-6 mb-3 text-base text-yellow-700 inline-flex items-center w-full"
 										role="alert"
@@ -61,6 +54,7 @@ export default function Dash() {
 										Gwin uses the Goerli Test Net. Please
 										switch to Goerli.
 									</div>
+									{/* if chain ID is local 1337 */}
 									<div
 										class="bg-yellow-100 rounded-lg py-5 px-6 mb-3 text-base text-yellow-700 inline-flex items-center w-full"
 										role="alert"
@@ -95,6 +89,7 @@ export default function Dash() {
 									class="bg-yellow-100 rounded-lg py-5 px-6 mb-3 text-base text-yellow-700 inline-flex items-center w-full"
 									role="alert"
 								>
+									{/* if metamask is not connected */}
 									<svg
 										aria-hidden="true"
 										focusable="false"
@@ -114,6 +109,7 @@ export default function Dash() {
 									Goerli Testnet.
 								</div>
 							)}
+							{/* stake dashboard */}
 							<Stake />
 						</div>
 					</div>
