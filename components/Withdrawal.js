@@ -1,4 +1,3 @@
-import Image from "next/image"
 import AssetImage from "../components/AssetImage"
 import { useState, useEffect } from "react"
 import { useMoralis, useWeb3Contract, useERC20Balances } from "react-moralis"
@@ -6,6 +5,8 @@ import { chainDict } from "../constants/chainDict"
 import { abi } from "../constants/Gwin_abi"
 import toast, { Toaster } from "react-hot-toast"
 import React from "react"
+
+// Withdraw modal to initiate a withdrawal from a pool
 
 const Withdrawal = ({
 	isOpen,
@@ -24,18 +25,21 @@ const Withdrawal = ({
 	priceFeed,
 	walletBal,
 }) => {
+	// initialize Moralis web hooks
 	const {
 		isWeb3Enabled,
 		account,
 		chainId: chainIdHex,
 		Moralis,
 	} = useMoralis()
+	// get chain and convert
 	const chainId = parseInt(chainIdHex)
 	const chainName = chainDict[chainId]
+
 	const [withdrawalAmount, setWithdrawalAmount] = useState(0)
 	const [cooledWithdrawalAmount, setCooledWithdrawalAmount] = useState(0)
 	const [heatedWithdrawalAmount, setHeatedWithdrawalAmount] = useState(0)
-	const contractAddress = "0xe4d3900e47Aaa60494BA8F593Dd8c779D0fA0B3d"
+	const contractAddress = contract
 
 	const [isWithdrawing, setisWithdrawing] = useState(false)
 	const [withdrawOpen, setWithdrawOpen] = useState(false)
@@ -70,37 +74,33 @@ const Withdrawal = ({
 	}
 
 	const handleWithdrawalError = async (error) => {
+		// if withdrawal has error, log error
 		console.log(error)
+		// show toast message
 		toast.error(
 			"Uh oh! The withdrawal did not process. Check console for details."
 		)
+		// end withdrawal process
 		setisWithdrawing(false)
+		// close modal
 		withdrawClose()
 	}
 
-	const handleUnstakeSuccess = async (tx) => {
-		await tx.wait(1)
-		toast.success("Tokens successfully unstaked!")
-		getTokenBalances()
-	}
-
-	const handleError = async (error) => {
-		console.log(error)
-		toast.error(
-			"Uh oh! Tx could not be approved. Check console for details."
-		)
-	}
-
 	function setWithdrawals(bal, isAllEth) {
+		// set withdrawal amount
 		console.log("cooled: " + isCooled)
 		console.log("heated: " + isHeated)
+		// set bool if withdrawing all
 		setWithdrawAll(isAllEth)
+		// set withdrawal amount
 		setWithdrawalAmount(bal)
 		console.log(withdrawalAmount)
 		if (isCooled == "true") {
+			// if from cooled pool, set amount
 			setCooledWithdrawalAmount(bal)
 			console.log("didCooled")
 		} else if (isHeated == "true") {
+			// if from heated pool, set amount
 			setHeatedWithdrawalAmount(bal)
 			console.log("didHeated")
 		}
@@ -111,10 +111,14 @@ const Withdrawal = ({
 
 	useEffect(() => {
 		async function handleWithdrawing() {
+			// initiate withdrawing
+			// set withdrawal amount
 			setWithdrawals(withdrawalAmount, withdrawAll)
 			console.log("isWithdrawing: " + isWithdrawing)
 			if (isWithdrawing == true) {
+				// check if withdrawing is initiated
 				try {
+					// call contract for withdrawal
 					console.log(Moralis.Units.ETH(withdrawalAmount))
 					console.log(poolId)
 					console.log(isCooled)
@@ -129,6 +133,7 @@ const Withdrawal = ({
 					console.error(err)
 				}
 			} else {
+				// end withdraw
 				setisWithdrawing(false)
 			}
 		}
@@ -137,6 +142,7 @@ const Withdrawal = ({
 		}
 	}, [isWithdrawing])
 
+	// keep modal closed until isOpen is true
 	if (isOpen == false) return null
 	return (
 		<>
@@ -157,6 +163,7 @@ const Withdrawal = ({
 								id="exampleModalScrollableLabel"
 							>
 								<div className="m-auto">
+									{/* featured asset image */}
 									<AssetImage
 										symbol={symbol}
 										target={target}
@@ -195,6 +202,7 @@ const Withdrawal = ({
 									&nbsp;&nbsp;{Number(userBal).toFixed(5)} ETH
 								</span>
 							</div>
+							{/* if user balance is zero, show warning */}
 							{Number(userBal) == 0 ? (
 								<div
 									className="bg-red-100 mt-3 rounded-lg py-5 px-6 mb-3 text-base text-red-700 inline-flex items-center w-full"
@@ -226,6 +234,7 @@ const Withdrawal = ({
 								>
 									Withdrawal Amount
 								</label>
+								{/* buttons to set amounts by percentage for ease of use */}
 								<div className="grid grid-cols-5 pb-3">
 									<div className="col">
 										<button
@@ -298,6 +307,7 @@ const Withdrawal = ({
 										</button>
 									</div>
 								</div>
+								{/* withdrawal amount in ETH input */}
 								<div className="grid grid-cols-5 py-3">
 									<div className="col-span-4">
 										<input
@@ -353,7 +363,7 @@ const Withdrawal = ({
 										ETH
 									</div>
 								</div>
-
+								{/* withdrawal amount in USD */}
 								<div className="grid grid-cols-5">
 									<div className="col-span-4">
 										<input
@@ -374,7 +384,7 @@ const Withdrawal = ({
 											m-0
 												focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none"
 											id="exampleInputEmail1"
-											aria-describedby="emailHelp"
+											aria-describedby="usdAmount"
 											placeholder="USD Amount"
 											value={(
 												withdrawalAmount * priceFeed
@@ -397,39 +407,11 @@ const Withdrawal = ({
 										$ USD
 									</div>
 								</div>
-
-								{/* <small
-										id="emailHelp"
-										className="block mt-1 text-xs text-gray-600"
-									>
-										We'll never share your email with anyone
-										else.
-									</small> */}
 							</div>
-							{/* <button
-									type="submit"
-									className="
-											px-6
-											py-2.5
-											bg-blue-600
-											text-white
-											font-medium
-											text-xs
-											leading-tight
-											uppercase
-											rounded
-											shadow-md
-											hover:bg-blue-700 hover:shadow-lg
-											focus:bg-blue-700 focus:shadow-lg focus:outline-none focus:ring-0
-											active:bg-blue-800 active:shadow-lg
-											transition
-											duration-150
-											ease-in-out"
-								>
-									Submit
-								</button> */}
 						</div>
+						{/* footer */}
 						<div className="modal-footer flex flex-shrink-0 flex-wrap items-center justify-end p-4 border-t border-gray-200 rounded-b-md">
+							{/* close button */}
 							<button
 								type="button"
 								className="inline-block px-6 py-2.5 bg-[#7d71d1] text-white font-medium text-sm leading-tight rounded shadow-md hover:bg-purple-700 hover:shadow-lg focus:bg-purple-700 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-purple-800 active:shadow-lg transition duration-150 ease-in-out"
@@ -439,6 +421,7 @@ const Withdrawal = ({
 							>
 								Close
 							</button>
+							{/* withdraw button */}
 							<button
 								// type="submit"
 								onClick={() => setisWithdrawing(true)}

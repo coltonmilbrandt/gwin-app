@@ -8,7 +8,6 @@ import goldPic from "/public/gold.png"
 import btcPic from "/public/Bitcoin.png"
 import yenPic from "/public/yen.png"
 import dollarPic from "/public/dollar.png"
-import gwinPic from "/public/gwin-rect.webp"
 import defaultPic from "/public/default.png"
 
 // This component returns the featured symbol and target images
