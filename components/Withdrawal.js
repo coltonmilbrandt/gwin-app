@@ -67,9 +67,13 @@ const Withdrawal = ({
 	///////////   Toast Messsage Updates   ////////////
 
 	const handleWithdrawalSuccess = async (tx) => {
+		// if deposit success, wait
 		await tx.wait(1)
+		// show toast message
 		toast.success("Successfully Withdrawn!")
+		// set withdrawing to false
 		setisWithdrawing(false)
+		// close modal
 		withdrawClose()
 	}
 
@@ -125,6 +129,7 @@ const Withdrawal = ({
 					console.log(isHeated)
 					console.log(Moralis.Units.ETH(cooledWithdrawalAmount))
 					console.log(Moralis.Units.ETH(heatedWithdrawalAmount))
+					// call smart contract for withdraw
 					await withdraw({
 						onSuccess: handleWithdrawalSuccess,
 						onError: (error) => handleWithdrawalError(error),
@@ -423,7 +428,6 @@ const Withdrawal = ({
 							</button>
 							{/* withdraw button */}
 							<button
-								// type="submit"
 								onClick={() => setisWithdrawing(true)}
 								disabled={
 									withdrawalAmount == 0 ||

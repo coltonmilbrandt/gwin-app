@@ -1,9 +1,10 @@
 import Image from "next/image"
-import Price from "../components/Price"
 import Balances from "../components/Balances"
 import Deposit from "../components/Deposit"
 import Withdrawal from "./Withdrawal"
 import { useState, useEffect } from "react"
+
+// Deposit modal to initiate a deposit to a pool
 
 export default function Pool(props) {
 	const tokenPic = props.tokenPic
