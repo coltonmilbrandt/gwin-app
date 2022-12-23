@@ -7,19 +7,25 @@ import toast, { Toaster } from "react-hot-toast"
 import PoolCard from "../components/PoolCard"
 import Web3 from "web3"
 
+// this is the main portion of the functional app, contains pools
+
 export default function Stake() {
+	// initialize Moralis web hooks
 	const {
 		isWeb3Enabled,
 		account,
 		chainId: chainIdHex,
 		Moralis,
 	} = useMoralis()
+	// get chain ID and convert
 	const chainIdReadable = parseInt(chainIdHex)
 	const chainName = chainDict[chainIdReadable]
 	console.log("ChainId" + chainIdReadable)
 
+	// define web3
 	let web3
 
+	// initialize web3
 	if (
 		typeof window !== "undefined" &&
 		typeof window.ethereum !== "undefined"
@@ -29,18 +35,22 @@ export default function Stake() {
 		web3 = new Web3(window.ethereum)
 	}
 
+	// get contract info
 	const contractsInfo = require("../constants/contractInfo.json")
 
+	// set gwin address
 	const [gwin, setGwin] = useState(
 		"0x0aceEE4f17bB2bb65c69B01c66BBa51Ce6DfB1cA"
 	)
 
+	// hooks
 	const [ethUsdPrice, setEthUsdPrice] = useState(0)
 	const [userEthWalletBal, setUserEthWalletBal] = useState(0)
 	const [poolsWithBalances, setPoolsWithBalances] = useState([])
 	const [isUnstaking, setIsUnstaking] = useState(false)
 	const [isStaking, setIsStaking] = useState(false)
 
+	// sets contracts
 	const setContracts = () => {
 		if (chainName) {
 			console.log(chainName)
@@ -54,15 +64,7 @@ export default function Stake() {
 
 	/// ETH ///
 
-	const { runContractFunction: getEthUsdPrice } = useWeb3Contract({
-		abi: abi,
-		contractAddress: gwin,
-		functionName: "retrieveCurrentPrice",
-		params: {
-			_poolId: 0,
-		},
-	})
-
+	// get all pools with balances
 	const { runContractFunction: getAllPoolsWithBalances } = useWeb3Contract({
 		abi: abi,
 		contractAddress: gwin,
@@ -206,16 +208,20 @@ export default function Stake() {
 	useEffect(() => {
 		console.log("ran chain check")
 		if (chainIdReadable == 5) {
+			// set Goerli contract
 			setGwin("0xe4d3900e47Aaa60494BA8F593Dd8c779D0fA0B3d")
 		} else if (chainIdReadable == 1337) {
+			// set local contract
 			setGwin("0x0aceEE4f17bB2bb65c69B01c66BBa51Ce6DfB1cA")
 		}
 	})
 
 	return (
 		<div>
+			{/* for toast messages */}
 			<Toaster />
 			<div className="grid grid-cols-1 md:grid-cols-3 text-gray-900 pb-4">
+				{/* list heated pools */}
 				{poolsWithBalances.length > 0 ? (
 					poolsWithBalances.map((pool) => (
 						<PoolCard
@@ -228,6 +234,7 @@ export default function Stake() {
 						/>
 					))
 				) : (
+					// show loader if pools not yet loaded
 					<div className="absolute top-1/2 left-1/2 justify-center items-center">
 						<div
 							className="text-white spinner-border animate-spin inline-block w-16 h-16 border-4 rounded-full"
@@ -244,6 +251,7 @@ export default function Stake() {
 						Shorted Assets
 					</h2>
 				</div>
+				{/* list cooled, stable, and shorted pools */}
 				{poolsWithBalances.length > 0 ? (
 					poolsWithBalances.map((pool) => (
 						<PoolCard
@@ -256,6 +264,7 @@ export default function Stake() {
 						/>
 					))
 				) : (
+					// show loader if pools not yet loaded
 					<div className="absolute top-1/2 left-1/2 justify-center items-center">
 						<div
 							className="text-white spinner-border animate-spin inline-block w-16 h-16 border-4 rounded-full"
