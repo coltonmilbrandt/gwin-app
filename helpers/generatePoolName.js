@@ -14,6 +14,9 @@ const generatePoolName = (
 ) => {
 	try {
 		// split basePriceFeedKey into base1 and base2
+		console.log(basePriceFeedKey)
+		console.log(quotePriceFeedKey)
+
 		const base1 = splitPair(basePriceFeedKey, 0)
 		const base2 = splitPair(basePriceFeedKey, 1)
 		console.log("base1: " + base1)

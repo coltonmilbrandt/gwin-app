@@ -2,9 +2,11 @@ import AssetImage from "../components/AssetImage"
 import { useState, useEffect } from "react"
 import { useMoralis, useWeb3Contract, useERC20Balances } from "react-moralis"
 import { chainDict } from "../constants/chainDict"
-import { abi } from "../constants/Gwin_abi"
-import toast, { Toaster } from "react-hot-toast"
 import React from "react"
+import Web3 from "web3"
+import generatePoolName from "../helpers/generatePoolName"
+
+const web3 = new Web3()
 
 // Create Pool modal to create a new market with a pool pair
 
@@ -36,6 +38,8 @@ const CreatePool = ({ isOpen, userWalletBal, onClose, contract }) => {
 	})
 	const [errors, setErrors] = useState({})
 
+	const isFormFilled = Object.values(formData).every((value) => value !== "")
+
 	const handleChange = (e) => {
 		setFormData({
 			...formData,
@@ -55,6 +59,14 @@ const CreatePool = ({ isOpen, userWalletBal, onClose, contract }) => {
 		if (!formData.basePriceFeedAddress) {
 			newErrors.basePriceFeedAddress =
 				"Base price feed address is required"
+		} else {
+			const isValidAddress = /^0x[0-9a-fA-F]{40}$/.test(
+				formData.basePriceFeedAddress
+			)
+			if (!isValidAddress) {
+				newErrors.basePriceFeedAddress =
+					"Base price feed address is not a valid Ethereum address"
+			}
 		}
 		if (!formData.baseKey) {
 			newErrors.baseKey = "Base key is required"
@@ -62,6 +74,14 @@ const CreatePool = ({ isOpen, userWalletBal, onClose, contract }) => {
 		if (!formData.quotePriceFeedAddress) {
 			newErrors.quotePriceFeedAddress =
 				"Quote price feed address is required"
+		} else {
+			const isValidAddress = /^0x[0-9a-fA-F]{40}$/.test(
+				formData.quotePriceFeedAddress
+			)
+			if (!isValidAddress) {
+				newErrors.quotePriceFeedAddress =
+					"Quote price feed address is not a valid Ethereum address"
+			}
 		}
 		if (!formData.quoteKey) {
 			newErrors.quoteKey = "Quote key is required"
@@ -79,57 +99,26 @@ const CreatePool = ({ isOpen, userWalletBal, onClose, contract }) => {
 	const handleSubmit = (e) => {
 		e.preventDefault()
 		if (validateForm()) {
+			// Convert baseKey and quoteKey to bytes 32
+			const baseKeyBytes32 = web3.utils.toHex(formData.baseKey)
+			const quoteKeyBytes32 = web3.utils.toHex(formData.quoteKey)
+			let poolTypeNum
+			switch (formData.poolType) {
+				case "classic":
+					poolTypeNum = 0
+					break
+				case "modified":
+					poolTypeNum = 1
+					break
+				default:
+					poolTypeNum = null
+			}
 			// submit form data
+			// call moralis hook here
+			console.log(baseKeyBytes32)
+			console.log(quoteKeyBytes32)
+			console.log(formData)
 		}
-	}
-
-	///////////   Toast Messsage Updates   ////////////
-
-	const handleWithdrawalSuccess = async (tx) => {
-		// if deposit success, wait
-		await tx.wait(1)
-		// show toast message
-		toast.success("Successfully Withdrawn!")
-		// set withdrawing to false
-		setisWithdrawing(false)
-		// close modal
-		withdrawClose()
-	}
-
-	const handleWithdrawalError = async (error) => {
-		// if withdrawal has error, log error
-		console.log(error)
-		// show toast message
-		toast.error(
-			"Uh oh! The withdrawal did not process. Check console for details."
-		)
-		// end withdrawal process
-		setisWithdrawing(false)
-		// close modal
-		withdrawClose()
-	}
-
-	function setWithdrawals(bal, isAllEth) {
-		// set withdrawal amount
-		console.log("cooled: " + isCooled)
-		console.log("heated: " + isHeated)
-		// set bool if withdrawing all
-		setWithdrawAll(isAllEth)
-		// set withdrawal amount
-		setWithdrawalAmount(bal)
-		console.log(withdrawalAmount)
-		if (isCooled == "true") {
-			// if from cooled pool, set amount
-			setCooledWithdrawalAmount(bal)
-			console.log("didCooled")
-		} else if (isHeated == "true") {
-			// if from heated pool, set amount
-			setHeatedWithdrawalAmount(bal)
-			console.log("didHeated")
-		}
-		console.log("cooledWith " + cooledWithdrawalAmount)
-		console.log("heatedWith " + heatedWithdrawalAmount)
-		console.log(withdrawalAmount)
 	}
 
 	// keep modal closed until isOpen is true
@@ -149,22 +138,10 @@ const CreatePool = ({ isOpen, userWalletBal, onClose, contract }) => {
 					<div className="modal-content border-none shadow-lg relative flex flex-col w-full pointer-events-auto bg-white bg-clip-padding rounded-lg outline-none text-current">
 						<div className="modal-header flex flex-shrink-0 items-center justify-between p-4 border-b border-gray-200 rounded-t-md">
 							<h5
-								className="text-xl grid grid-cols-6 font-medium leading-normal text-gray-800"
+								className="text-xl font-medium leading-normal text-gray-800"
 								id="exampleModalScrollableLabel"
 							>
-								<div className="m-auto">
-									{/* featured asset image */}
-									<AssetImage
-										symbol={symbol}
-										target={target}
-										leverage={leverage}
-										width="60"
-										height="60"
-									/>
-								</div>
-								<div className="col-span-5 font-bold pl-3 align-middle m-auto justify-center">
-									Create a New Pool Pair
-								</div>
+								Create a New Pool Pair
 							</h5>
 							<button
 								type="button"
@@ -415,28 +392,41 @@ const CreatePool = ({ isOpen, userWalletBal, onClose, contract }) => {
 									)}
 								</div>
 								<div className="form-group">
-									<label htmlFor="cRate">Cooled Rate</label>
+									<div className="flex justify-between">
+										<label className="flex" htmlFor="cRate">
+											Cooled Rate
+										</label>
+										<div className="flex justify-self-end">
+											{`${
+												Number(formData.cRate) /
+												10 ** 12
+											}x`}
+										</div>
+									</div>
 									<input
-										type="text"
+										type="range"
 										id="cRate"
 										name="cRate"
+										min="-10000000000000"
+										max="0"
+										step="250000000000"
 										value={formData.cRate}
 										onChange={handleChange}
 										className={`form-control
-											block
-											w-full
-											px-3
-											py-1.5
-											text-base
-											font-normal
-											text-gray-700
-											bg-white bg-clip-padding
-											border border-solid border-gray-300
-											rounded
-											transition
-											ease-in-out
-											m-0
-											focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none`}
+                                            block
+                                            w-full
+                                            px-3
+                                            py-1.5
+                                            text-base
+                                            font-normal
+                                            text-gray-700
+                                            bg-white bg-clip-padding
+                                            border border-solid border-gray-300
+                                            rounded
+                                            transition
+                                            ease-in-out
+                                            m-0
+                                            focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none`}
 									/>
 									{errors.cRate && (
 										<div className="invalid-feedback">
@@ -445,28 +435,41 @@ const CreatePool = ({ isOpen, userWalletBal, onClose, contract }) => {
 									)}
 								</div>
 								<div className="form-group">
-									<label htmlFor="hRate">Heated Rate</label>
+									<div className="flex justify-between">
+										<label className="flex" htmlFor="hRate">
+											hRate
+										</label>
+										<div className="flex justify-self-end">
+											{`${
+												Number(formData.hRate) /
+												10 ** 12
+											}x`}
+										</div>
+									</div>
 									<input
-										type="text"
+										type="range"
 										id="hRate"
 										name="hRate"
+										min="0"
+										max="10000000000000"
+										step="250000000000"
 										value={formData.hRate}
 										onChange={handleChange}
 										className={`form-control
-											block
-											w-full
-											px-3
-											py-1.5
-											text-base
-											font-normal
-											text-gray-700
-											bg-white bg-clip-padding
-											border border-solid border-gray-300
-											rounded
-											transition
-											ease-in-out
-											m-0
-											focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none`}
+                                            block
+                                            w-full
+                                            px-3
+                                            py-1.5
+                                            text-base
+                                            font-normal
+                                            text-gray-700
+                                            bg-white bg-clip-padding
+                                            border border-solid border-gray-300
+                                            rounded
+                                            transition
+                                            ease-in-out
+                                            m-0
+                                            focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none`}
 									/>
 									{errors.hRate && (
 										<div className="invalid-feedback">
@@ -474,31 +477,55 @@ const CreatePool = ({ isOpen, userWalletBal, onClose, contract }) => {
 										</div>
 									)}
 								</div>
+								<div>
+									This pool is a{" "}
+									{generatePoolName(
+										formData.baseKey,
+										formData.quoteKey,
+										true, // is heated
+										false, // is cooled
+										formData.hRate,
+										formData.cRate
+									)}
+								</div>
+								<div>
+									This pool is a{" "}
+									{generatePoolName(
+										formData.baseKey,
+										formData.quoteKey,
+										false, // is heated
+										true, // is cooled
+										formData.hRate,
+										formData.cRate
+									)}
+								</div>
+								{/* footer */}
+								<div className="modal-footer flex flex-shrink-0 flex-wrap items-center justify-end p-4 border-t border-gray-200 rounded-b-md">
+									{/* close button */}
+									<button
+										type="button"
+										className="inline-block px-6 py-2.5 bg-[#7d71d1] text-white font-medium text-sm leading-tight rounded shadow-md hover:bg-purple-700 hover:shadow-lg focus:bg-purple-700 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-purple-800 active:shadow-lg transition duration-150 ease-in-out"
+										data-bs-dismiss="modal"
+										onClick={() => onClose()}
+										// disabled={isWithdrawing == true}
+									>
+										Close
+									</button>
+									{/* withdraw button */}
+									<button
+										onSubmit={() => handleSubmit}
+										type="submit"
+										disabled={!isFormFilled}
+										// disabled={
+										// 	withdrawalAmount == 0 ||
+										// 	isWithdrawing == true
+										// }
+										className="inline-block px-6 py-2.5 bg-indigo-500 text-white font-medium text-sm leading-tight rounded shadow-md disabled:opacity-40 hover:bg-blue-700 hover:shadow-lg focus:bg-blue-700 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-blue-800 active:shadow-lg transition duration-150 ease-in-out ml-1"
+									>
+										Create Pool
+									</button>
+								</div>
 							</form>
-						</div>
-						{/* footer */}
-						<div className="modal-footer flex flex-shrink-0 flex-wrap items-center justify-end p-4 border-t border-gray-200 rounded-b-md">
-							{/* close button */}
-							{/* <button
-								type="button"
-								className="inline-block px-6 py-2.5 bg-[#7d71d1] text-white font-medium text-sm leading-tight rounded shadow-md hover:bg-purple-700 hover:shadow-lg focus:bg-purple-700 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-purple-800 active:shadow-lg transition duration-150 ease-in-out"
-								data-bs-dismiss="modal"
-								onClick={() => onClose()}
-								disabled={isWithdrawing == true}
-							>
-								Close
-							</button> */}
-							{/* withdraw button */}
-							{/* <button
-								onClick={() => setisWithdrawing(true)}
-								disabled={
-									withdrawalAmount == 0 ||
-									isWithdrawing == true
-								}
-								className="inline-block px-6 py-2.5 bg-indigo-500 text-white font-medium text-sm leading-tight rounded shadow-md disabled:opacity-40 hover:bg-blue-700 hover:shadow-lg focus:bg-blue-700 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-blue-800 active:shadow-lg transition duration-150 ease-in-out ml-1"
-							>
-								Withdraw
-							</button> */}
 						</div>
 					</div>
 				</div>
