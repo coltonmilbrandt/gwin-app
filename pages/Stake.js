@@ -39,10 +39,21 @@ export default function Stake() {
 	// get contract info
 	const contractsInfo = require("../constants/contractInfo.json")
 
-	// set gwin address
-	const [gwin, setGwin] = useState(
-		"0x0aceEE4f17bB2bb65c69B01c66BBa51Ce6DfB1cA"
-	)
+	// initialize gwin address
+	const [gwin, setGwin] = useState("")
+
+	// get gwin address
+	useEffect(() => {
+		console.log("ran chain check")
+		if (chainIdReadable == 5) {
+			// set Goerli contract
+			setGwin("0xe4d3900e47Aaa60494BA8F593Dd8c779D0fA0B3d")
+		} else if (chainIdReadable == 1337) {
+			// set local contract
+			setGwin("0x9562cbbEF48728A6ff8Dcfb1E45073F5349B3C51")
+			// don't forget to IMPORT NEW WALLET for balances
+		}
+	})
 
 	// hooks
 	const [ethUsdPrice, setEthUsdPrice] = useState(0)
@@ -72,7 +83,7 @@ export default function Stake() {
 		contractAddress: gwin,
 		functionName: "getAllPoolsWithBalances",
 		params: {
-			_user: "0x4a62Ad2bc1022dE1426ee1Cdb97e605C9b893Ce2",
+			_user: account,
 		},
 	})
 
@@ -150,9 +161,15 @@ export default function Stake() {
 	useEffect(() => {
 		const interval = setInterval(async () => {
 			const pools = await getAllPoolsWithBalances()
+			let userWalletBal = await web3.eth.getBalance(account)
+			if (userWalletBal) {
+				userWalletBal = web3.utils.fromWei(userWalletBal, "ether")
+				userWalletBal = Number(userWalletBal)
+				setUserEthWalletBal(userWalletBal)
+			}
 			setPoolsWithBalances(pools)
 			console.log("ranGetPools !!")
-			console.log(pools) // @here console log returns correct value
+			console.log(pools)
 			console.log(chainIdReadable)
 			console.log(gwin)
 			console.log(account)
@@ -206,17 +223,6 @@ export default function Stake() {
 			handleStaking()
 		}
 	}, [isStaking])
-
-	useEffect(() => {
-		console.log("ran chain check")
-		if (chainIdReadable == 5) {
-			// set Goerli contract
-			setGwin("0xe4d3900e47Aaa60494BA8F593Dd8c779D0fA0B3d")
-		} else if (chainIdReadable == 1337) {
-			// set local contract
-			setGwin("0x0aceEE4f17bB2bb65c69B01c66BBa51Ce6DfB1cA")
-		}
-	})
 
 	return (
 		<div>

@@ -22,6 +22,11 @@ export default function PoolCard({
 	isCooled,
 	tokenPic,
 }) {
+	// set values from pool prop
+	const poolId = pool.id
+	const cRate = pool.cRate
+	const hRate = pool.hRate
+
 	// convert hEth value from smart contract
 	const hEth = (decimals) => {
 		const value = web3.utils.fromWei(pool.hBalancePreview.toString())
@@ -36,14 +41,16 @@ export default function PoolCard({
 
 	// convert User Balance from smart contract
 	const userBal = (decimals) => {
-		const value = web3.utils.fromWei(pool.userCEthBalPreview.toString())
+		let value
+		console.log("poolId: " + poolId + ". ParentId: " + pool.parentId)
+		if (isCooled) {
+			value = web3.utils.fromWei(pool.userCEthBalPreview.toString())
+		} else if (isHeated) {
+			value = web3.utils.fromWei(pool.userHEthBalPreview.toString())
+		}
+		console.log("UserBal is: " + value)
 		return Number(value).toFixed(decimals)
 	}
-
-	// set values from pool prop
-	const poolId = pool.poolId
-	const cRate = pool.cRate
-	const hRate = pool.hRate
 
 	// convert price from smart contract
 	const priceFeed = () => {
