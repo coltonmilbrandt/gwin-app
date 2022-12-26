@@ -27,14 +27,14 @@ const CreatePool = ({ isOpen, userWalletBal, onClose, contract }) => {
 	const [target, setTarget] = useState("ETH")
 
 	const [formData, setFormData] = useState({
-		poolType: "",
+		poolType: "classic",
 		parentId: "",
 		basePriceFeedAddress: "",
 		baseKey: "",
 		quotePriceFeedAddress: "",
 		quoteKey: "",
-		cRate: "",
-		hRate: "",
+		cRate: "-1000000000000",
+		hRate: "1000000000000",
 	})
 	const [errors, setErrors] = useState({})
 
@@ -49,6 +49,7 @@ const CreatePool = ({ isOpen, userWalletBal, onClose, contract }) => {
 	}
 
 	const validateForm = () => {
+		const pattern = /^[a-zA-Z]{3,5}\/[a-zA-Z]{3,5}$/
 		let newErrors = {}
 		if (!formData.poolType) {
 			newErrors.poolType = "Pool type is required"
@@ -70,6 +71,9 @@ const CreatePool = ({ isOpen, userWalletBal, onClose, contract }) => {
 		}
 		if (!formData.baseKey) {
 			newErrors.baseKey = "Base key is required"
+		} else if (!pattern.test(formData.baseKey)) {
+			newErrors.baseKey =
+				"Base key must be in the format 'XXX/XXX', where X is a letter between 3 and 5 characters in length."
 		}
 		if (!formData.quotePriceFeedAddress) {
 			newErrors.quotePriceFeedAddress =
@@ -85,6 +89,9 @@ const CreatePool = ({ isOpen, userWalletBal, onClose, contract }) => {
 		}
 		if (!formData.quoteKey) {
 			newErrors.quoteKey = "Quote key is required"
+		} else if (!pattern.test(formData.quoteKey)) {
+			newErrors.quoteKey =
+				"Quote key must be in the format 'XXX/XXX', where X is a letter between 3 and 5 characters in length."
 		}
 		if (!formData.cRate) {
 			newErrors.cRate = "cRate is required"
@@ -138,10 +145,18 @@ const CreatePool = ({ isOpen, userWalletBal, onClose, contract }) => {
 					<div className="modal-content border-none shadow-lg relative flex flex-col w-full pointer-events-auto bg-white bg-clip-padding rounded-lg outline-none text-current">
 						<div className="modal-header flex flex-shrink-0 items-center justify-between p-4 border-b border-gray-200 rounded-t-md">
 							<h5
-								className="text-xl font-medium leading-normal text-gray-800"
+								className="text-xl font-medium leading-normal text-gray-800 flex"
 								id="exampleModalScrollableLabel"
 							>
-								Create a New Pool Pair
+								<svg
+									className="fill-indigo-500 w-8 h-8"
+									xmlns="http://www.w3.org/2000/svg"
+									viewBox="0 0 512 512"
+								>
+									<path d="M326.7 403.7c-22.1 8-45.9 12.3-70.7 12.3s-48.7-4.4-70.7-12.3c-.3-.1-.5-.2-.8-.3c-30-11-56.8-28.7-78.6-51.4C70 314.6 48 263.9 48 208C48 93.1 141.1 0 256 0S464 93.1 464 208c0 55.9-22 106.6-57.9 144c-1 1-2 2.1-3 3.1c-21.4 21.4-47.4 38.1-76.3 48.6zM256 91.9c-11.1 0-20.1 9-20.1 20.1v6c-5.6 1.2-10.9 2.9-15.9 5.1c-15 6.8-27.9 19.4-31.1 37.7c-1.8 10.2-.8 20 3.4 29c4.2 8.8 10.7 15 17.3 19.5c11.6 7.9 26.9 12.5 38.6 16l2.2 .7c13.9 4.2 23.4 7.4 29.3 11.7c2.5 1.8 3.4 3.2 3.8 4c.3 .8 .9 2.6 .2 6.7c-.6 3.5-2.5 6.4-8 8.8c-6.1 2.6-16 3.9-28.8 1.9c-6-1-16.7-4.6-26.2-7.9l0 0 0 0 0 0c-2.2-.7-4.3-1.5-6.4-2.1c-10.5-3.5-21.8 2.2-25.3 12.7s2.2 21.8 12.7 25.3c1.2 .4 2.7 .9 4.4 1.5c7.9 2.7 20.3 6.9 29.8 9.1V304c0 11.1 9 20.1 20.1 20.1s20.1-9 20.1-20.1v-5.5c5.4-1 10.5-2.5 15.4-4.6c15.7-6.7 28.4-19.7 31.6-38.7c1.8-10.4 1-20.3-3-29.4c-3.9-9-10.2-15.6-16.9-20.5c-12.2-8.8-28.3-13.7-40.4-17.4l-.8-.2c-14.2-4.3-23.8-7.3-29.9-11.4c-2.6-1.8-3.4-3-3.6-3.5c-.2-.3-.7-1.6-.1-5c.3-1.9 1.9-5.2 8.2-8.1c6.4-2.9 16.4-4.5 28.6-2.6c4.3 .7 17.9 3.3 21.7 4.3c10.7 2.8 21.6-3.5 24.5-14.2s-3.5-21.6-14.2-24.5c-4.4-1.2-14.4-3.2-21-4.4V112c0-11.1-9-20.1-20.1-20.1zM48 352H64c19.5 25.9 44 47.7 72.2 64H64v32H256 448V416H375.8c28.2-16.3 52.8-38.1 72.2-64h16c26.5 0 48 21.5 48 48v64c0 26.5-21.5 48-48 48H48c-26.5 0-48-21.5-48-48V400c0-26.5 21.5-48 48-48z" />
+								</svg>
+								&nbsp;&nbsp;Create a New Pool Pair
+								{/* <!--! Font Awesome Pro 6.2.1 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2022 Fonticons, Inc. --> */}
 							</h5>
 							<button
 								type="button"
@@ -171,7 +186,8 @@ const CreatePool = ({ isOpen, userWalletBal, onClose, contract }) => {
 								</span>
 							</div>
 							{/* if user balance is zero, show warning */}
-							{Number(userWalletBal) == 0 ? (
+							{/* CHANGE BACK */}
+							{Number(userWalletBal) != 0 ? (
 								<div
 									className="bg-red-100 mt-3 rounded-lg py-5 px-6 mb-3 text-base text-red-700 inline-flex items-center w-full"
 									role="alert"
@@ -194,9 +210,42 @@ const CreatePool = ({ isOpen, userWalletBal, onClose, contract }) => {
 									You don't appear to have funds to create a
 									pool, connect a wallet with ETH.
 								</div>
-							) : null}
+							) : (
+								<div
+									class="bg-yellow-100 mt-3 rounded-lg py-5 px-6 mb-3 text-base text-yellow-700 inline-flex items-center w-full"
+									role="alert"
+								>
+									<svg
+										aria-hidden="true"
+										focusable="false"
+										data-prefix="fas"
+										data-icon="exclamation-triangle"
+										class="w-4 h-4 mr-2 fill-current"
+										role="img"
+										xmlns="http://www.w3.org/2000/svg"
+										viewBox="0 0 576 512"
+									>
+										<path
+											fill="currentColor"
+											d="M569.517 440.013C587.975 472.007 564.806 512 527.94 512H48.054c-36.937 0-59.999-40.055-41.577-71.987L246.423 23.985c18.467-32.009 64.72-31.951 83.154 0l239.94 416.028zM288 354c-25.405 0-46 20.595-46 46s20.595 46 46 46 46-20.595 46-46-20.595-46-46-46zm-43.673-165.346l7.418 136c.347 6.364 5.609 11.346 11.982 11.346h48.546c6.373 0 11.635-4.982 11.982-11.346l7.418-136c.375-6.874-5.098-12.654-11.982-12.654h-63.383c-6.884 0-12.356 5.78-11.981 12.654z"
+										></path>
+									</svg>
+									<p>
+										Carefully reference documentation{" "}
+										<a
+											className="text-sky-600 hover:text-sky-800 font-bold"
+											href="https://coltonmilbrandt.gitbook.io/gwin/technical-details/creating-a-new-market"
+											target="_blank"
+											rel="noopener"
+										>
+											here
+										</a>
+										.
+									</p>
+								</div>
+							)}
 							<form onSubmit={handleSubmit}>
-								<div className="form-group">
+								<div className="form-group mt-2">
 									<label htmlFor="poolType">Pool Type</label>
 									<select
 										id="poolType"
@@ -228,12 +277,12 @@ const CreatePool = ({ isOpen, userWalletBal, onClose, contract }) => {
 										</option>
 									</select>
 									{errors.poolType && (
-										<div className="invalid-feedback">
+										<div className="text-red-500">
 											{errors.poolType}
 										</div>
 									)}
 								</div>
-								<div className="form-group">
+								<div className="form-group mt-2">
 									<label htmlFor="parentId">Parent ID</label>
 									<input
 										type="text"
@@ -258,12 +307,12 @@ const CreatePool = ({ isOpen, userWalletBal, onClose, contract }) => {
 											focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none`}
 									/>
 									{errors.parentId && (
-										<div className="invalid-feedback">
+										<div className="text-red-500">
 											{errors.parentId}
 										</div>
 									)}
 								</div>
-								<div className="form-group">
+								<div className="form-group mt-2">
 									<label htmlFor="basePriceFeedAddress">
 										Base Price Feed Address
 									</label>
@@ -290,15 +339,13 @@ const CreatePool = ({ isOpen, userWalletBal, onClose, contract }) => {
 											focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none`}
 									/>
 									{errors.basePriceFeedAddress && (
-										<div className="invalid-feedback">
+										<div className="text-red-500">
 											{errors.basePriceFeedAddress}
 										</div>
 									)}
 								</div>
-								<div className="form-group">
-									<label htmlFor="baseKey">
-										Base Key (hash)
-									</label>
+								<div className="form-group mt-2">
+									<label htmlFor="baseKey">Base Key</label>
 									<input
 										type="text"
 										id="baseKey"
@@ -322,12 +369,12 @@ const CreatePool = ({ isOpen, userWalletBal, onClose, contract }) => {
 											focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none`}
 									/>
 									{errors.baseKey && (
-										<div className="invalid-feedback">
+										<div className="text-red-500">
 											{errors.baseKey}
 										</div>
 									)}
 								</div>
-								<div className="form-group">
+								<div className="form-group mt-2">
 									<label htmlFor="quotePriceFeedAddress">
 										Quote Price Feed Address
 									</label>
@@ -354,15 +401,13 @@ const CreatePool = ({ isOpen, userWalletBal, onClose, contract }) => {
 											focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none`}
 									/>
 									{errors.quotePriceFeedAddress && (
-										<div className="invalid-feedback">
+										<div className="text-red-500">
 											{errors.quotePriceFeedAddress}
 										</div>
 									)}
 								</div>
-								<div className="form-group">
-									<label htmlFor="quoteKey">
-										Quote Key (hash)
-									</label>
+								<div className="form-group mt-2">
+									<label htmlFor="quoteKey">Quote Key</label>
 									<input
 										type="text"
 										id="quoteKey"
@@ -386,12 +431,12 @@ const CreatePool = ({ isOpen, userWalletBal, onClose, contract }) => {
 											focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none`}
 									/>
 									{errors.quoteKey && (
-										<div className="invalid-feedback">
+										<div className="text-red-500">
 											{errors.quoteKey}
 										</div>
 									)}
 								</div>
-								<div className="form-group">
+								<div className="form-group mt-2">
 									<div className="flex justify-between">
 										<label className="flex" htmlFor="cRate">
 											Cooled Rate
@@ -429,12 +474,12 @@ const CreatePool = ({ isOpen, userWalletBal, onClose, contract }) => {
                                             focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none`}
 									/>
 									{errors.cRate && (
-										<div className="invalid-feedback">
+										<div className="text-red-500">
 											{errors.cRate}
 										</div>
 									)}
 								</div>
-								<div className="form-group">
+								<div className="form-group mt-2">
 									<div className="flex justify-between">
 										<label className="flex" htmlFor="hRate">
 											hRate
@@ -472,13 +517,16 @@ const CreatePool = ({ isOpen, userWalletBal, onClose, contract }) => {
                                             focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none`}
 									/>
 									{errors.hRate && (
-										<div className="invalid-feedback">
+										<div className="text-red-500">
 											{errors.hRate}
 										</div>
 									)}
 								</div>
+								<h2 className="text-xl font-semibold mt-3">
+									Pool Pair Details:
+								</h2>
 								<div>
-									This pool is a{" "}
+									The Cooled pool is:{" "}
 									{generatePoolName(
 										formData.baseKey,
 										formData.quoteKey,
@@ -489,7 +537,7 @@ const CreatePool = ({ isOpen, userWalletBal, onClose, contract }) => {
 									)}
 								</div>
 								<div>
-									This pool is a{" "}
+									The Heated pool is:{" "}
 									{generatePoolName(
 										formData.baseKey,
 										formData.quoteKey,
@@ -500,7 +548,7 @@ const CreatePool = ({ isOpen, userWalletBal, onClose, contract }) => {
 									)}
 								</div>
 								{/* footer */}
-								<div className="modal-footer flex flex-shrink-0 flex-wrap items-center justify-end p-4 border-t border-gray-200 rounded-b-md">
+								<div className="modal-footer flex mt-3 flex-shrink-0 flex-wrap items-center justify-end p-4 border-t border-gray-200 rounded-b-md">
 									{/* close button */}
 									<button
 										type="button"
@@ -516,10 +564,6 @@ const CreatePool = ({ isOpen, userWalletBal, onClose, contract }) => {
 										onSubmit={() => handleSubmit}
 										type="submit"
 										disabled={!isFormFilled}
-										// disabled={
-										// 	withdrawalAmount == 0 ||
-										// 	isWithdrawing == true
-										// }
 										className="inline-block px-6 py-2.5 bg-indigo-500 text-white font-medium text-sm leading-tight rounded shadow-md disabled:opacity-40 hover:bg-blue-700 hover:shadow-lg focus:bg-blue-700 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-blue-800 active:shadow-lg transition duration-150 ease-in-out ml-1"
 									>
 										Create Pool
