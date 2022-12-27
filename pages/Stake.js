@@ -7,6 +7,7 @@ import toast, { Toaster } from "react-hot-toast"
 import PoolCard from "../components/PoolCard"
 import CreatePool from "../components/CreatePool"
 import Web3 from "web3"
+import PoolCardSection from "../components/PoolCardSection"
 
 // this is the main portion of the functional app, contains pools
 
@@ -61,7 +62,15 @@ export default function Stake() {
 	const [poolsWithBalances, setPoolsWithBalances] = useState([])
 	const [isUnstaking, setIsUnstaking] = useState(false)
 	const [isStaking, setIsStaking] = useState(false)
-	const [isCreatePoolOpen, setIsCreatePoolOpen] = useState(false)
+
+	// filters
+	const cooledFilteredPools = poolsWithBalances
+		.filter((pool) => pool.cRate > -1000000000000 && pool.cRate < 0)
+		.filter((pool) => pool.parentId == 0)
+
+	const stableFilteredPools = poolsWithBalances
+		.filter((pool) => pool.cRate == -1000000000000)
+		.filter((pool) => pool.parentId == 0)
 
 	// sets contracts
 	const setContracts = () => {
@@ -228,84 +237,46 @@ export default function Stake() {
 		<div>
 			{/* for toast messages */}
 			<Toaster />
-			<div className="grid grid-cols-1 md:grid-cols-3 text-gray-900 pb-4">
-				{/* list heated pools */}
-				{poolsWithBalances.length > 0 ? (
-					poolsWithBalances.map((pool) => (
-						<PoolCard
-							key={pool.id}
-							pool={pool}
-							walletBal={userEthWalletBal}
-							contract={gwin}
-							isHeated={true}
-							isCooled={false}
-						/>
-					))
-				) : (
-					// show loader if pools not yet loaded
-					<div className="absolute top-1/2 left-1/2 justify-center items-center">
-						<div
-							className="text-white spinner-border animate-spin inline-block w-16 h-16 border-4 rounded-full"
-							role="status"
-						>
-							<span className="visually-hidden">Loading...</span>
-						</div>
-					</div>
-				)}
-			</div>
-			<div className="grid grid-cols-1 md:grid-cols-3 text-gray-900 pb-4">
-				<div className="col-span-1 md:col-span-3 grid grid-cols-4 pb-6 pt-4">
-					<h2 className="col-span-3 text-3xl font-bold w-full text-cyan-900">
-						Shorted Assets
-					</h2>
-					<div className="col-span-1 relative flex justify-end">
-						{/* button to add a pool */}
-						<a
-							className="inline-block text-xl fill-white font-bold text-white hover:text-sky-800 hover:fill-sky-800 active:text-sky-900 active:fill-sky-900 cursor-pointer"
-							onClick={() => setIsCreatePoolOpen(true)}
-						>
-							Add Pool&nbsp;&nbsp;
-							<svg
-								className="w-8 h-8 inline-block"
-								xmlns="http://www.w3.org/2000/svg"
-								viewBox="0 0 512 512"
-							>
-								<path d="M256 512c141.4 0 256-114.6 256-256S397.4 0 256 0S0 114.6 0 256S114.6 512 256 512zM232 344V280H168c-13.3 0-24-10.7-24-24s10.7-24 24-24h64V168c0-13.3 10.7-24 24-24s24 10.7 24 24v64h64c13.3 0 24 10.7 24 24s-10.7 24-24 24H280v64c0 13.3-10.7 24-24 24s-24-10.7-24-24z" />
-							</svg>
-						</a>
+			{poolsWithBalances.length > 0 ? (
+				<PoolCardSection // Heated Pools
+					pools={poolsWithBalances} // pass pools
+					sectionName="Heated Pools"
+					walletBal={userEthWalletBal}
+					contract={gwin}
+					isHeated={true}
+					isCooled={false}
+				/>
+			) : (
+				// show loader if pools not yet loaded
+				<div className="absolute top-1/2 left-1/2 justify-center items-center">
+					<div
+						className="text-white spinner-border animate-spin inline-block w-16 h-16 border-4 rounded-full"
+						role="status"
+					>
+						<span className="visually-hidden">Loading...</span>
 					</div>
 				</div>
-				{/* list cooled, stable, and shorted pools */}
-				{poolsWithBalances.length > 0 ? (
-					poolsWithBalances.map((pool) => (
-						<PoolCard
-							key={pool.id}
-							pool={pool}
-							walletBal={userEthWalletBal}
-							contract={gwin}
-							isHeated={false}
-							isCooled={true}
-						/>
-					))
-				) : (
-					// show loader if pools not yet loaded
-					<div className="absolute top-1/2 left-1/2 justify-center items-center">
-						<div
-							className="text-white spinner-border animate-spin inline-block w-16 h-16 border-4 rounded-full"
-							role="status"
-						>
-							<span className="visually-hidden">Loading...</span>
-						</div>
-					</div>
-				)}
-				{/* create pool modal */}
-				<CreatePool
-					isOpen={isCreatePoolOpen}
-					onClose={() => setIsCreatePoolOpen(false)}
-					userWalletBal={userEthWalletBal}
+			)}
+			{cooledFilteredPools.length > 0 ? (
+				<PoolCardSection // Cooled Pools
+					pools={cooledFilteredPools} // pass filtered pools
+					sectionName="Cooled Pools"
+					walletBal={userEthWalletBal}
 					contract={gwin}
+					isHeated={false}
+					isCooled={true}
 				/>
-			</div>
+			) : null}
+			{stableFilteredPools.length > 0 ? (
+				<PoolCardSection // Stable Pools
+					pools={stableFilteredPools} // pass filtered pools
+					sectionName="Stable Pools"
+					walletBal={userEthWalletBal}
+					contract={gwin}
+					isHeated={false}
+					isCooled={true}
+				/>
+			) : null}
 		</div>
 	)
 }
