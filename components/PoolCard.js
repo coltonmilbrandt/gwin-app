@@ -42,13 +42,11 @@ export default function PoolCard({
 	// convert User Balance from smart contract
 	const userBal = (decimals) => {
 		let value
-		console.log("poolId: " + poolId + ". ParentId: " + pool.parentId)
 		if (isCooled) {
 			value = web3.utils.fromWei(pool.userCEthBalPreview.toString())
 		} else if (isHeated) {
 			value = web3.utils.fromWei(pool.userHEthBalPreview.toString())
 		}
-		console.log("UserBal is: " + value)
 		return Number(value).toFixed(decimals)
 	}
 

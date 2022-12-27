@@ -7,7 +7,9 @@ import toast, { Toaster } from "react-hot-toast"
 import PoolCard from "../components/PoolCard"
 import CreatePool from "../components/CreatePool"
 import Web3 from "web3"
+import parentPoolFilter from "../helpers/parentPoolFilter"
 
+// returns a section of Pool Cards filtered by type
 const PoolCardSection = ({
 	pools,
 	sectionName,
@@ -16,8 +18,11 @@ const PoolCardSection = ({
 	isHeated,
 	isCooled,
 }) => {
-	// add the extra props here
-	// returns a section of Pool Cards filtered by type
+	const [updatedPools, parentIds] = parentPoolFilter(
+		pools,
+		isHeated,
+		isCooled
+	)
 
 	const [isCreatePoolOpen, setIsCreatePoolOpen] = useState(false)
 
@@ -44,11 +49,25 @@ const PoolCardSection = ({
 					</a>
 				</div>
 			</div>
-			{/* list cooled, stable, and shorted pools */}
+			{/* list relevant pools */}
 			{pools.length > 0
-				? pools.map((pool) => (
+				? pools
+						.filter((pool) => !parentIds[pool.parentId])
+						.map((pool) => (
+							<PoolCard
+								key={pool.id}
+								pool={pool}
+								walletBal={walletBal}
+								contract={contract}
+								isHeated={isHeated}
+								isCooled={isCooled}
+							/>
+						))
+				: null}
+			{updatedPools.length > 0
+				? updatedPools.map((pool) => (
 						<PoolCard
-							key={pool.id}
+							key={pool.parentId}
 							pool={pool}
 							walletBal={walletBal}
 							contract={contract}

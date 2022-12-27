@@ -72,6 +72,10 @@ export default function Stake() {
 		.filter((pool) => pool.cRate == -1000000000000)
 		.filter((pool) => pool.parentId == 0)
 
+	const parentFilteredPools = poolsWithBalances.filter(
+		(pool) => pool.parentId != 0
+	)
+
 	// sets contracts
 	const setContracts = () => {
 		if (chainName) {
@@ -176,6 +180,7 @@ export default function Stake() {
 				userWalletBal = Number(userWalletBal)
 				setUserEthWalletBal(userWalletBal)
 			}
+			console.log(parentFilteredPools)
 			setPoolsWithBalances(pools)
 			console.log("ranGetPools !!")
 			console.log(pools)
@@ -257,10 +262,10 @@ export default function Stake() {
 					</div>
 				</div>
 			)}
-			{cooledFilteredPools.length > 0 ? (
-				<PoolCardSection // Cooled Pools
-					pools={cooledFilteredPools} // pass filtered pools
-					sectionName="Cooled Pools"
+			{parentFilteredPools.length > 0 ? (
+				<PoolCardSection // Parent Pools
+					pools={parentFilteredPools} // pass filtered pools
+					sectionName="Parent Pools" // needs to be "Parent Pools" for later consolidation
 					walletBal={userEthWalletBal}
 					contract={gwin}
 					isHeated={false}
@@ -271,6 +276,16 @@ export default function Stake() {
 				<PoolCardSection // Stable Pools
 					pools={stableFilteredPools} // pass filtered pools
 					sectionName="Stable Pools"
+					walletBal={userEthWalletBal}
+					contract={gwin}
+					isHeated={false}
+					isCooled={true}
+				/>
+			) : null}
+			{cooledFilteredPools.length > 0 ? (
+				<PoolCardSection // Cooled Pools
+					pools={cooledFilteredPools} // pass filtered pools
+					sectionName="Cooled Pools"
 					walletBal={userEthWalletBal}
 					contract={gwin}
 					isHeated={false}

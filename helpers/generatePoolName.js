@@ -14,16 +14,10 @@ const generatePoolName = (
 ) => {
 	try {
 		// split basePriceFeedKey into base1 and base2
-		console.log(basePriceFeedKey)
-		console.log(quotePriceFeedKey)
-
 		const base1 = splitPair(basePriceFeedKey, 0)
 		const base2 = splitPair(basePriceFeedKey, 1)
-		console.log("base1: " + base1)
-		console.log("base2: " + base2)
 		// split quotePriceFeedKey into quote1
 		const quote1 = splitPair(quotePriceFeedKey, 0)
-		console.log("quote1: " + quote1)
 		// get leverage based on whether Pool Card is heated, and convert rate to human readable
 		const leverage = isHeated ? convertRate(hRate) : convertRate(cRate)
 		let poolName
