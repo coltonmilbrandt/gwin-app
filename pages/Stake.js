@@ -50,7 +50,7 @@ export default function Stake() {
 			setGwin("0xe4d3900e47Aaa60494BA8F593Dd8c779D0fA0B3d")
 		} else if (chainIdReadable == 1337) {
 			// set local contract
-			setGwin("0x9562cbbEF48728A6ff8Dcfb1E45073F5349B3C51")
+			setGwin("0xD31D454E6a3C8d7Fae07b4dac135c26f2Dc1fAF8")
 			// don't forget to IMPORT NEW WALLET for balances
 		}
 	})

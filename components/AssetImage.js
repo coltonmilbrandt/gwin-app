@@ -9,7 +9,6 @@ import btcPic from "/public/Bitcoin.png"
 import yenPic from "/public/yen.png"
 import dollarPic from "/public/dollar.png"
 import defaultPic from "/public/default.png"
-import getHeat from "../helpers/getHeat"
 
 // This component returns the featured symbol and target images
 
@@ -35,33 +34,8 @@ const determineTarget = (symbol, target, leverage) => {
 		// return default value as fallback
 		return defaultPic
 	} else {
-		switch (getHeat(leverage)) {
-			case "iced":
-				// target is the
-				if (target in symbolImages) {
-					return symbolImages[target]
-				}
-				break
-			case "shorted":
-				// target is focus of position
-				if (target in symbolImages) {
-					return symbolImages[target]
-				}
-				break
-			case "cooled":
-				// symbol is focus of position
-				if (symbol !== undefined && symbol in symbolImages) {
-					return symbolImages[symbol]
-				}
-				break
-			case "heated":
-				// target is focus of position
-				if (target in symbolImages) {
-					return symbolImages[target]
-				}
-			default:
-				// return default value as fallback
-				return defaultPic
+		if (target in symbolImages) {
+			return symbolImages[target]
 		}
 	}
 }
@@ -100,32 +74,8 @@ const selectSymbol = (symbol, target, leverage) => {
 			// return default value as fallback
 			return defaultPic
 		} else {
-			switch (getHeat(leverage)) {
-				case "iced":
-					// symbol is featured as focus of position
-					if (symbol in symbolImages) {
-						return symbolImages[symbol]
-					}
-					break
-				case "shorted":
-					// symbol is featured as focus of position
-					if (symbol in symbolImages) {
-						return symbolImages[symbol]
-					}
-					break
-				case "cooled":
-					// target is featured
-					if (target === undefined) {
-						return defaultPic
-					} else {
-						if (target in symbolImages) {
-							return symbolImages[target]
-						}
-					}
-					break
-				default:
-					// return default value as fallback
-					return defaultPic
+			if (symbol in symbolImages) {
+				return symbolImages[symbol]
 			}
 		}
 	}

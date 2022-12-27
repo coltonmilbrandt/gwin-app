@@ -69,12 +69,22 @@ export default function PoolCard({
 	}
 	const symbol = () => {
 		// returns the featured asset
-		return featuredSymbol(pool.basePriceFeedKey, pool.quotePriceFeedKey)
+		const symbolLeverage = isHeated ? hRate : cRate
+		return featuredSymbol(
+			pool.basePriceFeedKey,
+			pool.quotePriceFeedKey,
+			symbolLeverage
+		)
 	}
 
 	const targetSymbol = () => {
 		// returns the asset opposite of the featured asset
-		return target(pool.basePriceFeedKey, pool.quotePriceFeedKey)
+		const targetLeverage = isHeated ? hRate : cRate
+		return target(
+			pool.basePriceFeedKey,
+			pool.quotePriceFeedKey,
+			targetLeverage
+		)
 	}
 
 	const underlying = () => {
