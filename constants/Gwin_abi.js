@@ -382,6 +382,16 @@ module.exports = {
 							type: "int256",
 						},
 						{
+							internalType: "uint256",
+							name: "hHealth",
+							type: "uint256",
+						},
+						{
+							internalType: "uint256",
+							name: "cHealth",
+							type: "uint256",
+						},
+						{
 							internalType: "uint8",
 							name: "poolType",
 							type: "uint8",
@@ -544,6 +554,30 @@ module.exports = {
 				},
 			],
 			name: "getParentUserCEthPercent",
+			outputs: [
+				{
+					internalType: "uint256",
+					name: "",
+					type: "uint256",
+				},
+			],
+			stateMutability: "view",
+			type: "function",
+		},
+		{
+			inputs: [
+				{
+					internalType: "uint256",
+					name: "_poolId",
+					type: "uint256",
+				},
+				{
+					internalType: "bool",
+					name: "_isCooled",
+					type: "bool",
+				},
+			],
+			name: "getPoolHealth",
 			outputs: [
 				{
 					internalType: "uint256",

@@ -8,6 +8,7 @@ import PoolCard from "../components/PoolCard"
 import CreatePool from "../components/CreatePool"
 import Web3 from "web3"
 import PoolCardSection from "../components/PoolCardSection"
+import PriceChange from "../components/PriceChange"
 
 // this is the main portion of the functional app, contains pools
 
@@ -51,7 +52,7 @@ export default function Stake() {
 			setGwin("0xe4d3900e47Aaa60494BA8F593Dd8c779D0fA0B3d")
 		} else if (chainIdReadable == 1337) {
 			// set local contract
-			setGwin("0xD31D454E6a3C8d7Fae07b4dac135c26f2Dc1fAF8")
+			setGwin("0x61022E05dFb53f1F9664Ef8946Cc29B4415EA821")
 			// don't forget to IMPORT NEW WALLET for balances
 		}
 	})
@@ -63,18 +64,9 @@ export default function Stake() {
 	const [isUnstaking, setIsUnstaking] = useState(false)
 	const [isStaking, setIsStaking] = useState(false)
 
-	// filters
-	const cooledFilteredPools = poolsWithBalances
-		.filter((pool) => pool.cRate > -1000000000000 && pool.cRate < 0)
-		.filter((pool) => pool.parentId == 0)
-
-	const stableFilteredPools = poolsWithBalances
-		.filter((pool) => pool.cRate == -1000000000000)
-		.filter((pool) => pool.parentId == 0)
-
-	const parentFilteredPools = poolsWithBalances.filter(
-		(pool) => pool.parentId != 0
-	)
+	const [cooledFilteredPools, setCooledFilteredPools] = useState([])
+	const [stableFilteredPools, setStableFilteredPools] = useState([])
+	const [parentFilteredPools, setParentFilteredPools] = useState([])
 
 	// sets contracts
 	const setContracts = () => {
@@ -173,14 +165,35 @@ export default function Stake() {
 
 	useEffect(() => {
 		const interval = setInterval(async () => {
+			console.log("HERE!!!")
+			console.log(abi)
+			console.log(gwin)
+			console.log(account)
 			const pools = await getAllPoolsWithBalances()
-			let userWalletBal = await web3.eth.getBalance(account)
-			if (userWalletBal) {
-				userWalletBal = web3.utils.fromWei(userWalletBal, "ether")
-				userWalletBal = Number(userWalletBal)
-				setUserEthWalletBal(userWalletBal)
+			// let userWalletBal = await web3.eth.getBalance(account)
+			// if (userWalletBal) {
+			// 	userWalletBal = web3.utils.fromWei(userWalletBal, "ether")
+			// 	userWalletBal = Number(userWalletBal)
+			// 	setUserEthWalletBal(userWalletBal)
+			// }
+			if (pools && typeof pools != "undefined") {
+				// filters
+				const cooledFilter = pools
+					.filter(
+						(pool) => pool.cRate > -1000000000000 && pool.cRate < 0
+					)
+					.filter((pool) => pool.parentId == 0)
+
+				const stableFilter = pools
+					.filter((pool) => pool.cRate == -1000000000000)
+					.filter((pool) => pool.parentId == 0)
+
+				const parentFilter = pools.filter((pool) => pool.parentId != 0)
+				setCooledFilteredPools(cooledFilter)
+				setStableFilteredPools(stableFilter)
+				setParentFilteredPools(parentFilter)
+				console.log(parentFilteredPools)
 			}
-			console.log(parentFilteredPools)
 			setPoolsWithBalances(pools)
 			console.log("ranGetPools !!")
 			console.log(pools)
@@ -242,7 +255,8 @@ export default function Stake() {
 		<div>
 			{/* for toast messages */}
 			<Toaster />
-			{poolsWithBalances.length > 0 ? (
+			{typeof poolsWithBalances != "undefined" &&
+			poolsWithBalances.length > 0 ? (
 				<PoolCardSection // Heated Pools
 					pools={poolsWithBalances} // pass pools
 					sectionName="Heated Pools"
@@ -292,6 +306,7 @@ export default function Stake() {
 					isCooled={true}
 				/>
 			) : null}
+			{/* {chainIdReadable == 1337 ? <PriceChange /> : null} */}
 		</div>
 	)
 }

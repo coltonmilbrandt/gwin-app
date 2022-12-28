@@ -11,6 +11,7 @@ import featuredSymbol from "../helpers/featuredSymbol"
 import getHeat from "../helpers/getHeat"
 import convertHex from "../helpers/convertHex"
 import generatePoolName from "../helpers/generatePoolName"
+import Health from "./Health"
 
 // returns a Pool Card that shows the information for a pool
 
@@ -131,6 +132,18 @@ export default function PoolCard({
 							<div>${priceFeed().toFixed(2)}</div>
 						)
 					}
+				</div>
+				<div className="whitespace-nowrap overflow-hidden text-ellipsis">
+					Health:&nbsp;
+					<Health
+						pool={pool}
+						leverage={isHeated ? hRate : cRate}
+						hEth={hEth(5)}
+						cEth={cEth(5)}
+						contract={contract}
+						isCooled={isCooled}
+						priceFeed={priceFeed()}
+					/>
 				</div>
 				{/* show balances */}
 				{hEth(5) != "" ? (
