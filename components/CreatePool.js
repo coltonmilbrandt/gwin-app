@@ -159,6 +159,7 @@ const CreatePool = ({ isOpen, userWalletBal, onClose, contract }) => {
 	useEffect(() => {
 		if (isSubmitting == true) {
 			try {
+				onClose()
 				console.log(formData)
 				// initializePool().then(() => setIsSubmitting(false))
 				initializePool({
@@ -179,8 +180,6 @@ const CreatePool = ({ isOpen, userWalletBal, onClose, contract }) => {
 		toast.success("Successfully Staked!")
 		// end depositing process
 		setIsSubmitting(false)
-		// close modal
-		onClose()
 	}
 
 	const handleCreatePoolError = async (error) => {
@@ -192,8 +191,6 @@ const CreatePool = ({ isOpen, userWalletBal, onClose, contract }) => {
 		)
 		// end deposit
 		setIsSubmitting(false)
-		// close modal
-		onClose()
 	}
 
 	const { runContractFunction: initializePool } = useWeb3Contract({
