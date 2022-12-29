@@ -30,7 +30,7 @@ const CreatePool = ({ isOpen, userWalletBal, onClose, contract }) => {
 	const [isSubmitting, setIsSubmitting] = useState(false)
 
 	const [formData, setFormData] = useState({
-		amount: 0,
+		amount: "",
 		poolType: "classic",
 		parentId: "",
 		basePriceFeedAddress: "",
@@ -86,10 +86,8 @@ const CreatePool = ({ isOpen, userWalletBal, onClose, contract }) => {
 			newErrors.baseKey =
 				"Base key must be in the format 'XXX/XXX', where X is a letter between 3 and 5 characters in length."
 		}
-		if (!formData.quotePriceFeedAddress) {
-			newErrors.quotePriceFeedAddress =
-				"Quote price feed address is required"
-		} else {
+		if (formData.quotePriceFeedAddress) {
+			// only validate the field if it has an entry
 			const isValidAddress = /^0x[0-9a-fA-F]{40}$/.test(
 				formData.quotePriceFeedAddress
 			)
@@ -160,6 +158,7 @@ const CreatePool = ({ isOpen, userWalletBal, onClose, contract }) => {
 		if (isSubmitting == true) {
 			try {
 				onClose()
+				isCreatingPoolMessage()
 				console.log(formData)
 				// initializePool().then(() => setIsSubmitting(false))
 				initializePool({
@@ -172,6 +171,11 @@ const CreatePool = ({ isOpen, userWalletBal, onClose, contract }) => {
 			}
 		}
 	}, [formData])
+
+	const isCreatingPoolMessage = () => {
+		// show toast message
+		toast.info("Transaction is Processing...")
+	}
 
 	const handleCreatePoolSuccess = async (tx) => {
 		// if deposit success wait
@@ -335,6 +339,7 @@ const CreatePool = ({ isOpen, userWalletBal, onClose, contract }) => {
 										id="amount"
 										name="amount"
 										value={formData.amount}
+										placeholder="ETH deposit to initialize pool"
 										onChange={handleChange}
 										className={`form-control
 											block
@@ -402,6 +407,7 @@ const CreatePool = ({ isOpen, userWalletBal, onClose, contract }) => {
 										id="parentId"
 										name="parentId"
 										value={formData.parentId}
+										placeholder="Parent ID - (ex. 0 for none)"
 										onChange={handleChange}
 										className={`form-control
 											block
@@ -434,6 +440,7 @@ const CreatePool = ({ isOpen, userWalletBal, onClose, contract }) => {
 										id="basePriceFeedAddress"
 										name="basePriceFeedAddress"
 										value={formData.basePriceFeedAddress}
+										placeholder="Price Feed Address - (ex. 0x...)"
 										onChange={handleChange}
 										className={`form-control
 											block
@@ -464,6 +471,7 @@ const CreatePool = ({ isOpen, userWalletBal, onClose, contract }) => {
 										id="baseKey"
 										name="baseKey"
 										value={formData.baseKey}
+										placeholder="Pair Description (ex. ETH/USD)"
 										onChange={handleChange}
 										className={`form-control
 											block
@@ -496,6 +504,7 @@ const CreatePool = ({ isOpen, userWalletBal, onClose, contract }) => {
 										id="quotePriceFeedAddress"
 										name="quotePriceFeedAddress"
 										value={formData.quotePriceFeedAddress}
+										placeholder="Price Feed Address - (ex. 0x...)"
 										onChange={handleChange}
 										className={`form-control
 											block
@@ -526,6 +535,7 @@ const CreatePool = ({ isOpen, userWalletBal, onClose, contract }) => {
 										id="quoteKey"
 										name="quoteKey"
 										value={formData.quoteKey}
+										placeholder="Pair Description (ex. BTC/USD)"
 										onChange={handleChange}
 										className={`form-control
 											block
