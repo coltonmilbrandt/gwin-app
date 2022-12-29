@@ -3,8 +3,10 @@ import { useState, useEffect } from "react"
 import { useMoralis, useWeb3Contract, useERC20Balances } from "react-moralis"
 import { chainDict } from "../constants/chainDict"
 import React from "react"
+import { abi } from "../constants/Gwin_abi"
 import Web3 from "web3"
 import generatePoolName from "../helpers/generatePoolName"
+import toast, { Toaster } from "react-hot-toast"
 
 const web3 = new Web3()
 
@@ -25,8 +27,10 @@ const CreatePool = ({ isOpen, userWalletBal, onClose, contract }) => {
 	const [symbol, setSymbol] = useState("ETH")
 	const [leverage, setLeverage] = useState(0)
 	const [target, setTarget] = useState("ETH")
+	const [isSubmitting, setIsSubmitting] = useState(false)
 
 	const [formData, setFormData] = useState({
+		amount: 0,
 		poolType: "classic",
 		parentId: "",
 		basePriceFeedAddress: "",
@@ -51,6 +55,13 @@ const CreatePool = ({ isOpen, userWalletBal, onClose, contract }) => {
 	const validateForm = () => {
 		const pattern = /^[a-zA-Z]{3,5}\/[a-zA-Z]{3,5}$/
 		let newErrors = {}
+		if (!formData.amount) {
+			newErrors.amount = "Amount is required"
+		} else {
+			if (formData.amount <= 0) {
+				newErrors.amount = "Amount must be greater than zero"
+			}
+		}
 		if (!formData.poolType) {
 			newErrors.poolType = "Pool type is required"
 		}
@@ -107,8 +118,17 @@ const CreatePool = ({ isOpen, userWalletBal, onClose, contract }) => {
 		e.preventDefault()
 		if (validateForm()) {
 			// Convert baseKey and quoteKey to bytes 32
-			const baseKeyBytes32 = web3.utils.toHex(formData.baseKey)
-			const quoteKeyBytes32 = web3.utils.toHex(formData.quoteKey)
+			const baseKeyBytes32 = web3.utils.toHex(formData.baseKey).toString()
+			const quoteKeyBytes32 = web3.utils
+				.toHex(formData.quoteKey)
+				.toString()
+			const paddedBaseKeyBytes32 = web3.utils.padRight(baseKeyBytes32, 32)
+			const paddedQuoteKeyBytes32 = web3.utils.padRight(
+				quoteKeyBytes32,
+				32
+			)
+			const stringAmount = formData.amount.toString()
+			const convertedAmount = web3.utils.toWei(stringAmount, "ether")
 			let poolTypeNum
 			switch (formData.poolType) {
 				case "classic":
@@ -120,6 +140,14 @@ const CreatePool = ({ isOpen, userWalletBal, onClose, contract }) => {
 				default:
 					poolTypeNum = null
 			}
+			setFormData({
+				...formData,
+				amount: convertedAmount,
+				poolType: poolTypeNum,
+				baseKey: paddedBaseKeyBytes32,
+				quoteKey: paddedQuoteKeyBytes32,
+			})
+			setIsSubmitting(true)
 			// submit form data
 			// call moralis hook here
 			console.log(baseKeyBytes32)
@@ -127,6 +155,63 @@ const CreatePool = ({ isOpen, userWalletBal, onClose, contract }) => {
 			console.log(formData)
 		}
 	}
+
+	useEffect(() => {
+		if (isSubmitting == true) {
+			try {
+				console.log(formData)
+				// initializePool().then(() => setIsSubmitting(false))
+				initializePool({
+					onSuccess: handleCreatePoolSuccess,
+					onError: (error) => handleCreatePoolError(error),
+				}).then(() => setIsSubmitting(false))
+				// setIsSubmitting(false)
+			} catch (error) {
+				console.log(error)
+			}
+		}
+	}, [formData])
+
+	const handleCreatePoolSuccess = async (tx) => {
+		// if deposit success wait
+		await tx.wait(1)
+		// show toast message
+		toast.success("Successfully Staked!")
+		// end depositing process
+		setIsSubmitting(false)
+		// close modal
+		onClose()
+	}
+
+	const handleCreatePoolError = async (error) => {
+		// if deposit error, log error
+		console.log(error)
+		// show toast message
+		toast.error(
+			"Uh oh! The pool could not be created. Check console for details."
+		)
+		// end deposit
+		setIsSubmitting(false)
+		// close modal
+		onClose()
+	}
+
+	const { runContractFunction: initializePool } = useWeb3Contract({
+		abi: abi,
+		contractAddress: contract,
+		functionName: "initializePool",
+		params: {
+			_type: formData.poolType,
+			_parentId: formData.parentId,
+			_basePriceFeedAddress: formData.basePriceFeedAddress,
+			_baseCurrencyKey: formData.baseKey,
+			_quotePriceFeedAddress: formData.quotePriceFeedAddress,
+			_quoteCurrencyKey: formData.quoteKey,
+			_cRate: formData.cRate,
+			_hRate: formData.hRate,
+		},
+		msgValue: formData.amount,
+	})
 
 	// keep modal closed until isOpen is true
 	if (isOpen == false) return null
@@ -186,8 +271,7 @@ const CreatePool = ({ isOpen, userWalletBal, onClose, contract }) => {
 								</span>
 							</div>
 							{/* if user balance is zero, show warning */}
-							{/* CHANGE BACK */}
-							{Number(userWalletBal) != 0 ? (
+							{Number(userWalletBal) == 0 ? (
 								<div
 									className="bg-red-100 mt-3 rounded-lg py-5 px-6 mb-3 text-base text-red-700 inline-flex items-center w-full"
 									role="alert"
@@ -245,6 +329,38 @@ const CreatePool = ({ isOpen, userWalletBal, onClose, contract }) => {
 								</div>
 							)}
 							<form onSubmit={handleSubmit}>
+								<div className="form-group mt-2">
+									<label htmlFor="amount">
+										Deposit Amount (ETH)
+									</label>
+									<input
+										type="text"
+										id="amount"
+										name="amount"
+										value={formData.amount}
+										onChange={handleChange}
+										className={`form-control
+											block
+											w-full
+											px-3
+											py-1.5
+											text-base
+											font-normal
+											text-gray-700
+											bg-white bg-clip-padding
+											border border-solid border-gray-300
+											rounded
+											transition
+											ease-in-out
+											m-0
+											focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none`}
+									/>
+									{errors.amount && (
+										<div className="text-red-500">
+											{errors.amount}
+										</div>
+									)}
+								</div>
 								<div className="form-group mt-2">
 									<label htmlFor="poolType">Pool Type</label>
 									<select
@@ -453,7 +569,7 @@ const CreatePool = ({ isOpen, userWalletBal, onClose, contract }) => {
 										id="cRate"
 										name="cRate"
 										min="-10000000000000"
-										max="0"
+										max="-250000000000"
 										step="250000000000"
 										value={formData.cRate}
 										onChange={handleChange}
@@ -487,7 +603,8 @@ const CreatePool = ({ isOpen, userWalletBal, onClose, contract }) => {
 										<div className="flex justify-self-end">
 											{`${
 												Number(formData.hRate) /
-												10 ** 12
+													10 ** 12 +
+												1
 											}x`}
 										</div>
 									</div>
@@ -496,7 +613,7 @@ const CreatePool = ({ isOpen, userWalletBal, onClose, contract }) => {
 										id="hRate"
 										name="hRate"
 										min="0"
-										max="10000000000000"
+										max="9000000000000"
 										step="250000000000"
 										value={formData.hRate}
 										onChange={handleChange}
@@ -530,8 +647,8 @@ const CreatePool = ({ isOpen, userWalletBal, onClose, contract }) => {
 									{generatePoolName(
 										formData.baseKey,
 										formData.quoteKey,
-										true, // is heated
-										false, // is cooled
+										false, // is heated
+										true, // is cooled
 										formData.hRate,
 										formData.cRate
 									)}
@@ -541,8 +658,8 @@ const CreatePool = ({ isOpen, userWalletBal, onClose, contract }) => {
 									{generatePoolName(
 										formData.baseKey,
 										formData.quoteKey,
-										false, // is heated
-										true, // is cooled
+										true, // is heated
+										false, // is cooled
 										formData.hRate,
 										formData.cRate
 									)}

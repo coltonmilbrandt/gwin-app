@@ -170,12 +170,12 @@ export default function Stake() {
 			console.log(gwin)
 			console.log(account)
 			const pools = await getAllPoolsWithBalances()
-			// let userWalletBal = await web3.eth.getBalance(account)
-			// if (userWalletBal) {
-			// 	userWalletBal = web3.utils.fromWei(userWalletBal, "ether")
-			// 	userWalletBal = Number(userWalletBal)
-			// 	setUserEthWalletBal(userWalletBal)
-			// }
+			let userWalletBal = await web3.eth.getBalance(account)
+			if (userWalletBal) {
+				userWalletBal = web3.utils.fromWei(userWalletBal, "ether")
+				userWalletBal = Number(userWalletBal)
+				setUserEthWalletBal(userWalletBal)
+			}
 			if (pools && typeof pools != "undefined") {
 				// filters
 				const cooledFilter = pools
