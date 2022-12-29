@@ -52,7 +52,7 @@ export default function Stake() {
 			setGwin("0xe4d3900e47Aaa60494BA8F593Dd8c779D0fA0B3d")
 		} else if (chainIdReadable == 1337) {
 			// set local contract
-			setGwin("0x61022E05dFb53f1F9664Ef8946Cc29B4415EA821")
+			setGwin("0x718a6FE2C74c5735CC683E3eF454D467733BA2B4")
 			// don't forget to IMPORT NEW WALLET for balances
 		}
 	})
@@ -67,6 +67,7 @@ export default function Stake() {
 	const [cooledFilteredPools, setCooledFilteredPools] = useState([])
 	const [stableFilteredPools, setStableFilteredPools] = useState([])
 	const [parentFilteredPools, setParentFilteredPools] = useState([])
+	const [shortedFilteredPools, setShortedFilteredPools] = useState([])
 
 	// sets contracts
 	const setContracts = () => {
@@ -165,11 +166,13 @@ export default function Stake() {
 
 	useEffect(() => {
 		const interval = setInterval(async () => {
-			console.log("HERE!!!")
+			console.log("Pool Call Details")
 			console.log(abi)
 			console.log(gwin)
 			console.log(account)
 			const pools = await getAllPoolsWithBalances()
+			console.log("pools:")
+			console.log(pools)
 			let userWalletBal = await web3.eth.getBalance(account)
 			if (userWalletBal) {
 				userWalletBal = web3.utils.fromWei(userWalletBal, "ether")
@@ -183,12 +186,15 @@ export default function Stake() {
 						(pool) => pool.cRate > -1000000000000 && pool.cRate < 0
 					)
 					.filter((pool) => pool.parentId == 0)
-
 				const stableFilter = pools
 					.filter((pool) => pool.cRate == -1000000000000)
 					.filter((pool) => pool.parentId == 0)
 
 				const parentFilter = pools.filter((pool) => pool.parentId != 0)
+				const shortFilter = pools
+					.filter((pool) => pool.cRate < -1000000000000)
+					.filter((pool) => pool.parentId == 0)
+				setShortedFilteredPools(shortFilter)
 				setCooledFilteredPools(cooledFilter)
 				setStableFilteredPools(stableFilter)
 				setParentFilteredPools(parentFilter)
@@ -290,6 +296,16 @@ export default function Stake() {
 				<PoolCardSection // Stable Pools
 					pools={stableFilteredPools} // pass filtered pools
 					sectionName="Stable Pools"
+					walletBal={userEthWalletBal}
+					contract={gwin}
+					isHeated={false}
+					isCooled={true}
+				/>
+			) : null}
+			{shortedFilteredPools.length > 0 ? (
+				<PoolCardSection // Cooled Pools
+					pools={shortedFilteredPools} // pass filtered pools
+					sectionName="Short Pools"
 					walletBal={userEthWalletBal}
 					contract={gwin}
 					isHeated={false}

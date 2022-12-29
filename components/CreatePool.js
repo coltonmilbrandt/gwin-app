@@ -8,7 +8,7 @@ import Web3 from "web3"
 import generatePoolName from "../helpers/generatePoolName"
 import toast, { Toaster } from "react-hot-toast"
 
-const web3 = new Web3()
+let web3 = new Web3()
 
 // Create Pool modal to create a new market with a pool pair
 
@@ -118,15 +118,15 @@ const CreatePool = ({ isOpen, userWalletBal, onClose, contract }) => {
 		e.preventDefault()
 		if (validateForm()) {
 			// Convert baseKey and quoteKey to bytes 32
-			const baseKeyBytes32 = web3.utils.toHex(formData.baseKey).toString()
-			const quoteKeyBytes32 = web3.utils
-				.toHex(formData.quoteKey)
-				.toString()
-			const paddedBaseKeyBytes32 = web3.utils.padRight(baseKeyBytes32, 32)
-			const paddedQuoteKeyBytes32 = web3.utils.padRight(
-				quoteKeyBytes32,
-				32
-			)
+			const baseKeyHex = web3.utils.utf8ToHex(formData.baseKey)
+			const quoteKeyHex = web3.utils.utf8ToHex(formData.quoteKey)
+			console.log(baseKeyHex)
+			let strippedBaseKeyHex = baseKeyHex.slice(2)
+			let strippedQuoteKeyHex = quoteKeyHex.slice(2)
+			let padBaseKey = strippedBaseKeyHex.padStart(64, "0")
+			let padQuoteKey = strippedQuoteKeyHex.padStart(64, "0")
+			padBaseKey = "0x" + padBaseKey
+			padQuoteKey = "0x" + padQuoteKey
 			const stringAmount = formData.amount.toString()
 			const convertedAmount = web3.utils.toWei(stringAmount, "ether")
 			let poolTypeNum
@@ -144,14 +144,14 @@ const CreatePool = ({ isOpen, userWalletBal, onClose, contract }) => {
 				...formData,
 				amount: convertedAmount,
 				poolType: poolTypeNum,
-				baseKey: paddedBaseKeyBytes32,
-				quoteKey: paddedQuoteKeyBytes32,
+				baseKey: padBaseKey,
+				quoteKey: padQuoteKey,
 			})
 			setIsSubmitting(true)
 			// submit form data
 			// call moralis hook here
-			console.log(baseKeyBytes32)
-			console.log(quoteKeyBytes32)
+			console.log(padBaseKey)
+			console.log(padQuoteKey)
 			console.log(formData)
 		}
 	}
