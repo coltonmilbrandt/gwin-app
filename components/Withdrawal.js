@@ -39,11 +39,12 @@ const Withdrawal = ({
 
 	let web3 = new Web3()
 
+	// user entered withdrawal amount & options
 	const [withdrawalAmount, setWithdrawalAmount] = useState("")
+	const [withdrawAll, setWithdrawAll] = useState(false)
+
+	// converted values for form submission
 	const [convertedPoolId, setConvertedPoolId] = useState("")
-	const contractAddress = contract
-	const [convertedWithdrawalAmount, setConvertedWithdrawalAmount] =
-		useState(0)
 	const [
 		convertedCooledWithdrawalAmount,
 		setConvertedCooledWithdrawalAmount,
@@ -53,9 +54,10 @@ const Withdrawal = ({
 		setConvertedHeatedWithdrawalAmount,
 	] = useState(0)
 
+	// is withdrawing for button disable etc.
 	const [isWithdrawing, setisWithdrawing] = useState(false)
-	const [withdrawOpen, setWithdrawOpen] = useState(false)
-	const [withdrawAll, setWithdrawAll] = useState(false)
+
+	// errors to display for form validation
 	const [errors, setErrors] = useState({})
 
 	useEffect(() => {
@@ -106,52 +108,31 @@ const Withdrawal = ({
 	}
 
 	const validateForm = () => {
-		console.log("form details: ")
-		console.log(convertedPoolId)
-		console.log(isCooled)
-		console.log(isHeated)
-		console.log(convertedCooledWithdrawalAmount)
-		console.log(convertedHeatedWithdrawalAmount)
-		console.log(withdrawAll)
+		// create error object
 		let newErrors = {}
 		if (!withdrawalAmount) {
 			newErrors.amount = "Amount is required"
 		} else {
 			if (withdrawalAmount <= 0) {
+				// add to error object
 				newErrors.amount = "Amount must be greater than zero"
 			}
 		}
 		if (typeof convertedPoolId == "undefined") {
+			// add to error object
 			newErrors.poolId = "Pool ID is invalid"
 		}
+		// set errors
 		setErrors(newErrors)
+		// if no errors, return true
 		return Object.keys(newErrors).length === 0
 	}
 
-	useEffect(() => {
-		console.log("form details: ")
-		console.log(convertedPoolId)
-		console.log(isCooled)
-		console.log(isHeated)
-		console.log(convertedCooledWithdrawalAmount)
-		console.log(convertedHeatedWithdrawalAmount)
-		console.log(withdrawAll)
-	}, [
-		convertedCooledWithdrawalAmount,
-		convertedHeatedWithdrawalAmount,
-		withdrawAll,
-	])
-
 	const handleSubmit = (e) => {
+		// prevent default HTML form behavior
 		e.preventDefault()
+		// if form passes validation
 		if (validateForm()) {
-			console.log("form details: ")
-			console.log(convertedPoolId)
-			console.log(isCooled)
-			console.log(isHeated)
-			console.log(convertedCooledWithdrawalAmount)
-			console.log(convertedHeatedWithdrawalAmount)
-			console.log(withdrawAll)
 			try {
 				setisWithdrawing(true) // set withdrawing to true, disables buttons etc.
 				// call smart contract to withdraw
@@ -189,7 +170,7 @@ const Withdrawal = ({
 		isFetching,
 	} = useWeb3Contract({
 		abi: abi,
-		contractAddress: contractAddress,
+		contractAddress: contract,
 		functionName: "withdrawFromTranche",
 		params: {
 			_poolId: convertedPoolId, // number
