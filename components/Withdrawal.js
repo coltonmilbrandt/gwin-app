@@ -89,7 +89,7 @@ const Withdrawal = ({
 				setConvertedHeatedWithdrawalAmount(0)
 			}
 		}
-	}, [withdrawalAmount])
+	}, [withdrawalAmount, withdrawAll])
 
 	const getTargetConvertedAmount = () => {
 		// applies proper symbol and formatting to non-ETH withdrawal amount
@@ -106,6 +106,13 @@ const Withdrawal = ({
 	}
 
 	const validateForm = () => {
+		console.log("form details: ")
+		console.log(convertedPoolId)
+		console.log(isCooled)
+		console.log(isHeated)
+		console.log(convertedCooledWithdrawalAmount)
+		console.log(convertedHeatedWithdrawalAmount)
+		console.log(withdrawAll)
 		let newErrors = {}
 		if (!withdrawalAmount) {
 			newErrors.amount = "Amount is required"
@@ -114,15 +121,14 @@ const Withdrawal = ({
 				newErrors.amount = "Amount must be greater than zero"
 			}
 		}
-		if (!convertedPoolId) {
+		if (typeof convertedPoolId == "undefined") {
 			newErrors.poolId = "Pool ID is invalid"
 		}
 		setErrors(newErrors)
 		return Object.keys(newErrors).length === 0
 	}
 
-	const handleSubmit = (e) => {
-		e.preventDefault()
+	useEffect(() => {
 		console.log("form details: ")
 		console.log(convertedPoolId)
 		console.log(isCooled)
@@ -130,25 +136,49 @@ const Withdrawal = ({
 		console.log(convertedCooledWithdrawalAmount)
 		console.log(convertedHeatedWithdrawalAmount)
 		console.log(withdrawAll)
-		try {
-			setisWithdrawing(true) // set withdrawing to true, disables buttons etc.
-			// call smart contract to withdraw
-			withdraw({
-				// handle success or error with toast messages
-				onSuccess: handleWithdrawalSuccess,
-				onError: (error) => handleWithdrawalError(error),
-			}).then(() => setisWithdrawing(false)) // set withdrawing to false
-		} catch (err) {
-			console.error(err)
-			handleWithdrawalError(err) // toast
+	}, [
+		convertedCooledWithdrawalAmount,
+		convertedHeatedWithdrawalAmount,
+		withdrawAll,
+	])
+
+	const handleSubmit = (e) => {
+		e.preventDefault()
+		if (validateForm()) {
+			console.log("form details: ")
+			console.log(convertedPoolId)
+			console.log(isCooled)
+			console.log(isHeated)
+			console.log(convertedCooledWithdrawalAmount)
+			console.log(convertedHeatedWithdrawalAmount)
+			console.log(withdrawAll)
+			try {
+				setisWithdrawing(true) // set withdrawing to true, disables buttons etc.
+				// call smart contract to withdraw
+				withdraw({
+					// handle success or error with toast messages
+					onSuccess: handleWithdrawalSuccess,
+					onError: (error) => handleWithdrawalError(error),
+				}).then(() => setisWithdrawing(false)) // set withdrawing to false
+			} catch (err) {
+				console.error(err)
+				handleWithdrawalError(err) // toast
+			}
 		}
 	}
 
-	const setIsAll = () => {
-		// set withdraw to entire deposited amount
-		setWithdrawAll(true)
-		// set withdraw amount to entire userBal
-		setWithdrawalAmount(Number(userBal))
+	const setWithdrawal = (isAll, amount) => {
+		if (isAll) {
+			// set withdraw to entire deposited amount
+			setWithdrawAll(true)
+			// set withdraw amount to entire userBal
+			setWithdrawalAmount(Number(userBal))
+		} else {
+			// set withdraw as partial amount
+			setWithdrawAll(false)
+			// set withdrawal to partial amount
+			setWithdrawalAmount(amount)
+		}
 	}
 
 	// withdraw hook for smart contract
@@ -288,6 +318,11 @@ const Withdrawal = ({
 									</div>
 								) : null}
 								<div className="form-group mb-6">
+									{errors.poolId && (
+										<div className="text-red-500">
+											{errors.poolId}
+										</div>
+									)}
 									<label
 										htmlFor="exampleInputEmail1"
 										className="form-label inline-block mb-2 text-gray-700"
@@ -301,7 +336,8 @@ const Withdrawal = ({
 												type="button"
 												className="inline-block w-full px-6 py-2.5 bg-[#7d71d1] text-white font-medium text-xs leading-tight uppercase rounded-l shadow-md hover:bg-purple-700 hover:shadow-lg focus:bg-purple-700 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-purple-800 active:shadow-lg transition duration-150 ease-in-out"
 												onClick={() =>
-													setWithdrawalAmount(
+													setWithdrawal(
+														false,
 														Number(userBal) * 0.1
 													)
 												}
@@ -314,7 +350,8 @@ const Withdrawal = ({
 												type="button"
 												className="inline-block w-full px-6 py-2.5 bg-[#7d71d1] text-white font-medium text-xs leading-tight uppercase shadow-md hover:bg-purple-700 hover:shadow-lg focus:bg-purple-700 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-purple-800 active:shadow-lg transition duration-150 ease-in-out"
 												onClick={() =>
-													setWithdrawalAmount(
+													setWithdrawal(
+														false,
 														Number(userBal) * 0.25
 													)
 												}
@@ -327,7 +364,8 @@ const Withdrawal = ({
 												type="button"
 												className="inline-block w-full px-6 py-2.5 bg-[#7d71d1] text-white font-medium text-xs leading-tight uppercase shadow-md hover:bg-purple-700 hover:shadow-lg focus:bg-purple-700 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-purple-800 active:shadow-lg transition duration-150 ease-in-out"
 												onClick={() =>
-													setWithdrawalAmount(
+													setWithdrawal(
+														false,
 														Number(userBal) * 0.5
 													)
 												}
@@ -340,7 +378,8 @@ const Withdrawal = ({
 												type="button"
 												className="inline-block w-full px-6 py-2.5 bg-[#7d71d1] text-white font-medium text-xs leading-tight uppercase shadow-md hover:bg-purple-700 hover:shadow-lg focus:bg-purple-700 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-purple-800 active:shadow-lg transition duration-150 ease-in-out"
 												onClick={() =>
-													setWithdrawalAmount(
+													setWithdrawal(
+														false,
 														Number(userBal) * 0.75
 													)
 												}
@@ -352,7 +391,12 @@ const Withdrawal = ({
 											<button
 												type="button"
 												className="inline-block w-full px-6 py-2.5 bg-[#7d71d1] text-white font-medium text-xs leading-tight uppercase rounded-r shadow-md hover:bg-purple-700 hover:shadow-lg focus:bg-purple-700 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-purple-800 active:shadow-lg transition duration-150 ease-in-out"
-												onClick={() => setIsAll()}
+												onClick={() =>
+													setWithdrawal(
+														true,
+														Number(userBal)
+													)
+												}
 											>
 												100%
 											</button>
