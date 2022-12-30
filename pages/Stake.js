@@ -136,40 +136,40 @@ export default function Stake() {
 	///////////   Update UI   ////////////
 
 	const updateUIValues = async (tokenVal) => {
-		console.log("token test: ")
-		console.log(tokenVal)
+		// console.log("token test: ")
+		// console.log(tokenVal)
 		if (tokenVal) {
 			var tokenValue = tokenVal
-			console.log("token: ")
-			console.log(tokenValue)
+			// console.log("token: ")
+			// console.log(tokenValue)
 			tokenValue = parseInt(tokenValue._hex)
 			var tokenValue = tokenValue / Math.pow(10, 8)
-			console.log(tokenValue)
+			// console.log(tokenValue)
 			return tokenValue
 		}
 	}
 
 	const handleBalanceValue = async (balVal) => {
-		console.log("token test: ")
-		console.log(balVal)
+		// console.log("token test: ")
+		// console.log(balVal)
 		if (balVal) {
 			var adjBalVal = balVal
-			console.log("token: ")
-			console.log(adjBalVal)
+			// console.log("token: ")
+			// console.log(adjBalVal)
 			adjBalVal = parseInt(adjBalVal._hex)
 			adjBalVal = adjBalVal / Math.pow(10, 18)
 			adjBalVal = adjBalVal.toFixed(5)
-			console.log(adjBalVal)
+			// console.log(adjBalVal)
 			return adjBalVal
 		}
 	}
 
 	useEffect(() => {
 		const interval = setInterval(async () => {
-			console.log("Pool Call Details")
-			console.log(abi)
-			console.log(gwin)
-			console.log(account)
+			// console.log("Pool Call Details")
+			// console.log(abi)
+			// console.log(gwin)
+			// console.log(account)
 			const pools = await getAllPoolsWithBalances()
 			console.log("pools:")
 			console.log(pools)
@@ -201,19 +201,19 @@ export default function Stake() {
 				console.log(parentFilteredPools)
 			}
 			setPoolsWithBalances(pools)
-			console.log("ranGetPools !!")
-			console.log(pools)
-			console.log(chainIdReadable)
-			console.log(gwin)
-			console.log(account)
+			// console.log("ranGetPools !!")
+			// console.log(pools)
+			// console.log(chainIdReadable)
+			// console.log(gwin)
+			// console.log(account)
 		}, 5000) // runs every 5 seconds
 
 		return () => clearInterval(interval)
 	}, [getAllPoolsWithBalances])
 
 	useEffect(() => {
-		console.log("useEffect log")
-		console.log(poolsWithBalances)
+		// console.log("useEffect log")
+		// console.log(poolsWithBalances)
 	}, [poolsWithBalances])
 
 	useEffect(() => {
