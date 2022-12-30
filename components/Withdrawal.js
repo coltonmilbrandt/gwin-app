@@ -69,8 +69,9 @@ const Withdrawal = ({
 	}, [])
 
 	useEffect(() => {
-		// check whether value exists
+		// convert user entered values for smart contract
 		if (
+			// check whether value exists
 			typeof withdrawalAmount != "undefined" &&
 			withdrawalAmount != "" &&
 			withdrawalAmount != 0
@@ -150,7 +151,7 @@ const Withdrawal = ({
 
 	const setWithdrawal = (isAll, amount) => {
 		if (isAll) {
-			// set withdraw to entire deposited amount
+			// set withdraw to entire deposited amount, determined by smart contract
 			setWithdrawAll(true)
 			// set withdraw amount to entire userBal
 			setWithdrawalAmount(Number(userBal))
@@ -181,6 +182,22 @@ const Withdrawal = ({
 			_isAll: withdrawAll, // bool
 		},
 	})
+
+	// show 'loading...' toast message while processing transaction
+	useEffect(() => {
+		if (isLoading) {
+			toast.loading("Transaction in progress...", {
+				position: "top-center",
+				autoClose: false,
+				hideProgressBar: true,
+				closeOnClick: false,
+				pauseOnHover: false,
+				draggable: false,
+			})
+		} else {
+			toast.dismiss()
+		}
+	}, [isLoading])
 
 	///////////   Toast Messsage Updates   ////////////
 

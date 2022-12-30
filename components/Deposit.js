@@ -5,6 +5,7 @@ import { useMoralis, useWeb3Contract, useERC20Balances } from "react-moralis"
 import { chainDict } from "../constants/chainDict"
 import { abi } from "../constants/Gwin_abi"
 import toast, { Toaster } from "react-hot-toast"
+import Web3 from "web3"
 
 const Deposit = ({
 	isOpen,
@@ -34,41 +35,102 @@ const Deposit = ({
 	const chainId = parseInt(chainIdHex)
 	const chainName = chainDict[chainId]
 
-	const [depositAmount, setDepositAmount] = useState(0)
-	const [cooledDepositAmount, setCooledDepositAmount] = useState(0)
-	const [heatedDepositAmount, setHeatedDepositAmount] = useState(0)
+	let web3 = new Web3()
 
-	const [isDepositing, setisDepositing] = useState(false)
+	const [depositAmount, setDepositAmount] = useState("")
 
-	// Deposit function to call smart contract
+	// converted values for form submission
+	const [convertedPoolId, setConvertedPoolId] = useState("")
+	const [convertedDepositAmount, setConvertedDepositAmount] = useState("")
+	const [convertedCooledDepositAmount, setConvertedCooledDepositAmount] =
+		useState(0)
+	const [convertedHeatedDepositAmount, setConvertedHeatedDepositAmount] =
+		useState(0)
+
+	// is depositing value for button disable etc.
+	const [isDepositing, setIsDepositing] = useState(false)
+
+	// errors to display for form validation
+	const [errors, setErrors] = useState({})
+
+	// deposit hook for smart contract
 	const {
 		runContractFunction: deposit,
-		data: enterTxResponse,
-		isLoading,
+		data,
+		error,
 		isFetching,
+		isLoading,
 	} = useWeb3Contract({
 		abi: abi,
 		contractAddress: contract,
 		functionName: "depositToTranche",
 		params: {
-			_poolId: poolId,
-			_isCooled: isCooled,
-			_isHeated: isHeated,
-			_cAmount: Moralis.Units.ETH(cooledDepositAmount),
-			_hAmount: Moralis.Units.ETH(heatedDepositAmount),
+			_poolId: convertedPoolId, // number
+			_isCooled: isCooled, // bool
+			_isHeated: isHeated, // bool
+			_cAmount: convertedCooledDepositAmount, // in Wei
+			_hAmount: convertedHeatedDepositAmount, // in Wei
 		},
-		msgValue: Moralis.Units.ETH(depositAmount),
+		msgValue: convertedDepositAmount, // in Wei
 	})
+
+	// show 'loading...' toast message while processing transaction
+	useEffect(() => {
+		if (isLoading) {
+			toast.loading("Transaction in progress...", {
+				position: "top-center",
+				autoClose: false,
+				hideProgressBar: true,
+				closeOnClick: false,
+				pauseOnHover: false,
+				draggable: false,
+			})
+		} else {
+			toast.dismiss()
+		}
+	}, [isLoading])
+
+	// show 'success' or 'error' message after processing transaction
+	useEffect(() => {
+		if (error) {
+			toast.error(`Error: ${error.message}`, {
+				position: "top-center",
+				autoClose: 5000,
+				hideProgressBar: false,
+				closeOnClick: true,
+				pauseOnHover: true,
+				draggable: true,
+			})
+		} else if (data) {
+			toast.success("Transaction completed successfully!", {
+				position: "top-center",
+				autoClose: 5000,
+				hideProgressBar: false,
+				closeOnClick: true,
+				pauseOnHover: true,
+				draggable: true,
+			})
+		}
+	}, [error, data])
+
+	useEffect(() => {
+		console.log(convertedPoolId)
+		console.log(isCooled)
+		console.log(isHeated)
+		console.log(convertedCooledDepositAmount)
+		console.log(convertedHeatedDepositAmount)
+		console.log(convertedDepositAmount)
+	}, [convertedCooledDepositAmount, convertedDepositAmount, convertedPoolId])
 
 	///////////   Toast Messsage Updates   ////////////
 
 	const handleDepositSuccess = async (tx) => {
 		// if deposit success wait
 		await tx.wait(1)
-		// show toast message
-		toast.success("Successfully Staked!")
+		// // show toast message
+		// toast.success("Successfully Staked!")
 		// end depositing process
-		setisDepositing(false)
+		setIsDepositing(false)
 		// close modal
 		onClose()
 	}
@@ -76,67 +138,105 @@ const Deposit = ({
 	const handleDepositError = async (error) => {
 		// if deposit error, log error
 		console.log(error)
-		// show toast message
-		toast.error(
-			"Uh oh! The deposit did not process. Check console for details."
-		)
+		// // show toast message
+		// toast.error(
+		// 	"Uh oh! The deposit did not process. Check console for details."
+		// )
 		// end deposit
-		setisDepositing(false)
+		setIsDepositing(false)
 		// close modal
 		onClose()
 	}
 
-	function setDeposits(bal) {
-		// sets deposit amount
-		console.log("cooled: " + isCooled)
-		console.log("heated: " + isHeated)
-		setDepositAmount(bal)
-		console.log(depositAmount)
-		if (isCooled == "true") {
-			// if cooled, set cooled amount
-			setCooledDepositAmount(bal)
-			console.log("didCooled")
-		} else if (isHeated == "true") {
-			// if heated, set heated amount
-			setHeatedDepositAmount(bal)
-			console.log("didHeated")
+	useEffect(() => {
+		// convert poolId from hex
+		if (typeof poolId != "undefined" && poolId != "") {
+			const poolIdConverted = poolId.toNumber()
+			setConvertedPoolId(poolIdConverted)
 		}
-		console.log("cooledDep " + cooledDepositAmount)
-		console.log("heatedDep " + heatedDepositAmount)
-		console.log(depositAmount)
-	}
+	}, [])
 
 	useEffect(() => {
-		async function handleDepositing() {
-			// initiate depositing
-			// set deposit amount
-			setDeposits(depositAmount)
-			console.log("isDepositing: " + isDepositing)
-			if (isDepositing == true) {
-				try {
-					console.log(Moralis.Units.ETH(depositAmount))
-					console.log(poolId)
-					console.log(isCooled)
-					console.log(isHeated)
-					console.log(Moralis.Units.ETH(cooledDepositAmount))
-					console.log(Moralis.Units.ETH(heatedDepositAmount))
-					// call smart contract for deposit
-					await deposit({
-						onSuccess: handleDepositSuccess,
-						onError: (error) => handleDepositError(error),
-					})
-				} catch (err) {
-					console.error(err)
-				}
+		// convert user entered values for smart contract
+		if (
+			// check whether value exists
+			typeof depositAmount != "undefined" &&
+			depositAmount != "" &&
+			depositAmount != 0
+		) {
+			// get deposit amount
+			const convertedAmount = depositAmount
+			// change to string
+			const amountString = convertedAmount.toString()
+			// convert to Wei
+			const weiAmount = web3.utils.toWei(amountString, "ether")
+			setConvertedDepositAmount(weiAmount)
+			if (isHeated == true) {
+				// set converted heated amount for submit
+				setConvertedHeatedDepositAmount(weiAmount)
+				setConvertedCooledDepositAmount(0)
 			} else {
-				// end deposit
-				setisDepositing(false)
+				// set converted cooled amount for submit
+				setConvertedCooledDepositAmount(weiAmount)
+				setConvertedHeatedDepositAmount(0)
 			}
 		}
-		if (isDepositing == true) {
-			handleDepositing()
+	}, [depositAmount])
+
+	const validateForm = () => {
+		// create error object
+		let newErrors = {}
+		if (!depositAmount) {
+			newErrors.amount = "Amount is required"
+		} else {
+			if (depositAmount <= 0) {
+				// add to error object
+				newErrors.amount = "Amount must be greater than zero"
+			}
 		}
-	}, [isDepositing])
+		if (typeof convertedPoolId == "undefined") {
+			// add to error object
+			newErrors.poolId = "Pool ID is invalid"
+		}
+		// set errors
+		setErrors(newErrors)
+		// if no errors, return true
+		return Object.keys(newErrors).length === 0
+	}
+
+	const handleSubmit = (e) => {
+		// prevent default HTML form behavior
+		e.preventDefault()
+		// if form passes validation
+		if (validateForm()) {
+			try {
+				setIsDepositing(true) // set depositing to true, disables buttons etc.
+				// call smart contract to deposit
+				deposit({
+					// handle success or error with toast messages
+					onSuccess: handleDepositSuccess,
+					onError: (error) => handleDepositError(error),
+				}).then(() => setIsDepositing(false)) // set depositing to false
+			} catch (err) {
+				console.error(err)
+				handleDepositError(err) // toast
+			}
+		}
+	}
+
+	const getTargetConvertedAmount = () => {
+		// applies proper symbol and formatting to non-ETH withdrawal amount
+		return symbol == "JPY"
+			? (depositAmount * priceFeed).toFixed(0)
+			: symbol == "BTC"
+			? (depositAmount * priceFeed).toFixed(6)
+			: symbol == "XAU"
+			? (depositAmount * priceFeed).toFixed(2)
+			: (symbol == "ETH" && target == "USD") ||
+			  (symbol == "USD" && target == "ETH")
+			? "$" + (depositAmount * priceFeed).toFixed(2)
+			: (depositAmount * priceFeed).toFixed(5)
+	}
 
 	// keep modal closed until isOpen is true
 	if (isOpen == false) return null
@@ -180,104 +280,113 @@ const Deposit = ({
 								onClick={() => onClose()}
 							></button>
 						</div>
-						{/* ETH wallet balance */}
-						<div className="modal-body relative p-4">
-							<div className="grid grid-cols-5">
-								<div className="col-span-3" />
-								<span className="text-sm sm:text-base col-span-2 inline-block py-1 px-2.5 leading-none text-center whitespace-nowrap align-baseline font-bold bg-indigo-500 text-white rounded">
-									<svg
-										xmlns="http://www.w3.org/2000/svg"
-										viewBox="0 0 512 512"
-										className="w-7 h-7 inline-block"
-									>
-										<path
-											className="color-white"
-											fill="#fff"
-											d="M64 32C28.7 32 0 60.7 0 96V416c0 35.3 28.7 64 64 64H448c35.3 0 64-28.7 64-64V192c0-35.3-28.7-64-64-64H80c-8.8 0-16-7.2-16-16s7.2-16 16-16H448c17.7 0 32-14.3 32-32s-14.3-32-32-32H64zM416 336c-17.7 0-32-14.3-32-32s14.3-32 32-32s32 14.3 32 32s-14.3 32-32 32z"
-										/>
-									</svg>
-									&nbsp;&nbsp;{walletBal.toFixed(5)} ETH
-								</span>
-							</div>
-							<div className="form-group mb-6">
-								<label
-									htmlFor="depositAmount1"
-									className="form-label inline-block mb-2 text-gray-700"
-								>
-									Deposit Amount
-								</label>
-								{/* buttons to set amounts by percentage for ease of use */}
-								<div className="grid grid-cols-5 pb-3">
-									<div className="col">
-										<button
-											type="button"
-											className="inline-block w-full px-6 py-2.5 bg-[#7d71d1] text-white font-medium text-xs leading-tight uppercase rounded-l shadow-md hover:bg-purple-700 hover:shadow-lg focus:bg-purple-700 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-purple-800 active:shadow-lg transition duration-150 ease-in-out"
-											onClick={() =>
-												setDeposits(
-													Number(walletBal * 0.1)
-												)
-											}
+						{/* begin form */}
+						<form onSubmit={handleSubmit}>
+							{/* ETH wallet balance */}
+							<div className="modal-body relative p-4">
+								<div className="grid grid-cols-5">
+									<div className="col-span-3" />
+									<span className="text-sm sm:text-base col-span-2 inline-block py-1 px-2.5 leading-none text-center whitespace-nowrap align-baseline font-bold bg-indigo-500 text-white rounded">
+										<svg
+											xmlns="http://www.w3.org/2000/svg"
+											viewBox="0 0 512 512"
+											className="w-7 h-7 inline-block"
 										>
-											10%
-										</button>
-									</div>
-									<div className="col">
-										<button
-											type="button"
-											className="inline-block w-full px-6 py-2.5 bg-[#7d71d1] text-white font-medium text-xs leading-tight uppercase shadow-md hover:bg-purple-700 hover:shadow-lg focus:bg-purple-700 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-purple-800 active:shadow-lg transition duration-150 ease-in-out"
-											onClick={() =>
-												setDeposits(
-													Number(walletBal * 0.25)
-												)
-											}
-										>
-											25%
-										</button>
-									</div>
-									<div className="col">
-										<button
-											type="button"
-											className="inline-block w-full px-6 py-2.5 bg-[#7d71d1] text-white font-medium text-xs leading-tight uppercase shadow-md hover:bg-purple-700 hover:shadow-lg focus:bg-purple-700 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-purple-800 active:shadow-lg transition duration-150 ease-in-out"
-											onClick={() =>
-												setDeposits(
-													Number(walletBal * 0.5)
-												)
-											}
-										>
-											50%
-										</button>
-									</div>
-									<div className="col">
-										<button
-											type="button"
-											className="inline-block w-full px-6 py-2.5 bg-[#7d71d1] text-white font-medium text-xs leading-tight uppercase shadow-md hover:bg-purple-700 hover:shadow-lg focus:bg-purple-700 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-purple-800 active:shadow-lg transition duration-150 ease-in-out"
-											onClick={() =>
-												setDeposits(
-													Number(walletBal * 0.75)
-												)
-											}
-										>
-											75%
-										</button>
-									</div>
-									<div className="col">
-										<button
-											type="button"
-											className="inline-block w-full px-6 py-2.5 bg-[#7d71d1] text-white font-medium text-xs leading-tight uppercase rounded-r shadow-md hover:bg-purple-700 hover:shadow-lg focus:bg-purple-700 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-purple-800 active:shadow-lg transition duration-150 ease-in-out"
-											onClick={() =>
-												setDeposits(Number(walletBal))
-											}
-										>
-											100%
-										</button>
-									</div>
+											<path
+												className="color-white"
+												fill="#fff"
+												d="M64 32C28.7 32 0 60.7 0 96V416c0 35.3 28.7 64 64 64H448c35.3 0 64-28.7 64-64V192c0-35.3-28.7-64-64-64H80c-8.8 0-16-7.2-16-16s7.2-16 16-16H448c17.7 0 32-14.3 32-32s-14.3-32-32-32H64zM416 336c-17.7 0-32-14.3-32-32s14.3-32 32-32s32 14.3 32 32s-14.3 32-32 32z"
+											/>
+										</svg>
+										&nbsp;&nbsp;{walletBal.toFixed(5)} ETH
+									</span>
 								</div>
-								{/* deposit amount in ETH input */}
-								<div className="grid grid-cols-5 py-3">
-									<div className="col-span-4">
-										<input
-											type="number"
-											className="form-control
+								<div className="form-group mb-6">
+									{errors.poolId && (
+										<div className="text-red-500">
+											{errors.poolId}
+										</div>
+									)}
+									<label
+										htmlFor="depositAmount1"
+										className="form-label inline-block mb-2 text-gray-700"
+									>
+										Deposit Amount
+									</label>
+									{/* buttons to set amounts by percentage for ease of use */}
+									<div className="grid grid-cols-5 pb-3">
+										<div className="col">
+											<button
+												type="button"
+												className="inline-block w-full px-6 py-2.5 bg-[#7d71d1] text-white font-medium text-xs leading-tight uppercase rounded-l shadow-md hover:bg-purple-700 hover:shadow-lg focus:bg-purple-700 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-purple-800 active:shadow-lg transition duration-150 ease-in-out"
+												onClick={() =>
+													setDepositAmount(
+														Number(walletBal * 0.1)
+													)
+												}
+											>
+												10%
+											</button>
+										</div>
+										<div className="col">
+											<button
+												type="button"
+												className="inline-block w-full px-6 py-2.5 bg-[#7d71d1] text-white font-medium text-xs leading-tight uppercase shadow-md hover:bg-purple-700 hover:shadow-lg focus:bg-purple-700 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-purple-800 active:shadow-lg transition duration-150 ease-in-out"
+												onClick={() =>
+													setDepositAmount(
+														Number(walletBal * 0.25)
+													)
+												}
+											>
+												25%
+											</button>
+										</div>
+										<div className="col">
+											<button
+												type="button"
+												className="inline-block w-full px-6 py-2.5 bg-[#7d71d1] text-white font-medium text-xs leading-tight uppercase shadow-md hover:bg-purple-700 hover:shadow-lg focus:bg-purple-700 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-purple-800 active:shadow-lg transition duration-150 ease-in-out"
+												onClick={() =>
+													setDepositAmount(
+														Number(walletBal * 0.5)
+													)
+												}
+											>
+												50%
+											</button>
+										</div>
+										<div className="col">
+											<button
+												type="button"
+												className="inline-block w-full px-6 py-2.5 bg-[#7d71d1] text-white font-medium text-xs leading-tight uppercase shadow-md hover:bg-purple-700 hover:shadow-lg focus:bg-purple-700 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-purple-800 active:shadow-lg transition duration-150 ease-in-out"
+												onClick={() =>
+													setDepositAmount(
+														Number(walletBal * 0.75)
+													)
+												}
+											>
+												75%
+											</button>
+										</div>
+										<div className="col">
+											<button
+												type="button"
+												className="inline-block w-full px-6 py-2.5 bg-[#7d71d1] text-white font-medium text-xs leading-tight uppercase rounded-r shadow-md hover:bg-purple-700 hover:shadow-lg focus:bg-purple-700 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-purple-800 active:shadow-lg transition duration-150 ease-in-out"
+												onClick={() =>
+													setDepositAmount(
+														Number(walletBal)
+													)
+												}
+											>
+												100%
+											</button>
+										</div>
+									</div>
+									{/* deposit amount in ETH input */}
+									<div className="grid grid-cols-5 py-3">
+										<div className="col-span-4">
+											<input
+												type="number"
+												className="form-control
 												block
 												w-full
 												px-3
@@ -292,29 +401,26 @@ const Deposit = ({
 												ease-in-out
 												m-0
 												focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none"
-											id="exampleInputEmail1"
-											aria-describedby="emailHelp"
-											placeholder="Deposit Amount (ether)"
-											max={Number(walletBal)}
-											onChange={(e) => {
-												setDepositAmount(
-													Number(e.target.value)
-												)
-											}}
-											onInput={(e) => {
-												setDepositAmount(
-													Number(e.target.value)
-												)
-												setDeposits(
-													Number(depositAmount)
-												)
-											}}
-											value={depositAmount}
-											required
-										/>
-									</div>
-									<div
-										className="col-span-1 block text-center 
+												id="exampleInputEmail1"
+												aria-describedby="emailHelp"
+												placeholder="Deposit Amount (ether)"
+												max={Number(walletBal)}
+												onChange={(e) => {
+													setDepositAmount(
+														Number(e.target.value)
+													)
+												}}
+												onInput={(e) => {
+													setDepositAmount(
+														Number(e.target.value)
+													)
+												}}
+												value={depositAmount}
+												required
+											/>
+										</div>
+										<div
+											className="col-span-1 block text-center 
 												text-white												
 												bg-indigo-500
 												w-full
@@ -324,16 +430,21 @@ const Deposit = ({
 												font-bold
 												bg-clip-padding
 											 	border-y border-r border-solid border-indigo-600 rounded-r"
-									>
-										ETH
+										>
+											ETH
+										</div>
+										{errors.amount && (
+											<div className="text-red-500">
+												{errors.amount}
+											</div>
+										)}
 									</div>
-								</div>
-								{/* deposit amount in USD */}
-								<div className="grid grid-cols-5">
-									<div className="col-span-4">
-										<input
-											type="number"
-											className="form-control
+									{/* deposit amount in USD */}
+									<div className="grid grid-cols-5">
+										<div className="col-span-4">
+											<input
+												type="text"
+												className="form-control
 											block
 											w-full
 											px-3
@@ -348,17 +459,18 @@ const Deposit = ({
 											ease-in-out
 											m-0
 												focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none"
-											id="exampleInputEmail1"
-											aria-describedby="emailHelp"
-											placeholder="USD Amount"
-											value={(
-												depositAmount * priceFeed
-											).toFixed(2)}
-											disabled
-										/>
-									</div>
-									<div
-										className="col-span-1 block text-center 
+												id="exampleInputEmail1"
+												aria-describedby="nonEthAmount"
+												placeholder="Asset amount"
+												value={
+													// format balance according to converted target balance
+													getTargetConvertedAmount()
+												}
+												disabled
+											/>
+										</div>
+										<div
+											className="col-span-1 block text-center 
 												text-white												
 												bg-teal-400
 												w-full
@@ -368,35 +480,38 @@ const Deposit = ({
 												font-bold
 												bg-clip-padding
 											 	border-y border-r border-solid border-teal-500 rounded-r"
-									>
-										$ USD
+										>
+											{symbol == "ETH" ? target : symbol}
+										</div>
 									</div>
 								</div>
 							</div>
-						</div>
-						{/* footer */}
-						<div className="modal-footer flex flex-shrink-0 flex-wrap items-center justify-end p-4 border-t border-gray-200 rounded-b-md">
-							{/* close button */}
-							<button
-								type="button"
-								className="inline-block px-6 py-2.5 bg-[#7d71d1] text-white font-medium text-sm leading-tight rounded shadow-md hover:bg-purple-700 hover:shadow-lg focus:bg-purple-700 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-purple-800 active:shadow-lg transition duration-150 ease-in-out"
-								data-bs-dismiss="modal"
-								onClick={() => onClose()}
-								disabled={isDepositing == true}
-							>
-								Close
-							</button>
-							{/* deposit button */}
-							<button
-								onClick={() => setisDepositing(true)}
-								disabled={
-									depositAmount == 0 || isDepositing == true
-								}
-								className="inline-block px-6 py-2.5 bg-indigo-500 text-white font-medium text-sm leading-tight rounded shadow-md disabled:opacity-40 hover:bg-blue-700 hover:shadow-lg focus:bg-blue-700 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-blue-800 active:shadow-lg transition duration-150 ease-in-out ml-1"
-							>
-								Deposit
-							</button>
-						</div>
+							{/* footer */}
+							<div className="modal-footer flex flex-shrink-0 flex-wrap items-center justify-end p-4 border-t border-gray-200 rounded-b-md">
+								{/* close button */}
+								<button
+									type="button"
+									className="inline-block px-6 py-2.5 bg-[#7d71d1] text-white font-medium text-sm leading-tight rounded shadow-md hover:bg-purple-700 hover:shadow-lg focus:bg-purple-700 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-purple-800 active:shadow-lg transition duration-150 ease-in-out"
+									data-bs-dismiss="modal"
+									onClick={() => onClose()}
+									disabled={isDepositing == true}
+								>
+									Close
+								</button>
+								{/* SUBMIT - deposit button */}
+								<button
+									onSubmit={() => handleSubmit}
+									type="submit"
+									disabled={
+										depositAmount == 0 ||
+										isDepositing == true
+									}
+									className="inline-block px-6 py-2.5 bg-indigo-500 text-white font-medium text-sm leading-tight rounded shadow-md disabled:opacity-40 hover:bg-blue-700 hover:shadow-lg focus:bg-blue-700 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-blue-800 active:shadow-lg transition duration-150 ease-in-out ml-1"
+								>
+									Deposit
+								</button>
+							</div>
+						</form>
 					</div>
 				</div>
 			</div>
