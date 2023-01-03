@@ -194,8 +194,8 @@ const CreatePool = ({ isOpen, userWalletBal, onClose, contract }) => {
 		setIsSubmitting(false)
 		// if deposit success wait
 		await tx.wait(1)
-		// show toast message
-		toast.success("Successfully Staked!")
+		// // show toast message
+		// toast.success("Successfully Staked!")
 	}
 
 	const handleCreatePoolError = async (error) => {
@@ -203,18 +203,19 @@ const CreatePool = ({ isOpen, userWalletBal, onClose, contract }) => {
 		setIsSubmitting(false)
 		// if deposit error, log error
 		console.log(error)
-		// show toast message
-		toast.error(
-			"Uh oh! The pool could not be created. Check console for details."
-		)
+		// // show toast message
+		// toast.error(
+		// 	"Uh oh! The pool could not be created. Check console for details."
+		// )
 	}
 
 	// create pool hook for smart contract
 	const {
 		runContractFunction: initializePool,
-		data: enterTxResponse,
-		isLoading,
+		data,
+		error,
 		isFetching,
+		isLoading,
 	} = useWeb3Contract({
 		abi: abi,
 		contractAddress: contract,
@@ -247,6 +248,29 @@ const CreatePool = ({ isOpen, userWalletBal, onClose, contract }) => {
 			toast.dismiss()
 		}
 	}, [isLoading])
+
+	// show 'success' or 'error' message after processing transaction
+	useEffect(() => {
+		if (error) {
+			toast.error(`Error: ${error.message}`, {
+				position: "top-center",
+				autoClose: 5000,
+				hideProgressBar: false,
+				closeOnClick: true,
+				pauseOnHover: true,
+				draggable: true,
+			})
+		} else if (data) {
+			toast.success("Transaction completed successfully!", {
+				position: "top-center",
+				autoClose: 5000,
+				hideProgressBar: false,
+				closeOnClick: true,
+				pauseOnHover: true,
+				draggable: true,
+			})
+		}
+	}, [error, data])
 
 	// keep modal closed until isOpen is true
 	if (isOpen == false) return null

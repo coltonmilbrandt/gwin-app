@@ -108,6 +108,25 @@ module.exports = {
 		{
 			inputs: [
 				{
+					internalType: "uint256",
+					name: "_poolId",
+					type: "uint256",
+				},
+			],
+			name: "bothPoolsHaveBalance",
+			outputs: [
+				{
+					internalType: "bool",
+					name: "",
+					type: "bool",
+				},
+			],
+			stateMutability: "view",
+			type: "function",
+		},
+		{
+			inputs: [
+				{
 					internalType: "bytes32",
 					name: "",
 					type: "bytes32",
@@ -1397,6 +1416,30 @@ module.exports = {
 				},
 			],
 			name: "retrieveProtocolHEthBalance",
+			outputs: [
+				{
+					internalType: "uint256",
+					name: "",
+					type: "uint256",
+				},
+			],
+			stateMutability: "view",
+			type: "function",
+		},
+		{
+			inputs: [
+				{
+					internalType: "uint256",
+					name: "_poolId",
+					type: "uint256",
+				},
+				{
+					internalType: "address",
+					name: "_user",
+					type: "address",
+				},
+			],
+			name: "seeUserParentPoolBal",
 			outputs: [
 				{
 					internalType: "uint256",

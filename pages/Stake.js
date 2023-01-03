@@ -52,7 +52,7 @@ export default function Stake() {
 			setGwin("0xe4d3900e47Aaa60494BA8F593Dd8c779D0fA0B3d")
 		} else if (chainIdReadable == 1337) {
 			// set local contract
-			setGwin("0x718a6FE2C74c5735CC683E3eF454D467733BA2B4")
+			setGwin("0xb81173B2362F99d1631A9D5EB46983052d323aE5")
 			// don't forget to IMPORT NEW WALLET for balances
 		}
 	})
@@ -201,8 +201,8 @@ export default function Stake() {
 				console.log(parentFilteredPools)
 			}
 			setPoolsWithBalances(pools)
-			// console.log("ranGetPools !!")
-			// console.log(pools)
+			console.log("ranGetPools !!")
+			console.log(pools)
 			// console.log(chainIdReadable)
 			// console.log(gwin)
 			// console.log(account)

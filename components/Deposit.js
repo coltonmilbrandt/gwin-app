@@ -382,6 +382,12 @@ const Deposit = ({
 										</div>
 									</div>
 									{/* deposit amount in ETH input */}
+									{depositAmount == walletBal ? (
+										<div className="text-red-500">
+											Make sure you have enough ETH left
+											for gas fees.
+										</div>
+									) : null}
 									<div className="grid grid-cols-5 py-3">
 										<div className="col-span-4">
 											<input
