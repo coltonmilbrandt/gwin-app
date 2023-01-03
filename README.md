@@ -53,4 +53,10 @@ Open [http://localhost:3000](http://localhost:3000) with your browser to see the
 
 Follow the smart contract instructions for [local deployment](https://github.com/coltonmilbrandt/gwin-protocol#local-pool-deployment-with-front-end-and-metamask)
 
-> Note: While the contract set for Goerli should be set correctly, you will need to change the local contract address for development.
+> Note: You will need to change the local contract address for development.
+
+## Running Scripts and Deployment on Goerli Test Net
+
+Follow the smart contract instructions for [getting connected to Goerli](https://github.com/coltonmilbrandt/gwin-protocol#running-scripts-and-deployment-on-goerli-test-net)
+
+> Note: The Goerli address will be set to the latest deployment, but if you want, feel free to use the directions [here](https://github.com/coltonmilbrandt/gwin-protocol#running-scripts-and-deployment-on-goerli-test-net) to deploy your own contract.
