@@ -49,14 +49,22 @@ yarn dev
 
 Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
 
-## Local Pool Deployment with Front-End and Metamask
+## Local Deployment with Front-End and Metamask
 
 Follow the smart contract instructions for [local deployment](https://github.com/coltonmilbrandt/gwin-protocol#local-pool-deployment-with-front-end-and-metamask)
 
 > Note: You will need to change the local contract address for development.
 
-## Running Scripts and Deployment on Goerli Test Net
+## Test Net Deployment with Goerli
 
-Follow the smart contract instructions for [getting connected to Goerli](https://github.com/coltonmilbrandt/gwin-protocol#running-scripts-and-deployment-on-goerli-test-net)
+### Connecting to Deployed Test Contract
 
-> Note: The Goerli address will be set to the latest deployment, but if you want, feel free to use the directions [here](https://github.com/coltonmilbrandt/gwin-protocol#running-scripts-and-deployment-on-goerli-test-net) to deploy your own contract.
+You can use the current contract address in the code to connect to the already deployed Goerli test contract. This is very simple, and just requires that you connect your MetaMask on the Goerli test net.
+
+> Note: Make sure you [grab some test net ETH](https://goerlifaucet.com/) if you need it.
+
+### Deploying Your Own Contract
+
+Follow the smart contract instructions for [deploying contract to Goerli](https://github.com/coltonmilbrandt/gwin-protocol#running-scripts-and-deployment-on-goerli-test-net).
+
+> Note: The Goerli address will be set to the current test contract, so make sure you change the contract address in your code. And be sure to [grab some test net ETH](https://goerlifaucet.com/) if you need it.
