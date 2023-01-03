@@ -21,6 +21,7 @@ Check out the [smart contract](https://github.com/coltonmilbrandt/gwin-app) that
 ### Want to learn more?
 
 Check out the [full documentation.](https://coltonmilbrandt.gitbook.io/gwin/)
+
 Look through [the FAQs](https://coltonmilbrandt.gitbook.io/gwin/faqs)
 
 ## Key Features
