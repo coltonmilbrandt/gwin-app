@@ -49,17 +49,21 @@ yarn dev
 
 Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
 
-## Local Deployment with Front-End and Metamask
+## Local Deployment with Metamask
 
 Follow the smart contract instructions for [local deployment](https://github.com/coltonmilbrandt/gwin-protocol#local-pool-deployment-with-front-end-and-metamask)
 
 > Note: You will need to change the local contract address for development.
 
-## Test Net Deployment with Goerli
+## Goerli Test Net Deployment with MetaMask
 
 ### Connecting to Deployed Test Contract
 
 You can use the current contract address in the code to connect to the already deployed Goerli test contract. This is very simple, and just requires that you connect your MetaMask on the Goerli test net.
+
+1. Launch front-end with `yarn dev` and connect your MetaMask wallet with the same keys that you used to deploy the contract (that way you can get your test ETH back, if you want).
+
+2. Now you can Deposit and Withdraw to pools ([see how trading works](https://coltonmilbrandt.gitbook.io/gwin/features/trade)). Keep in mind that without market forces at work, it's easy to create interesting scenarios that otherwise wouldn't naturally arise with other traders participating and taking advantage of underweight (high health) pools. Read more about this in [the documentation](https://coltonmilbrandt.gitbook.io/gwin/technical-details/how-pools-are-settled). Also note that you can create pools as well. Read about that [right here](https://coltonmilbrandt.gitbook.io/gwin/technical-details/creating-a-new-market). You have a chance to earn some test net ETH if you make some good trades!
 
 > Note: Make sure you [grab some test net ETH](https://goerlifaucet.com/) if you need it.
 
