@@ -30,6 +30,15 @@ This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next
 
 ## Front End
 
+### Cloning the project
+
+Use Git to clone the Gwin repository:
+
+```bash
+git clone https://github.com/coltonmilbrandt/gwin-app.git
+cd gwin-protocol
+```
+
 Once you've cloned the project, use the terminal:
 
 ```bash
@@ -40,8 +49,8 @@ yarn dev
 
 Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
 
-## Interacting
+## Local Pool Deployment with Front-End and Metamask
 
-Once you have the front end running, it will prompt you to connect your wallet. Use Metamask to connect with the private key of the wallet Ganache made for you and then import your tokens via the addresses Ganache deployed the mock tokens to.
+Follow the smart contract instructions for [local deployment](https://github.com/coltonmilbrandt/gwin-protocol#local-pool-deployment-with-front-end-and-metamask)
 
-Now you are ready to stake! From here on out, it's quite easy. Just enter an amount and "Stake".
+> Note: While the contract set for Goerli should be set correctly, you will need to change the local contract address for development.
