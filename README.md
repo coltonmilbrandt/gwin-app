@@ -18,6 +18,12 @@ Inspired by how the best DeFi projects work at small scale and large, Gwin allow
 
 Check out the [smart contract](https://github.com/coltonmilbrandt/gwin-app) that can be used along with this front end.
 
+### Want to learn more?
+
+Check out the [full documentation.](https://coltonmilbrandt.gitbook.io/gwin/)
+
+## Getting Started with Next.js
+
 Follow the instructions below to get the front end going.
 
 This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
