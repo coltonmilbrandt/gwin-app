@@ -55,9 +55,7 @@ const Health = ({
 						? "orange"
 						: health <= 110
 						? "green"
-						: health <= 200
-						? "green"
-						: "black",
+						: "green",
 			}}
 		>
 			{health}

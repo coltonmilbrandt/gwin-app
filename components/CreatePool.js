@@ -42,7 +42,17 @@ const CreatePool = ({ isOpen, userWalletBal, onClose, contract }) => {
 	})
 	const [errors, setErrors] = useState({})
 
-	const isFormFilled = Object.values(formData).every((value) => value !== "")
+	const formKeysToCheck = [
+		"amount",
+		"poolType",
+		"parentId",
+		"basePriceFeedAddress",
+		"baseKey",
+		"cRate",
+		"hRate",
+	]
+
+	const isFormFilled = formKeysToCheck.every((key) => formData[key] !== "")
 
 	const handleChange = (e) => {
 		setFormData({
@@ -87,7 +97,7 @@ const CreatePool = ({ isOpen, userWalletBal, onClose, contract }) => {
 				"Base key must be in the format 'XXX/XXX', where X is a letter between 3 and 5 characters in length."
 		}
 		if (formData.quotePriceFeedAddress) {
-			// only validate the field if it has an entry
+			// only validate optional field if it has an entry
 			const isValidAddress = /^0x[0-9a-fA-F]{40}$/.test(
 				formData.quotePriceFeedAddress
 			)
@@ -96,11 +106,12 @@ const CreatePool = ({ isOpen, userWalletBal, onClose, contract }) => {
 					"Quote price feed address is not a valid Ethereum address"
 			}
 		}
-		if (!formData.quoteKey) {
-			newErrors.quoteKey = "Quote key is required"
-		} else if (!pattern.test(formData.quoteKey)) {
-			newErrors.quoteKey =
-				"Quote key must be in the format 'XXX/XXX', where X is a letter between 3 and 5 characters in length."
+		if (formData.quoteKey) {
+			// only validate optional field if it has an entry
+			if (!pattern.test(formData.quoteKey)) {
+				newErrors.quoteKey =
+					"Quote key must be in the format 'XXX/XXX', where X is a letter between 3 and 5 characters in length."
+			}
 		}
 		if (!formData.cRate) {
 			newErrors.cRate = "cRate is required"
@@ -115,6 +126,13 @@ const CreatePool = ({ isOpen, userWalletBal, onClose, contract }) => {
 	const handleSubmit = (e) => {
 		e.preventDefault()
 		if (validateForm()) {
+			if (
+				typeof formData.quotePriceFeedAddress == "undefined" ||
+				formData.quotePriceFeedAddress == ""
+			) {
+				formData.quotePriceFeedAddress =
+					"0x0000000000000000000000000000000000000000"
+			}
 			// Convert baseKey and quoteKey to bytes 32
 			const baseKeyHex = web3.utils.utf8ToHex(formData.baseKey)
 			const quoteKeyHex = web3.utils.utf8ToHex(formData.quoteKey)
@@ -158,7 +176,6 @@ const CreatePool = ({ isOpen, userWalletBal, onClose, contract }) => {
 		if (isSubmitting == true) {
 			try {
 				onClose()
-				isCreatingPoolMessage()
 				console.log(formData)
 				// initializePool().then(() => setIsSubmitting(false))
 				initializePool({
@@ -172,32 +189,34 @@ const CreatePool = ({ isOpen, userWalletBal, onClose, contract }) => {
 		}
 	}, [formData])
 
-	const isCreatingPoolMessage = () => {
-		// show toast message
-		toast.info("Transaction is Processing...")
-	}
-
 	const handleCreatePoolSuccess = async (tx) => {
-		// if deposit success wait
-		await tx.wait(1)
-		// show toast message
-		toast.success("Successfully Staked!")
 		// end depositing process
 		setIsSubmitting(false)
+		// if deposit success wait
+		await tx.wait(1)
+		// // show toast message
+		// toast.success("Successfully Staked!")
 	}
 
 	const handleCreatePoolError = async (error) => {
-		// if deposit error, log error
-		console.log(error)
-		// show toast message
-		toast.error(
-			"Uh oh! The pool could not be created. Check console for details."
-		)
 		// end deposit
 		setIsSubmitting(false)
+		// if deposit error, log error
+		console.log(error)
+		// // show toast message
+		// toast.error(
+		// 	"Uh oh! The pool could not be created. Check console for details."
+		// )
 	}
 
-	const { runContractFunction: initializePool } = useWeb3Contract({
+	// create pool hook for smart contract
+	const {
+		runContractFunction: initializePool,
+		data,
+		error,
+		isFetching,
+		isLoading,
+	} = useWeb3Contract({
 		abi: abi,
 		contractAddress: contract,
 		functionName: "initializePool",
@@ -213,6 +232,45 @@ const CreatePool = ({ isOpen, userWalletBal, onClose, contract }) => {
 		},
 		msgValue: formData.amount,
 	})
+
+	// show 'loading...' toast message while processing transaction
+	useEffect(() => {
+		if (isLoading) {
+			toast.loading("Transaction in progress...", {
+				position: "top-center",
+				autoClose: false,
+				hideProgressBar: true,
+				closeOnClick: false,
+				pauseOnHover: false,
+				draggable: false,
+			})
+		} else {
+			toast.dismiss()
+		}
+	}, [isLoading])
+
+	// show 'success' or 'error' message after processing transaction
+	useEffect(() => {
+		if (error) {
+			toast.error(`Error: ${error.message}`, {
+				position: "top-center",
+				autoClose: 5000,
+				hideProgressBar: false,
+				closeOnClick: true,
+				pauseOnHover: true,
+				draggable: true,
+			})
+		} else if (data) {
+			toast.success("Transaction completed successfully!", {
+				position: "top-center",
+				autoClose: 5000,
+				hideProgressBar: false,
+				closeOnClick: true,
+				pauseOnHover: true,
+				draggable: true,
+			})
+		}
+	}, [error, data])
 
 	// keep modal closed until isOpen is true
 	if (isOpen == false) return null

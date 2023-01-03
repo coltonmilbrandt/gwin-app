@@ -64,13 +64,14 @@ const Withdrawal = ({
 		// convert poolId from hex
 		if (typeof poolId != "undefined" && poolId != "") {
 			const poolIdConverted = poolId.toNumber()
-			setConvertedPoolId(poolIdConverted)
+			setConvertedPoolId(poolIdConverted.toString())
 		}
 	}, [])
 
 	useEffect(() => {
-		// check whether value exists
+		// convert user entered values for smart contract
 		if (
+			// check whether value exists
 			typeof withdrawalAmount != "undefined" &&
 			withdrawalAmount != "" &&
 			withdrawalAmount != 0
@@ -81,14 +82,19 @@ const Withdrawal = ({
 			const amountString = convertedAmount.toString()
 			// convert to Wei
 			const weiAmount = web3.utils.toWei(amountString, "ether")
-			if (isHeated == true) {
-				// set converted heated amount for submit
-				setConvertedHeatedWithdrawalAmount(weiAmount)
-				setConvertedCooledWithdrawalAmount(0)
+			if (withdrawAll == true) {
+				setConvertedCooledWithdrawalAmount("0")
+				setConvertedHeatedWithdrawalAmount("0")
 			} else {
-				// set converted cooled amount for submit
-				setConvertedCooledWithdrawalAmount(weiAmount)
-				setConvertedHeatedWithdrawalAmount(0)
+				if (isHeated == true) {
+					// set converted heated amount for submit
+					setConvertedHeatedWithdrawalAmount(weiAmount)
+					setConvertedCooledWithdrawalAmount("0")
+				} else {
+					// set converted cooled amount for submit
+					setConvertedCooledWithdrawalAmount(weiAmount)
+					setConvertedHeatedWithdrawalAmount("0")
+				}
 			}
 		}
 	}, [withdrawalAmount, withdrawAll])
@@ -135,6 +141,28 @@ const Withdrawal = ({
 		if (validateForm()) {
 			try {
 				setisWithdrawing(true) // set withdrawing to true, disables buttons etc.
+				console.log("actual values submitted")
+				console.log("pool ID: ")
+				console.log(convertedPoolId)
+				console.log(typeof convertedPoolId)
+				console.log("isCooled: ")
+				console.log(isCooled)
+				console.log(typeof isCooled)
+				console.log("isHeated: ")
+				console.log(isHeated)
+				console.log(typeof isHeated)
+				console.log("cAmount: ")
+				console.log(convertedCooledWithdrawalAmount)
+				console.log(typeof convertedCooledWithdrawalAmount)
+				console.log("hAmount: ")
+				console.log(convertedHeatedWithdrawalAmount)
+				console.log(typeof convertedHeatedWithdrawalAmount)
+				console.log("withdrawalAll: ")
+				console.log(withdrawAll)
+				console.log(typeof withdrawAll)
+				console.log("Account: ")
+				console.log(account)
+				console.log(typeof account)
 				// call smart contract to withdraw
 				withdraw({
 					// handle success or error with toast messages
@@ -150,7 +178,7 @@ const Withdrawal = ({
 
 	const setWithdrawal = (isAll, amount) => {
 		if (isAll) {
-			// set withdraw to entire deposited amount
+			// set withdraw to entire deposited amount, determined by smart contract
 			setWithdrawAll(true)
 			// set withdraw amount to entire userBal
 			setWithdrawalAmount(Number(userBal))
@@ -165,9 +193,10 @@ const Withdrawal = ({
 	// withdraw hook for smart contract
 	const {
 		runContractFunction: withdraw,
-		data: enterTxResponse,
-		isLoading,
+		data,
+		error,
 		isFetching,
+		isLoading,
 	} = useWeb3Contract({
 		abi: abi,
 		contractAddress: contract,
@@ -182,28 +211,77 @@ const Withdrawal = ({
 		},
 	})
 
+	useEffect(() => {
+		console.log(convertedPoolId)
+		console.log(isCooled)
+		console.log(isHeated)
+		console.log(convertedCooledWithdrawalAmount)
+		console.log(convertedHeatedWithdrawalAmount)
+		console.log(withdrawAll)
+		console.log(account)
+	}, [convertedCooledWithdrawalAmount, convertedHeatedWithdrawalAmount])
+
+	// show 'loading...' toast message while processing transaction
+	useEffect(() => {
+		if (isLoading) {
+			toast.loading("Transaction in progress...", {
+				position: "top-center",
+				autoClose: false,
+				hideProgressBar: true,
+				closeOnClick: false,
+				pauseOnHover: false,
+				draggable: false,
+			})
+		} else {
+			toast.dismiss()
+		}
+	}, [isLoading])
+
+	// show 'success' or 'error' message after processing transaction
+	useEffect(() => {
+		if (error) {
+			toast.error(`Error: ${error.message}`, {
+				position: "top-center",
+				autoClose: 5000,
+				hideProgressBar: false,
+				closeOnClick: true,
+				pauseOnHover: true,
+				draggable: true,
+			})
+		} else if (data) {
+			toast.success("Transaction completed successfully!", {
+				position: "top-center",
+				autoClose: 5000,
+				hideProgressBar: false,
+				closeOnClick: true,
+				pauseOnHover: true,
+				draggable: true,
+			})
+		}
+	}, [error, data])
+
 	///////////   Toast Messsage Updates   ////////////
 
 	const handleWithdrawalSuccess = async (tx) => {
-		// if withdraw success, wait
-		await tx.wait(1)
-		// show toast message
-		toast.success("Successfully Withdrawn!")
 		// set withdrawing to false
 		setisWithdrawing(false)
+		// if withdraw success, wait
+		await tx.wait(1)
+		// // show toast message
+		// toast.success("Successfully Withdrawn!")
 		// close modal
 		withdrawClose()
 	}
 
 	const handleWithdrawalError = async (error) => {
-		// if withdrawal has error, log error
-		console.log(error)
-		// show toast message
-		toast.error(
-			"Uh oh! The withdrawal did not process. Check console for details."
-		)
 		// end withdrawal process
 		setisWithdrawing(false)
+		// if withdrawal has error, log error
+		console.log(error)
+		// // show toast message
+		// toast.error(
+		// 	"Uh oh! The withdrawal did not process. Check console for details."
+		// )
 		// close modal
 		withdrawClose()
 	}
