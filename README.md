@@ -21,6 +21,25 @@ Check out the [smart contract](https://github.com/coltonmilbrandt/gwin-app) that
 ### Want to learn more?
 
 Check out the [full documentation.](https://coltonmilbrandt.gitbook.io/gwin/)
+Look through [the FAQs](https://coltonmilbrandt.gitbook.io/gwin/faqs)
+
+## Key Features
+
+-   Launch markets quickly with any price feed
+-   Trade efficiently in any market, even low-interest ones
+-   Act as a market maker and earn profits by maintaining balance in the protocol
+-   Avoid systemic risk with a unique approach to settlement and market making
+-   Connect to the platform via a simple front end and MetaMask
+
+### Types of Trades on Gwin
+
+Users can execute "trades" on Gwin by depositing funds into their desired pool. Each pool represents a position, which can be long, short, or stable. Trades can be entered and exited at any time.
+
+Users can earn profits by correctly predicting the price movements of the underlying asset. If the price of the underlying asset moves in the direction that the user predicted, the user will realize a profit. If the price moves against the user's prediction, the user will realize a loss. Alternatively, users can deposit to a stable pool to preserve their funds and while making markets.
+
+Users can also earn profits by acting as market makers and maintaining balance in the protocol. If a pool is underweight compared to its target ratio, users can deposit funds into the underweight pool and receive a better risk-to-reward ratio in return for acting as market makers for the overweight pool. This helps to maintain balance in the protocol and create a dynamic for efficient markets.
+
+For more information about trading on Gwin, check out the documentation for [trading on Gwin](https://coltonmilbrandt.gitbook.io/gwin/features/trade).
 
 ## Getting Started with Next.js
 
@@ -75,9 +94,29 @@ Follow the smart contract instructions for [deploying contract to Goerli](https:
 
 > Note: The Goerli address will be set to the current test contract, so make sure you change the contract address in your code. And be sure to [grab some test net ETH](https://goerlifaucet.com/) if you need it.
 
+## Technical Details
+
+Gwin is built on top of the Ethereum blockchain and utilizes smart contracts for its core logic. The front end is built with Next.js and connects to the smart contracts via Web3.
+
+The core of Gwin's approach to market making and settlement is its use of paired pools and risk tranching. Paired pools are created for each market, and the risk of each pool is redistributed through tranches. This enables users to take positions with different risk profiles, such as cooled pools with reduced volatility and heated pools with higher potential for gain at the risk of increased potential for loss.
+
+For more information on the technical details of Gwin, check out the [full documentation](https://coltonmilbrandt.gitbook.io/gwin/technical-details/).
+
 ## Status
 
-This code has not been officially audited and therefore shouldn't be used as is for main net applications.
+Gwin is currently in alpha and is undergoing active development. While it is functional, there may be some bugs and issues that have not yet been addressed.
+
+The smart contracts for Gwin have not yet been formally audited and should not be used for main net applications at this time.
+
+If you encounter any issues or have any questions about Gwin, please don't hesitate to [contact me](#contact-me).
+
+## Contributing
+
+We welcome contributions to Gwin! Here are a few ways you can help:
+
+-   Report bugs and suggest features by opening an issue on GitHub.
+-   Contribute code by opening a pull request on GitHub.
+-   Help to improve the documentation by submitting updates and corrections.
 
 # Contact Me
 
