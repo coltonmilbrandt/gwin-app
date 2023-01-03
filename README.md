@@ -36,7 +36,7 @@ Use Git to clone the Gwin repository:
 
 ```bash
 git clone https://github.com/coltonmilbrandt/gwin-app.git
-cd gwin-protocol
+cd gwin-app
 ```
 
 Once you've cloned the project, use the terminal:
@@ -53,15 +53,17 @@ Open [http://localhost:3000](http://localhost:3000) with your browser to see the
 
 Follow the smart contract instructions for [local deployment](https://github.com/coltonmilbrandt/gwin-protocol#local-pool-deployment-with-front-end-and-metamask)
 
-> Note: You will need to change the local contract address for development.
+> Note: You will need to change the local contract address in the front end code for development.
 
 ## Goerli Test Net Deployment with MetaMask
 
-### Connecting to Deployed Test Contract
+### Connecting to the Current Goerli Test Contract
 
-You can use the current contract address in the code to connect to the already deployed Goerli test contract. This is very simple, and just requires that you connect your MetaMask on the Goerli test net.
+You can use the current contract address in the code to connect to the already deployed Goerli test contract. This is very simple, and just requires that you connect your MetaMask via the Goerli test net.
 
-1. Launch front-end with `yarn dev` and connect your MetaMask wallet with the same keys that you used to deploy the contract (that way you can get your test ETH back, if you want).
+1. Launch front-end with `yarn dev` and connect your MetaMask wallet.
+
+    > Note: Make sure you use a test wallet and are connected to the Goerli test net!
 
 2. Now you can Deposit and Withdraw to pools ([see how trading works](https://coltonmilbrandt.gitbook.io/gwin/features/trade)). Keep in mind that without market forces at work, it's easy to create interesting scenarios that otherwise wouldn't naturally arise with other traders participating and taking advantage of underweight (high health) pools. Read more about this in [the documentation](https://coltonmilbrandt.gitbook.io/gwin/technical-details/how-pools-are-settled). Also note that you can create pools as well. Read about that [right here](https://coltonmilbrandt.gitbook.io/gwin/technical-details/creating-a-new-market). You have a chance to earn some test net ETH if you make some good trades!
 
@@ -72,3 +74,21 @@ You can use the current contract address in the code to connect to the already d
 Follow the smart contract instructions for [deploying contract to Goerli](https://github.com/coltonmilbrandt/gwin-protocol#running-scripts-and-deployment-on-goerli-test-net).
 
 > Note: The Goerli address will be set to the current test contract, so make sure you change the contract address in your code. And be sure to [grab some test net ETH](https://goerlifaucet.com/) if you need it.
+
+## Status
+
+This code has not been officially audited and therefore shouldn't be used as is for main net applications.
+
+# Contact Me
+
+-   Have questions?
+-   Need some help setting up?
+-   Want to contribute?
+
+### Email me at coltonmilbrandt@gmail.com!
+
+### Check out my website [www.coltonmilbrandt.com](https://coltonmilbrandt.com/)
+
+## Learn More About Gwin
+
+Read the [full docs](https://coltonmilbrandt.gitbook.io/gwin/) to learn more.
