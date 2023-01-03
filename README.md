@@ -18,6 +18,8 @@ Inspired by how the best DeFi projects work at small scale and large, Gwin allow
 
 Check out the [smart contract](https://github.com/coltonmilbrandt/gwin-app) that can be used along with this front end.
 
+> Check out a [live deployment of the Gwin Dapp](https://gwin-app.vercel.app/) on the Goerli test net
+
 ### Want to learn more?
 
 Check out the [full documentation.](https://coltonmilbrandt.gitbook.io/gwin/)
