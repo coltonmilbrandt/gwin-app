@@ -1,22 +1,24 @@
-## Gwin DeFi Front End
+           @@@@@@@@@@@@@@@                                        @@@@@@
+        @@@@@@@@@@@@@@@@@@@@                                       @@@@
+      @@@@@@,
+     @@@@@@                      @@@          @@@          &@@%    %@@@      @@@@   @@@@@@@
+     @@@@@                      *@@@@        @@@@@(       @@@@@    @@@@%     @@@@@@@@@@@@@@@@%
+     @@@@@        @@@@@@@@@@     #@@@@      @@@@@@@      @@@@@     @@@@%     @@@@@       @@@@@
+     @@@@@         @@@@@@@@@      &@@@@    @@@@ @@@@    %@@@@      @@@@%     @@@@*       #@@@@
+     @@@@@@             @@@@       @@@@@  @@@@   @@@@  *@@@@       @@@@%     @@@@,       #@@@@
+      @@@@@@            @@@@        @@@@@@@@@.    @@@@ @@@@        @@@@%     @@@@,       #@@@@
+        @@@@@@@@@@&@@@@@@@@@         @@@@@@@%      @@@@@@@         @@@@%     @@@@,       #@@@@
+           @@@@@@@@@@@@@@@@#          @@@@@@        @@@@@          @@@@.     @@@@         @@@@
 
-## Getting Started
+# Gwin Protocol Front End
 
-Gwin is a staking app that issues GWIN ERC-20 token rewards for staking DAI or WETH.
+### Launch and Trade Markets with Any Price Feed
 
-You can currently set up Gwin by using the Gwin Smart Contract and deploying a local Ganache instance.
+Inspired by how the best DeFi projects work at small scale and large, Gwin allows you to launch a working market with just a price feed and then let that market grow organically as interest increases. The platform algorithmically ensures best performance available, even in markets with limited liquidity. This allows you to create and confidently trade in even the most obscure and growing markets, knowing that your transactions will be executed at their best potential, without concerns about exit liquidity or costly exposure in a lopsided trade.
 
-Then run:
+Check out the [smart contract](https://github.com/coltonmilbrandt/gwin-app) that can be used along with this front end.
 
-```
-brownie run scripts/deploy.py --network ganache
-```
-
-The contract will deploy and send you mock tokens to use to interact with the contract.
-
-Take note of your private key for the first wallet that Ganache spins up.
-
-Afterwards, follow the instructions below to get the front end going.
+Follow the instructions below to get the front end going.
 
 This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
 
