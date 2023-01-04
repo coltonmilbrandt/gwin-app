@@ -37,10 +37,9 @@ export default function About(props) {
 												About Using Gwin
 											</p>
 											<p className="mt-4 max-w-2xl text-xl text-gray-500 lg:mx-auto">
-												With Gwin Finance, it's simple
-												to create stable value and
-												manage your risk on the Ethereum
-												Blockchain.
+												With Gwin, it's simple to create
+												and trade an endless variety of
+												markets.
 											</p>
 										</div>
 										<div className="mt-10">
@@ -65,22 +64,29 @@ export default function About(props) {
 															</svg>
 														</div>
 														<p className="mt-4 sm:mt-0 sm:ml-16 text-lg leading-6 font-medium text-gray-900">
-															Absurdly Simple,
-															Incredibly Powerful
+															Simple, Powerful
+															Markets
 														</p>
 													</dt>
 													<dd className="mt-2 sm:ml-16 text-base text-gray-500">
-														Gwin is a simple
-														alternative to other
-														complex options.{" "}
-														<br></br>- No order
-														book,
-														<br></br>- No specific
-														counter party <br></br>-
-														And no contract length{" "}
-														<br></br>
-														<br></br>Get in, get
-														out, and Gwin!
+														Gwin allows you to
+														launch and trade markets
+														using any price feed,
+														even with low interest.
+														The platform's
+														algorithms ensure
+														maximum performance for
+														small and large markets,
+														allowing you to
+														confidently trade in
+														growing or even obscure
+														markets without worrying
+														about the risk of absent
+														exit liquidity. All
+														without the need for
+														order books, specific
+														counter parties, or
+														contract lengths.
 													</dd>
 												</div>
 
@@ -104,28 +110,30 @@ export default function About(props) {
 															</svg>
 														</div>
 														<p className="mt-4 sm:mt-0 sm:ml-16 text-lg leading-6 font-medium text-gray-900">
-															Designed to
-															Self-Sustain
+															What Can You Do with
+															Gwin?
 														</p>
 													</dt>
 													<dd className="mt-2 sm:ml-16 text-base text-gray-500">
-														Gwin targets return
-														rates rather than
-														cementing them. This
-														allows the protocol to
-														adjust expected returns
-														more favorably for
-														underweight pools to
-														incentivize users to
-														serve the overweight
-														pool interest, and it
-														further encourages users
-														to achieve the necessary
-														balance via withdrawals
-														from the profiting
-														pools. Or help balance
-														pools via risk
-														arbitrage!
+														Gwin allows you to
+														create and trade a wide
+														range of markets,
+														including leveraged
+														longs, leveraged shorts,
+														stables, and more. With
+														over 100 combinable
+														price feeds to choose
+														from, you have a vast
+														array of options when it
+														comes to building and
+														trading markets. You can
+														also act as market
+														makers for overweight
+														pools by depositing
+														funds into underweight
+														pools to receive a
+														better risk-to-reward
+														ratio in return.
 													</dd>
 												</div>
 
@@ -149,37 +157,23 @@ export default function About(props) {
 															</svg>
 														</div>
 														<p className="mt-4 sm:mt-0 sm:ml-16 text-lg leading-6 font-medium text-gray-900">
-															Decentralized
-															Finance at its Best
+															Gwin's Unique
+															Approach
 														</p>
 													</dt>
 													<dd className="mt-2 sm:ml-16 text-base text-gray-500">
-														Gwin provides a unique
-														solution for trading in
-														low liquidity markets.
-														Our platform uses
-														advanced mathematical
-														algorithms to ensure
-														optimal performance and
-														pricing, even in markets
-														with limited liquidity.
-														This allows you to
-														confidently trade in
-														even the most obscure
-														markets, knowing that
-														your trades will be
-														executed at their best
-														potential. All you need
-														is a price feed and some
-														interest in the market.
-														Even if liquidity for
-														your trade is low, we
-														can accommodate it with
-														the liquidity available,
-														without costly exposure
-														or worry about exiting
-														your position - which
-														you can do at any time.
+														Gwin uses a unique risk
+														tranching method to
+														create paired pools and
+														redistribute risk
+														through tranches. This
+														enables users to take
+														positions with different
+														risk profiles, such as
+														cooled pools with
+														reduced volatility and
+														heated pools with higher
+														potential for gain.
 													</dd>
 												</div>
 
@@ -203,32 +197,30 @@ export default function About(props) {
 															</svg>
 														</div>
 														<p className="mt-4 sm:mt-0 sm:ml-16 text-lg leading-6 font-medium text-gray-900">
-															Stable, On-Chain
-															Value
+															Enjoy Blockchain
+															Native Resilience
 														</p>
 													</dt>
 													<dd className="mt-2 sm:ml-16 text-base text-gray-500">
-														The cooled pools serve
-														the heated pools. They
-														are designed to be as
-														stable in value as the
-														Blockchain can
-														reasonably allow,
-														essentially selling off
-														all profit potential in
-														exchange for price
-														stability. So by
-														depositing to a cooled
-														pool on Gwin, you get
-														stable, on-chain value,
-														and the future fees
-														generated from heated
-														users will be deposited
-														directly into the shared
-														cooled pool. Voila!
-														Stable, yield-generating
-														value that actually
-														serves a true utility.
+														Gwin avoids systemic
+														risk that can be caused
+														by liquidation events in
+														some DeFi protocols, and
+														you can deposit or
+														withdraw from any pool
+														at any time with no
+														penalty. In the event
+														that the value of the
+														collateral falls, pools
+														would simply settle, and
+														everything would be
+														functioning as expected,
+														presenting a great
+														opportunity for risk
+														arbitrage which would
+														actually make market
+														making even more
+														attractive.
 													</dd>
 												</div>
 											</dl>
