@@ -30,9 +30,6 @@ export default function Tokens(props) {
 											/>
 										</div>
 										<div className="lg:text-center">
-											{/* <h2 className="text-lg text-indigo-600 font-semibold">
-												Gwin Finance
-											</h2> */}
 											<p className="mt-2 text-3xl leading-8 font-bold tracking-tight text-gray-900 sm:text-4xl sm:tracking-tight">
 												How to Get Testnet Tokens
 											</p>

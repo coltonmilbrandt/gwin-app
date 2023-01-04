@@ -18,7 +18,7 @@ export default function About(props) {
 					<div className="grid grid-cols-1 gap-4">
 						<div className="bg-none p-4">
 							<div className="grid grid-cols-1 text-gray-900 pb-4">
-								<div className="bg-sky-50 m-3 shadow-lg px-6 py-8 rounded-lg text-gray-700">
+								<div className="bg-sky-50 m-3 shadow-lg px-6 py-12 rounded-lg text-gray-700">
 									<div className="flex justify-center w-full pb-3">
 										<Image
 											className="w-max h-max rounded-full "
@@ -29,7 +29,7 @@ export default function About(props) {
 										/>
 									</div>
 									<div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-										<div className="lg:text-center">
+										<div className="text-center">
 											{/* <h2 className="text-lg text-indigo-600 font-semibold">
 												Gwin Finance
 											</h2> */}
@@ -41,6 +41,16 @@ export default function About(props) {
 												and trade an endless variety of
 												markets.
 											</p>
+											<button className="mt-6">
+												<a
+													className="text-white font-semi-bold py-3 px-5 rounded-md bg-gradient-to-br hover:bg-gradient-to-tl from-[#8e81f3] to-sky-400"
+													href="https://coltonmilbrandt.gitbook.io/gwin/"
+													target="_blank"
+													rel="noopener"
+												>
+													Read Full Docs
+												</a>
+											</button>
 										</div>
 										<div className="mt-10">
 											<dl className="space-y-10 md:space-y-0 md:grid md:grid-cols-2 md:gap-x-8 md:gap-y-10">

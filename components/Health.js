@@ -3,7 +3,6 @@ import { abi } from "../constants/Gwin_abi"
 import { useEffect, useState } from "react"
 import convertHex from "../helpers/convertHex"
 import Web3 from "web3"
-import generatePoolName from "../helpers/generatePoolName"
 
 const Health = ({
 	pool,

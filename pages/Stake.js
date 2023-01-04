@@ -8,7 +8,9 @@ import PoolCard from "../components/PoolCard"
 import CreatePool from "../components/CreatePool"
 import Web3 from "web3"
 import PoolCardSection from "../components/PoolCardSection"
-import PriceChange from "../components/PriceChange"
+import getContract from "../constants/contracts"
+import Welcome from "../components/Welcome"
+import Loader from "../components/Loader"
 
 // this is the main portion of the functional app, contains pools
 
@@ -46,15 +48,7 @@ export default function Stake() {
 
 	// get gwin address
 	useEffect(() => {
-		console.log("ran chain check")
-		if (chainIdReadable == 5) {
-			// set Goerli contract
-			setGwin("0xe4d3900e47Aaa60494BA8F593Dd8c779D0fA0B3d")
-		} else if (chainIdReadable == 1337) {
-			// set local contract
-			setGwin("0xb81173B2362F99d1631A9D5EB46983052d323aE5")
-			// don't forget to IMPORT NEW WALLET for balances
-		}
+		setGwin(getContract(chainIdReadable))
 	})
 
 	// hooks
@@ -69,15 +63,15 @@ export default function Stake() {
 	const [parentFilteredPools, setParentFilteredPools] = useState([])
 	const [shortedFilteredPools, setShortedFilteredPools] = useState([])
 
-	// sets contracts
-	const setContracts = () => {
-		if (chainName) {
-			console.log(chainName)
-			setGwin(
-				contractsInfo[0]["networks"][chainName]["contracts"]["gwin"]
-			)
-		}
-	}
+	// // sets contracts
+	// const setContracts = () => {
+	// 	if (chainName) {
+	// 		console.log(chainName)
+	// 		setGwin(
+	// 			contractsInfo[0]["networks"][chainName]["contracts"]["gwin"]
+	// 		)
+	// 	}
+	// }
 
 	///////////   View Functions   ////////////
 
@@ -173,11 +167,13 @@ export default function Stake() {
 			const pools = await getAllPoolsWithBalances()
 			console.log("pools:")
 			console.log(pools)
-			let userWalletBal = await web3.eth.getBalance(account)
-			if (userWalletBal) {
-				userWalletBal = web3.utils.fromWei(userWalletBal, "ether")
-				userWalletBal = Number(userWalletBal)
-				setUserEthWalletBal(userWalletBal)
+			if (account & (typeof account != "undefined")) {
+				let userWalletBal = await web3.eth.getBalance(account)
+				if (userWalletBal) {
+					userWalletBal = web3.utils.fromWei(userWalletBal, "ether")
+					userWalletBal = Number(userWalletBal)
+					setUserEthWalletBal(userWalletBal)
+				}
 			}
 			if (pools && typeof pools != "undefined") {
 				// filters
@@ -263,66 +259,79 @@ export default function Stake() {
 			<Toaster />
 			{typeof poolsWithBalances != "undefined" &&
 			poolsWithBalances.length > 0 ? (
-				<PoolCardSection // Heated Pools
-					pools={poolsWithBalances} // pass pools
-					sectionName="Heated Pools"
-					walletBal={userEthWalletBal}
-					contract={gwin}
-					isHeated={true}
-					isCooled={false}
-				/>
+				<>
+					<PoolCardSection // Heated Pools
+						pools={poolsWithBalances} // pass pools
+						sectionName="Heated Pools"
+						walletBal={userEthWalletBal}
+						contract={gwin}
+						isHeated={true}
+						isCooled={false}
+					/>
+					{typeof poolsWithBalances != "undefined" &&
+					poolsWithBalances.length > 0 ? (
+						<PoolCardSection // Heated Pools
+							pools={poolsWithBalances} // pass pools
+							sectionName="Heated Pools"
+							walletBal={userEthWalletBal}
+							contract={gwin}
+							isHeated={true}
+							isCooled={false}
+						/>
+					) : null}
+					{parentFilteredPools.length > 0 ? (
+						<PoolCardSection // Parent Pools
+							pools={parentFilteredPools} // pass filtered pools
+							sectionName="Parent Pools" // needs to be "Parent Pools" for later consolidation
+							walletBal={userEthWalletBal}
+							contract={gwin}
+							isHeated={false}
+							isCooled={true}
+						/>
+					) : null}
+					{stableFilteredPools.length > 0 ? (
+						<PoolCardSection // Stable Pools
+							pools={stableFilteredPools} // pass filtered pools
+							sectionName="Stable Pools"
+							walletBal={userEthWalletBal}
+							contract={gwin}
+							isHeated={false}
+							isCooled={true}
+						/>
+					) : null}
+					{shortedFilteredPools.length > 0 ? (
+						<PoolCardSection // Short Pools
+							pools={shortedFilteredPools} // pass filtered pools
+							sectionName="Short Pools"
+							walletBal={userEthWalletBal}
+							contract={gwin}
+							isHeated={false}
+							isCooled={true}
+						/>
+					) : null}
+					{cooledFilteredPools.length > 0 ? (
+						<PoolCardSection // Cooled Pools
+							pools={cooledFilteredPools} // pass filtered pools
+							sectionName="Cooled Pools"
+							walletBal={userEthWalletBal}
+							contract={gwin}
+							isHeated={false}
+							isCooled={true}
+						/>
+					) : null}
+				</>
 			) : (
-				// show loader if pools not yet loaded
-				<div className="absolute top-1/2 left-1/2 justify-center items-center">
-					<div
-						className="text-white spinner-border animate-spin inline-block w-16 h-16 border-4 rounded-full"
-						role="status"
-					>
-						<span className="visually-hidden">Loading...</span>
-					</div>
+				// show if pools not yet loaded
+				<div>
+					{account && typeof account != undefined ? (
+						// show loader if account detected
+						<Loader chainId={chainIdReadable} />
+					) : (
+						// show welcome if account not detected
+						<Welcome />
+					)}
 				</div>
 			)}
-			{parentFilteredPools.length > 0 ? (
-				<PoolCardSection // Parent Pools
-					pools={parentFilteredPools} // pass filtered pools
-					sectionName="Parent Pools" // needs to be "Parent Pools" for later consolidation
-					walletBal={userEthWalletBal}
-					contract={gwin}
-					isHeated={false}
-					isCooled={true}
-				/>
-			) : null}
-			{stableFilteredPools.length > 0 ? (
-				<PoolCardSection // Stable Pools
-					pools={stableFilteredPools} // pass filtered pools
-					sectionName="Stable Pools"
-					walletBal={userEthWalletBal}
-					contract={gwin}
-					isHeated={false}
-					isCooled={true}
-				/>
-			) : null}
-			{shortedFilteredPools.length > 0 ? (
-				<PoolCardSection // Cooled Pools
-					pools={shortedFilteredPools} // pass filtered pools
-					sectionName="Short Pools"
-					walletBal={userEthWalletBal}
-					contract={gwin}
-					isHeated={false}
-					isCooled={true}
-				/>
-			) : null}
-			{cooledFilteredPools.length > 0 ? (
-				<PoolCardSection // Cooled Pools
-					pools={cooledFilteredPools} // pass filtered pools
-					sectionName="Cooled Pools"
-					walletBal={userEthWalletBal}
-					contract={gwin}
-					isHeated={false}
-					isCooled={true}
-				/>
-			) : null}
-			{/* {chainIdReadable == 1337 ? <PriceChange /> : null} */}
 		</div>
 	)
 }
