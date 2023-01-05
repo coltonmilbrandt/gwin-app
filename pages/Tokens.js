@@ -30,9 +30,6 @@ export default function Tokens(props) {
 											/>
 										</div>
 										<div className="lg:text-center">
-											{/* <h2 className="text-lg text-indigo-600 font-semibold">
-												Gwin Finance
-											</h2> */}
 											<p className="mt-2 text-3xl leading-8 font-bold tracking-tight text-gray-900 sm:text-4xl sm:tracking-tight">
 												How to Get Testnet Tokens
 											</p>
@@ -64,18 +61,17 @@ export default function Tokens(props) {
 															</svg>
 														</div>
 														<p className="mt-4 sm:mt-0 sm:ml-16 text-lg leading-6 font-medium text-gray-900">
-															Test Net
+															Goerli Test Net
 														</p>
 													</dt>
 													<dd className="mt-2 sm:ml-16 text-base text-gray-500">
 														Gwin is not a main net
 														Dapp. It is currently
-														deployed to Goerli.
-														Goerli is an Ethereum
-														testnet. That's great,
-														because you can get
-														tokens from a faucet for
-														free.
+														deployed to Goerli, an
+														Ethereum testnet. That's
+														great, because you can
+														get tokens from a faucet
+														for free.
 													</dd>
 												</div>
 
@@ -99,7 +95,7 @@ export default function Tokens(props) {
 															</svg>
 														</div>
 														<p className="mt-4 sm:mt-0 sm:ml-16 text-lg leading-6 font-medium text-gray-900">
-															Getting Tokens
+															Getting Goerli ETH
 														</p>
 													</dt>
 													<dd className="mt-2 sm:ml-16 text-base text-gray-500">
@@ -141,16 +137,16 @@ export default function Tokens(props) {
 															</svg>
 														</div>
 														<p className="mt-4 sm:mt-0 sm:ml-16 text-lg leading-6 font-medium text-gray-900">
-															Once You Have Your
-															Tokens
+															Once You Have Goerli
+															ETH
 														</p>
 													</dt>
 													<dd className="mt-2 sm:ml-16 text-base text-gray-500">
 														Once you've received
 														your tokens, connect
 														your metamask wallet to
-														the site. You'll now be
-														ready to Gwin!
+														the site via the Goerli
+														network.
 													</dd>
 												</div>
 
@@ -174,8 +170,7 @@ export default function Tokens(props) {
 															</svg>
 														</div>
 														<p className="mt-4 sm:mt-0 sm:ml-16 text-lg leading-6 font-medium text-gray-900">
-															Gain Tokens with
-															Gwin
+															Gaining Goerli ETH
 														</p>
 													</dt>
 													<dd className="mt-2 sm:ml-16 text-base text-gray-500">
@@ -183,8 +178,9 @@ export default function Tokens(props) {
 														get more Goerli ETH and
 														practice your risk
 														management skills. Your
-														Goerli ETH can be heated
-														up by as much as 10x!
+														Goerli ETH can be
+														leveraged by as much as
+														10x!
 													</dd>
 												</div>
 											</dl>

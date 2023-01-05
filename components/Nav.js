@@ -7,8 +7,7 @@ import Image from "next/image"
 import React from "react"
 import Link from "next/link"
 import { useRouter } from "next/router"
-// Use HashRouter instead to
-import propTypes from "prop-types"
+// Use HashRouter instead to fix on Fleek
 import gwinPic from "/public/gwin-rect.webp"
 
 let navLinks = [
@@ -19,7 +18,7 @@ let navLinks = [
 		current: false,
 	},
 	{
-		name: "Get Tokens",
+		name: "Get Test ETH",
 		path: "/Tokens",
 		current: false,
 	},
@@ -46,14 +45,6 @@ function classNames(...classes) {
 export default function Example() {
 	return (
 		<>
-			{/*
-        This example requires updating your template:
-
-        ```
-        <html className="h-full bg-gray-100">
-        <body className="h-full">
-        ```
-      */}
 			<div className="min-h-full">
 				<Disclosure
 					as="nav"
