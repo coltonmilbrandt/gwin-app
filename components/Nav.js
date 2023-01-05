@@ -45,14 +45,6 @@ function classNames(...classes) {
 export default function Example() {
 	return (
 		<>
-			{/*
-        This example requires updating your template:
-
-        ```
-        <html className="h-full bg-gray-100">
-        <body className="h-full">
-        ```
-      */}
 			<div className="min-h-full">
 				<Disclosure
 					as="nav"

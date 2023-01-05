@@ -23,7 +23,9 @@ const Loader = (chainIdReadable) => {
 				>
 					<span className="visually-hidden">Loading...</span>
 				</div>
-				<p className="mt-2">Connecting to {chainName}...</p>
+				<p className="mt-2 font-semibold">
+					Connecting to {chainName}...
+				</p>
 			</div>
 		</div>
 	)

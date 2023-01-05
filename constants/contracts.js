@@ -5,7 +5,7 @@ const getContract = (chainIdReadable) => {
 		return "0xe4d3900e47Aaa60494BA8F593Dd8c779D0fA0B3d"
 	} else if (chainIdReadable == 1337) {
 		// set local contract
-		return "0xbaD9d8Ff5f54e2772549Cc5F7DA740541B447b96"
+		return "0x8eC29864Eedea60d0825DEFd3f2dCDe711D0ab52"
 		// don't forget to IMPORT NEW WALLET for balances
 	}
 }

@@ -63,16 +63,6 @@ export default function Stake() {
 	const [parentFilteredPools, setParentFilteredPools] = useState([])
 	const [shortedFilteredPools, setShortedFilteredPools] = useState([])
 
-	// // sets contracts
-	// const setContracts = () => {
-	// 	if (chainName) {
-	// 		console.log(chainName)
-	// 		setGwin(
-	// 			contractsInfo[0]["networks"][chainName]["contracts"]["gwin"]
-	// 		)
-	// 	}
-	// }
-
 	///////////   View Functions   ////////////
 
 	/// ETH ///
@@ -87,87 +77,14 @@ export default function Stake() {
 		},
 	})
 
-	///////////   Toast Messsage Updates   ////////////
-
-	const handleStakeSuccess = async (tx) => {
-		await tx.wait(1)
-		toast.success("Successfully Staked!")
-		await updateUIValues()
-		await getContractValue()
-		setIsStaking(false)
-		resetValues()
-	}
-
-	const handleStakeError = async (error) => {
-		console.log(error)
-		toast.error(
-			"Uh oh! Tx was approved but could not stake. Check console for error."
-		)
-		setIsStaking(false)
-		resetValues()
-	}
-
-	const handleSuccess = async (tx) => {
-		await tx.wait(1)
-		toast.success("Token approved for staking!")
-		await stakeTokens({
-			onSuccess: handleStakeSuccess,
-			onError: (error) => handleStakeError(error, tx),
-		})
-	}
-
-	const handleUnstakeSuccess = async (tx) => {
-		await tx.wait(1)
-		toast.success("Tokens successfully unstaked!")
-		getContractValue()
-	}
-
-	const handleError = async (error) => {
-		console.log(error)
-		toast.error("Uh oh! Tx could not be approved. Check console for error.")
-	}
-
 	///////////   Update UI   ////////////
-
-	const updateUIValues = async (tokenVal) => {
-		// console.log("token test: ")
-		// console.log(tokenVal)
-		if (tokenVal) {
-			var tokenValue = tokenVal
-			// console.log("token: ")
-			// console.log(tokenValue)
-			tokenValue = parseInt(tokenValue._hex)
-			var tokenValue = tokenValue / Math.pow(10, 8)
-			// console.log(tokenValue)
-			return tokenValue
-		}
-	}
-
-	const handleBalanceValue = async (balVal) => {
-		// console.log("token test: ")
-		// console.log(balVal)
-		if (balVal) {
-			var adjBalVal = balVal
-			// console.log("token: ")
-			// console.log(adjBalVal)
-			adjBalVal = parseInt(adjBalVal._hex)
-			adjBalVal = adjBalVal / Math.pow(10, 18)
-			adjBalVal = adjBalVal.toFixed(5)
-			// console.log(adjBalVal)
-			return adjBalVal
-		}
-	}
 
 	useEffect(() => {
 		const interval = setInterval(async () => {
-			// console.log("Pool Call Details")
-			// console.log(abi)
-			// console.log(gwin)
-			// console.log(account)
 			const pools = await getAllPoolsWithBalances()
 			console.log("pools:")
 			console.log(pools)
-			if (account & (typeof account != "undefined")) {
+			if (account && typeof account != "undefined") {
 				let userWalletBal = await web3.eth.getBalance(account)
 				if (userWalletBal) {
 					userWalletBal = web3.utils.fromWei(userWalletBal, "ether")
@@ -176,7 +93,6 @@ export default function Stake() {
 				}
 			}
 			if (pools && typeof pools != "undefined") {
-				// filters
 				const cooledFilter = pools
 					.filter(
 						(pool) => pool.cRate > -1000000000000 && pool.cRate < 0
@@ -199,59 +115,10 @@ export default function Stake() {
 			setPoolsWithBalances(pools)
 			console.log("ranGetPools !!")
 			console.log(pools)
-			// console.log(chainIdReadable)
-			// console.log(gwin)
-			// console.log(account)
-		}, 5000) // runs every 5 seconds
+		}, 3000) // runs every 3 seconds
 
 		return () => clearInterval(interval)
 	}, [getAllPoolsWithBalances])
-
-	useEffect(() => {
-		// console.log("useEffect log")
-		// console.log(poolsWithBalances)
-	}, [poolsWithBalances])
-
-	useEffect(() => {
-		async function handleUnstaking() {
-			if (isUnstaking == true) {
-				try {
-					await unstakeTokens({
-						onSuccess: handleUnstakeSuccess,
-						onError: (error) => handleError(error),
-					})
-					setIsUnstaking(false)
-				} catch (err) {
-					console.error(err)
-				}
-			} else {
-				setIsUnstaking(false)
-			}
-		}
-		if (isUnstaking == true) {
-			handleUnstaking()
-		}
-	}, [isUnstaking])
-
-	useEffect(() => {
-		async function handleStaking() {
-			if (isStaking == true) {
-				try {
-					await approveToken({
-						onSuccess: handleSuccess,
-						onError: (error) => handleError(error),
-					})
-				} catch (err) {
-					console.error(err)
-				}
-			} else {
-				setIsStaking(false)
-			}
-		}
-		if (isStaking == true) {
-			handleStaking()
-		}
-	}, [isStaking])
 
 	return (
 		<div>
@@ -268,21 +135,10 @@ export default function Stake() {
 						isHeated={true}
 						isCooled={false}
 					/>
-					{typeof poolsWithBalances != "undefined" &&
-					poolsWithBalances.length > 0 ? (
-						<PoolCardSection // Heated Pools
-							pools={poolsWithBalances} // pass pools
-							sectionName="Heated Pools"
-							walletBal={userEthWalletBal}
-							contract={gwin}
-							isHeated={true}
-							isCooled={false}
-						/>
-					) : null}
 					{parentFilteredPools.length > 0 ? (
 						<PoolCardSection // Parent Pools
 							pools={parentFilteredPools} // pass filtered pools
-							sectionName="Parent Pools" // needs to be "Parent Pools" for later consolidation
+							sectionName="Parent Pools" // needs to be "Parent Pools" exactly for later consolidation
 							walletBal={userEthWalletBal}
 							contract={gwin}
 							isHeated={false}

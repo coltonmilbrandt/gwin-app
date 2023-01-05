@@ -23,13 +23,15 @@ const Welcome = () => {
 						variety of markets. Select the Goerli Testnet and
 						connect your wallet to get started.
 					</p>
-					<button
-						className="text-white font-semi-bold py-2 px-4 mt-4 rounded-md bg-gradient-to-br hover:bg-gradient-to-tl from-[#8e81f3] to-sky-400"
-						href="https://coltonmilbrandt.gitbook.io/gwin/"
-						target="_blank"
-						rel="noopener"
-					>
-						Read Full Docs
+					<button className="mt-6">
+						<a
+							className="text-white font-semi-bold py-3 px-5 rounded-md bg-gradient-to-br hover:bg-gradient-to-tl from-[#8e81f3] to-sky-400"
+							href="https://coltonmilbrandt.gitbook.io/gwin/"
+							target="_blank"
+							rel="noopener"
+						>
+							Read Full Docs
+						</a>
 					</button>
 				</div>
 			</div>
