@@ -1,9 +1,10 @@
 import penguinsTrade from "/public/penguinsTrade.jpg"
 import Image from "next/image"
+import { ConnectButton } from "web3uikit"
 
 const Welcome = () => {
 	return (
-		<div className="bg-sky-50 m-3 shadow-lg px-6 py-8 rounded-lg text-gray-700">
+		<div className="bg-sky-50 m-3 max-w-3xl mx-auto shadow-lg px-6 py-10 rounded-lg text-gray-700">
 			<div className="flex justify-center w-full pb-3">
 				<Image
 					className="w-max h-max rounded-full "
@@ -20,19 +21,22 @@ const Welcome = () => {
 					</p>
 					<p className="mt-4 max-w-2xl text-xl text-gray-500 mx-auto">
 						With Gwin, it's simple to create and trade an endless
-						variety of markets. Select the Goerli Testnet and
+						variety of markets. Select the Goerli testnet and
 						connect your wallet to get started.
 					</p>
-					<button className="mt-6">
-						<a
-							className="text-white font-semi-bold py-3 px-5 rounded-md bg-gradient-to-br hover:bg-gradient-to-tl from-[#8e81f3] to-sky-400"
-							href="https://coltonmilbrandt.gitbook.io/gwin/"
-							target="_blank"
-							rel="noopener"
-						>
-							Read Full Docs
-						</a>
-					</button>
+					<div className="w-full flex justify-center mt-6">
+						<button>
+							<a
+								className="text-[#2f7daf] font-semibold py-2.5 px-4 rounded-2xl border-2 border-sky-50 hover:border-2 hover:bg-gray-100 hover:border-[#a1bed9]"
+								href="https://coltonmilbrandt.gitbook.io/gwin/"
+								target="_blank"
+								rel="noopener"
+							>
+								Read Full Docs
+							</a>
+						</button>
+						<ConnectButton moralisAuth={false} />
+					</div>
 				</div>
 			</div>
 		</div>
