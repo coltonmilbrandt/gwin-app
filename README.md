@@ -75,13 +75,15 @@ Open [http://localhost:3000](http://localhost:3000) with your browser to see the
 
 Follow the smart contract instructions for [local deployment](https://github.com/coltonmilbrandt/gwin-protocol#local-pool-deployment-with-front-end-and-metamask)
 
-> Note: You will need to change the local contract address in the front end code for development.
+> Note: You will need to change the local contract address in the front end code for development. You can set this in the `contracts.js` file in the `constants` folder. If you've made changes, be sure to copy your new ABI over to `Gwin_abi.js` as well.
 
 ## Goerli Test Net Deployment with MetaMask
 
 ### Connecting to the Current Goerli Test Contract
 
 You can use the current contract address in the code to connect to the already deployed Goerli test contract. This is very simple, and just requires that you connect your MetaMask via the Goerli test net.
+
+> Note: You may need to change the Goerli contract address in the front end code if you have deployed your own contract for development. You can set this in the `contracts.js` file in the `constants` folder. Be sure to copy your new ABI over to `Gwin_abi.js` as well.
 
 1. Launch front-end with `yarn dev` and connect your MetaMask wallet.
 
@@ -95,7 +97,7 @@ You can use the current contract address in the code to connect to the already d
 
 Follow the smart contract instructions for [deploying contract to Goerli](https://github.com/coltonmilbrandt/gwin-protocol#running-scripts-and-deployment-on-goerli-test-net).
 
-> Note: The Goerli address will be set to the current test contract, so make sure you change the contract address in your code. And be sure to [grab some test net ETH](https://goerlifaucet.com/) if you need it.
+> Note: The Goerli address will be set to the current test contract, so make sure you change the contract address in your code. You can set this in the `contracts.js` file in the `constants` folder. If you've made changes to the contract, be sure to copy your new ABI over to `Gwin_abi.js` as well. And [grab some test net ETH](https://goerlifaucet.com/) if you need it.
 
 ## Technical Details
 
