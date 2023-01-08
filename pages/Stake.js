@@ -115,6 +115,7 @@ export default function Stake() {
 			setPoolsWithBalances(pools)
 			console.log("ranGetPools !!")
 			console.log(pools)
+			console.log(parentFilteredPools)
 		}, 3000) // runs every 3 seconds
 
 		return () => clearInterval(interval)

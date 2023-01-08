@@ -12,6 +12,7 @@ import getHeat from "../helpers/getHeat"
 import convertHex from "../helpers/convertHex"
 import generatePoolName from "../helpers/generatePoolName"
 import Health from "./Health"
+import generateDescription from "../helpers/generateDescription"
 
 // returns a Pool Card that shows the information for a pool
 
@@ -112,62 +113,65 @@ export default function PoolCard({
 						height="100"
 					/>
 				</div>
-				<div className="whitespace-nowrap overflow-hidden text-ellipsis">
-					{name()}
+				<div className="grid grid-cols-2 whitespace-nowrap overflow-hidden text-ellipsis">
+					<div>
+						<b className="text-cyan-800">
+							{generateDescription(
+								isHeated ? hRate : cRate,
+								isHeated,
+								isCooled
+							)}{" "}
+							{featuredSymbol(
+								pool.basePriceFeedKey,
+								pool.quotePriceFeedKey,
+								isHeated ? hRate : cRate
+							)}
+						</b>
+					</div>
+					<div className="text-right">{name()}</div>
 				</div>
-				<div className="whitespace-nowrap overflow-hidden text-ellipsis">
-					{
-						// determine formatting based on symbol
-						symbol() == "JPY" ? (
-							<div>
-								{priceFeed().toFixed(0)} {symbol}
-							</div>
-						) : symbol() == "BTC" ? (
-							<div>
-								{priceFeed().toFixed(3)} {symbol}
-							</div>
-						) : symbol() == "XAU" ? (
-							<div>{priceFeed().toFixed(3)}/oz</div>
-						) : (
-							<div>${priceFeed().toFixed(2)}</div>
-						)
-					}
+				<div className="grid grid-cols-2 mt-1">
+					<div className="whitespace-nowrap overflow-hidden text-ellipsis">
+						Health:&nbsp;
+						<Health
+							pool={pool}
+							leverage={isHeated ? hRate : cRate}
+							hEth={hEth(5)}
+							cEth={cEth(5)}
+							contract={contract}
+							isCooled={isCooled}
+							priceFeed={priceFeed()}
+						/>
+					</div>
+					<div className="text-right whitespace-nowrap overflow-hidden text-ellipsis">
+						{
+							// determine formatting based on symbol
+							symbol() == "JPY" ? (
+								<div>
+									{priceFeed().toFixed(0)} {symbol}
+								</div>
+							) : symbol() == "BTC" ? (
+								<div>
+									{priceFeed().toFixed(3)} {symbol}
+								</div>
+							) : symbol() == "XAU" ? (
+								<div>{priceFeed().toFixed(3)}/oz</div>
+							) : (
+								<div>${priceFeed().toFixed(2)}</div>
+							)
+						}
+					</div>
 				</div>
-				<div className="whitespace-nowrap overflow-hidden text-ellipsis">
-					Health:&nbsp;
-					<Health
-						pool={pool}
-						leverage={isHeated ? hRate : cRate}
-						hEth={hEth(5)}
-						cEth={cEth(5)}
-						contract={contract}
-						isCooled={isCooled}
-						priceFeed={priceFeed()}
-					/>
-				</div>
+
 				{/* show balances */}
-				{hEth(5) != "" ? (
+				<div className="grid grid-cols-2 mt-1">
 					<div className="whitespace-nowrap overflow-hidden text-ellipsis">
-						Heated: {hEth(5)} ETH
+						<b className="text-[#c9665f]">Heated</b> {hEth(5)} ETH
 					</div>
-				) : (
-					<div className="whitespace-nowrap overflow-hidden text-ellipsis">
-						<></>
+					<div className="text-right whitespace-nowrap overflow-hidden text-ellipsis">
+						{cEth(5)} ETH <b className="text-cyan-600">Cooled</b>
 					</div>
-				)}
-				<div className="whitespace-nowrap overflow-hidden text-ellipsis">
-					Cooled: {cEth(5)} ETH
 				</div>
-				{/* to keep spacing even */}
-				{hEth(5) != "" ? (
-					<div className="whitespace-nowrap overflow-hidden text-ellipsis">
-						<></>
-					</div>
-				) : (
-					<div className="whitespace-nowrap overflow-hidden text-ellipsis">
-						&nbsp;
-					</div>
-				)}
 				<div className="whitespace-nowrap overflow-hidden text-ellipsis">
 					&nbsp;
 				</div>
