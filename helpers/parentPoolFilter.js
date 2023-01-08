@@ -7,6 +7,10 @@ const parentPoolFilter = (pools, isHeated, isCooled) => {
 	// Initialize an object to store parentIds
 	const parentIds = {}
 
+	// Initialize an array to store the updated pools
+	const updatedPools = []
+
+	// if (pools && pools != "undefined") {
 	// Iterate over the 'pools' array
 	for (const pool of pools) {
 		// If the pool has a parentId that is not 0 and the 'isCooled' flag is true,
@@ -15,9 +19,6 @@ const parentPoolFilter = (pools, isHeated, isCooled) => {
 			parentIds[pool.parentId] = true
 		}
 	}
-
-	// Initialize an array to store the updated pools
-	const updatedPools = []
 
 	// Iterate over the parentIds in the 'parentIds' object
 	for (const parentId in parentIds) {
@@ -54,6 +55,7 @@ const parentPoolFilter = (pools, isHeated, isCooled) => {
 			hBalancePreview: hBalancePreviewSum,
 		})
 	}
+	// }
 
 	return [updatedPools, parentIds]
 }

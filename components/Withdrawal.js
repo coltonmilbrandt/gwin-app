@@ -6,6 +6,7 @@ import { abi } from "../constants/Gwin_abi"
 import toast, { Toaster } from "react-hot-toast"
 import React from "react"
 import Web3 from "web3"
+import generateDescription from "../helpers/generateDescription"
 
 // Withdraw modal to initiate a withdrawal from a pool
 
@@ -265,25 +266,25 @@ const Withdrawal = ({
 	const handleWithdrawalSuccess = async (tx) => {
 		// set withdrawing to false
 		setisWithdrawing(false)
+		// close modal
+		withdrawClose()
 		// if withdraw success, wait
 		await tx.wait(1)
 		// // show toast message
 		// toast.success("Successfully Withdrawn!")
-		// close modal
-		withdrawClose()
 	}
 
 	const handleWithdrawalError = async (error) => {
 		// end withdrawal process
 		setisWithdrawing(false)
+		// close modal
+		withdrawClose()
 		// if withdrawal has error, log error
 		console.log(error)
 		// // show toast message
 		// toast.error(
 		// 	"Uh oh! The withdrawal did not process. Check console for details."
 		// )
-		// close modal
-		withdrawClose()
 	}
 
 	// keep modal closed until isOpen is true
@@ -318,7 +319,13 @@ const Withdrawal = ({
 									/>
 								</div>
 								<div className="col-span-5 font-bold pl-3 align-middle m-auto justify-center">
-									Withdraw from {name}
+									Withdraw from{" "}
+									{generateDescription(
+										leverage,
+										isHeated,
+										isCooled
+									)}{" "}
+									{symbol}
 								</div>
 							</h5>
 							{/* close modal button */}

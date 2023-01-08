@@ -14,7 +14,7 @@ const generateDescription = (leverage, isHeated, isCooled) => {
 	} else if (isCooled == true) {
 		switch (heat) {
 			case "iced":
-				description = "stabilized"
+				description = "Stabilized"
 				break
 			case "cooled":
 				description = inX + " Cooled"

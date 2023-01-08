@@ -26,40 +26,15 @@ const generatePoolName = (
 			typeof base2 === "undefined" &&
 			(quote1 == "N/A" || quote1 == "")
 		) {
-			poolName =
-				base1 +
-				"/??? " +
-				generateDescription(
-					isHeated ? hRate : cRate,
-					isHeated,
-					isCooled
-				)
+			poolName = base1 + "/??? "
 			return poolName
 		} else if (quote1 == "N/A" || quote1 == "") {
 			// if quote1 is "N/A", set poolName to be base1/base2
-			poolName =
-				base1 +
-				"/" +
-				base2 +
-				" " +
-				generateDescription(
-					isHeated ? hRate : cRate,
-					isHeated,
-					isCooled
-				)
+			poolName = base1 + "/" + base2
 			return poolName
 		} else {
 			// otherwise, set poolName to be base1/quote1
-			poolName =
-				base1 +
-				"/" +
-				quote1 +
-				" " +
-				generateDescription(
-					isHeated ? hRate : cRate,
-					isHeated,
-					isCooled
-				)
+			poolName = base1 + "/" + quote1
 			return poolName
 		}
 	} catch (error) {

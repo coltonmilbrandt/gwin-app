@@ -6,6 +6,7 @@ import { chainDict } from "../constants/chainDict"
 import { abi } from "../constants/Gwin_abi"
 import toast, { Toaster } from "react-hot-toast"
 import Web3 from "web3"
+import generateDescription from "../helpers/generateDescription"
 
 const Deposit = ({
 	isOpen,
@@ -269,7 +270,13 @@ const Deposit = ({
 									/>
 								</div>
 								<div className="col-span-5 font-bold pl-3 align-middle m-auto justify-center">
-									Deposit to {name}
+									Deposit to{" "}
+									{generateDescription(
+										leverage,
+										isHeated,
+										isCooled
+									)}{" "}
+									{symbol}
 								</div>
 							</h5>
 							<button
