@@ -196,6 +196,7 @@ const CreatePool = ({ isOpen, userWalletBal, onClose, contract }) => {
 		await tx.wait(1)
 		// // show toast message
 		// toast.success("Successfully Staked!")
+		resetForm()
 	}
 
 	const handleCreatePoolError = async (error) => {
@@ -207,6 +208,21 @@ const CreatePool = ({ isOpen, userWalletBal, onClose, contract }) => {
 		// toast.error(
 		// 	"Uh oh! The pool could not be created. Check console for details."
 		// )
+		resetForm()
+	}
+
+	const resetForm = () => {
+		setFormData({
+			amount: "",
+			poolType: "classic",
+			parentId: "",
+			basePriceFeedAddress: "",
+			baseKey: "",
+			quotePriceFeedAddress: "",
+			quoteKey: "",
+			cRate: "-1000000000000",
+			hRate: "1000000000000",
+		})
 	}
 
 	// create pool hook for smart contract
@@ -490,9 +506,20 @@ const CreatePool = ({ isOpen, userWalletBal, onClose, contract }) => {
 									)}
 								</div>
 								<div className="form-group mt-2">
-									<label htmlFor="basePriceFeedAddress">
-										Base Price Feed Address
-									</label>
+									<div className="flex justify-between">
+										<label className="flex" htmlFor="hRate">
+											Base Price Feed Address
+										</label>
+										<div className="flex text-sm hover:cursor-pointer text-sky-600 hover:text-sky-900 justify-self-end">
+											<a
+												href="https://docs.chain.link/data-feeds/price-feeds/addresses#Goerli%20Testnet"
+												target="_blank"
+												rel="noopener"
+											>
+												See Price Feeds
+											</a>
+										</div>
+									</div>
 									<input
 										type="text"
 										id="basePriceFeedAddress"
@@ -555,7 +582,7 @@ const CreatePool = ({ isOpen, userWalletBal, onClose, contract }) => {
 								</div>
 								<div className="form-group mt-2">
 									<label htmlFor="quotePriceFeedAddress">
-										Quote Price Feed Address
+										Quote Price Feed Address (optional)
 									</label>
 									<input
 										type="text"
@@ -587,7 +614,9 @@ const CreatePool = ({ isOpen, userWalletBal, onClose, contract }) => {
 									)}
 								</div>
 								<div className="form-group mt-2">
-									<label htmlFor="quoteKey">Quote Key</label>
+									<label htmlFor="quoteKey">
+										Quote Key (optional)
+									</label>
 									<input
 										type="text"
 										id="quoteKey"
