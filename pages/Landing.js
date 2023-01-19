@@ -46,7 +46,7 @@ export default function Landing() {
 					</span>
 				</h1>
 				<h3 className="text-gray-500 text-2xl md:text-3xl xl:text-4xl text-center mt-2 lg:mt-0 font-base tracking-tight">
-					Anything from stabilized BTC Hashrate to 10x APE
+					Anything from Stabilized BTC Hashrate to 10x APE
 				</h3>
 				<div className="w-full flex text-center mt-6">
 					<a href="/Dash" className="m-auto">
@@ -54,7 +54,7 @@ export default function Landing() {
 							<div>
 								<button
 									type="button"
-									class="inline-block px-6 pt-2.5 pb-2 bg-indigo-500 text-white font-medium text-sm leading-normal rounded shadow-md hover:bg-blue-700 hover:shadow-lg focus:bg-blue-700 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-blue-800 active:shadow-lg transition duration-150 ease-in-out flex align-center"
+									class="inline-block px-6 pt-2.5 pb-2 bg-indigo-500 text-white font-medium text-base leading-normal rounded shadow-md hover:bg-indigo-700 hover:shadow-lg focus:bg-blue-700 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-indigo-900 active:shadow-lg transition duration-150 ease-in-out flex align-center"
 								>
 									<svg
 										aria-hidden="true"
@@ -138,7 +138,7 @@ export default function Landing() {
 							Choose Your Market
 						</h3>
 						<h3 className="mt-2 text-gray-600 text-base md:text-lg xl:text-lg font-bold tracking-tight">
-							100+ reliable price feeds available on mainnet
+							100+ price feeds will be available on mainnet
 							including:
 						</h3>
 						<ul className="list-disc mt-2.5 font-light list-outside pl-4 pt-2 text-lg space-y-3">
@@ -160,7 +160,7 @@ export default function Landing() {
 							</li>
 							<li>
 								<b className="text-sky-600 font-bold">Data</b>
-								&nbsp; CPI, Hashrate, Gas Price
+								&nbsp; CPI, Hashrate, and Gas Price
 							</li>
 						</ul>
 					</div>
@@ -201,7 +201,7 @@ export default function Landing() {
 								</h5>
 								<p>Go long with up to 10x leverage.</p>
 							</div>
-							<div className="grid grid-cols-6 text-left px-6 pb-6 space-y-5">
+							<div className="grid grid-cols-6 text-left px-6 pb-10 space-y-5">
 								<div className="col-span-6 pb-1 font-bold text-orange-400 text-center">
 									Examples:
 								</div>
@@ -248,7 +248,7 @@ export default function Landing() {
 								</h5>
 								<p>Reduce pair exposure up to 100%.</p>
 							</div>
-							<div className="grid grid-cols-6 text-left px-6 pb-6 space-y-5">
+							<div className="grid grid-cols-6 text-left px-6 pb-10 space-y-5">
 								<div className="col-span-6 pb-1 font-bold text-sky-500 text-center">
 									Examples:
 								</div>
@@ -295,7 +295,7 @@ export default function Landing() {
 								</h5>
 								<p>Bet on a move to the downside.</p>
 							</div>
-							<div className="grid grid-cols-6 text-left px-6 pb-6 space-y-5">
+							<div className="grid grid-cols-6 text-left px-6 pb-10 space-y-5">
 								<div className="col-span-6 pb-1 font-bold text-red-400 text-center">
 									Examples:
 								</div>
@@ -472,6 +472,42 @@ export default function Landing() {
 								</span>
 							</div>
 						</div> */}
+			</section>
+			<section>
+				<h3 className="text-gray-500 text-2xl md:text-3xl xl:text-4xl text-center mt-16 lg:mt-20 font-base tracking-tight">
+					Check Out the Full Documentation
+				</h3>
+				<div className="w-full flex text-center mt-6">
+					<a
+						href="https://coltonmilbrandt.gitbook.io/gwin/"
+						target="_blank"
+						rel="noopener"
+						className="m-auto"
+					>
+						<div class="flex space-x-2 justify-center">
+							<div>
+								<button
+									type="button"
+									class="inline-block px-6 pt-2.5 pb-2 bg-indigo-500 text-white font-medium text-base leading-normal rounded shadow-md hover:bg-indigo-700 hover:shadow-lg focus:bg-blue-700 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-indigo-900 active:shadow-lg transition duration-150 ease-in-out flex align-center"
+								>
+									<svg
+										aria-hidden="true"
+										focusable="false"
+										data-prefix="fas"
+										data-icon="download"
+										class="w-6 h-6 mr-2 fill-white"
+										role="img"
+										xmlns="http://www.w3.org/2000/svg"
+										viewBox="0 0 448 512"
+									>
+										<path d="M96 0C43 0 0 43 0 96V416c0 53 43 96 96 96H384h32c17.7 0 32-14.3 32-32s-14.3-32-32-32V384c17.7 0 32-14.3 32-32V32c0-17.7-14.3-32-32-32H384 96zm0 384H352v64H96c-17.7 0-32-14.3-32-32s14.3-32 32-32zm32-240c0-8.8 7.2-16 16-16H336c8.8 0 16 7.2 16 16s-7.2 16-16 16H144c-8.8 0-16-7.2-16-16zm16 48H336c8.8 0 16 7.2 16 16s-7.2 16-16 16H144c-8.8 0-16-7.2-16-16s7.2-16 16-16z" />
+									</svg>
+									See Docs
+								</button>
+							</div>
+						</div>
+					</a>
+				</div>
 			</section>
 		</div>
 	)
