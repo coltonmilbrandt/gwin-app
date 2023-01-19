@@ -201,7 +201,7 @@ export default function Landing() {
 								</h5>
 								<p>Go long with up to 10x leverage.</p>
 							</div>
-							<div className="grid grid-cols-6 text-left px-6 pb-6 space-y-3">
+							<div className="grid grid-cols-6 text-left px-6 pb-6 space-y-5">
 								<div className="col-span-6 pb-1 font-bold text-orange-400 text-center">
 									Examples:
 								</div>
@@ -248,7 +248,7 @@ export default function Landing() {
 								</h5>
 								<p>Reduce pair exposure up to 100%.</p>
 							</div>
-							<div className="grid grid-cols-6 text-left px-6 pb-6 space-y-3">
+							<div className="grid grid-cols-6 text-left px-6 pb-6 space-y-5">
 								<div className="col-span-6 pb-1 font-bold text-sky-500 text-center">
 									Examples:
 								</div>
@@ -295,7 +295,7 @@ export default function Landing() {
 								</h5>
 								<p>Bet on a move to the downside.</p>
 							</div>
-							<div className="grid grid-cols-6 text-left px-6 pb-6 space-y-3">
+							<div className="grid grid-cols-6 text-left px-6 pb-6 space-y-5">
 								<div className="col-span-6 pb-1 font-bold text-red-400 text-center">
 									Examples:
 								</div>
