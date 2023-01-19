@@ -48,7 +48,7 @@ export default function Example() {
 			<div className="min-h-full">
 				<Disclosure
 					as="nav"
-					className="bg-gradient-to-tr from-slate-100 to-sky-400"
+					className="bg-gradient-to-tr from-gray-50 to-sky-300"
 				>
 					{({ open }) => (
 						<>

@@ -13,7 +13,7 @@ export default function Dash() {
 	return (
 		<>
 			<Nav />
-			<div className="bg-gradient-to-br from-slate-100 to-sky-400 min-h-screen">
+			<div className="bg-gradient-to-br from-gray-50 to-sky-400 min-h-screen">
 				{/* <header>
 					<div className="max-w-7xl mx-auto pt-6 px-4 sm:px-6 lg:px-8">
 						<h1 className="text-3xl font-bold text-[#565264]">

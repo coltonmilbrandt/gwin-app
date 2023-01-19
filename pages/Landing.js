@@ -1,12 +1,25 @@
 import Head from "next/head"
 import Image from "next/image"
 import curveImg from "/public/curve-simple.png"
+import tokensImg from "/public/tokens.jpg"
+import bitcoinImg from "/public/Bitcoin.png"
+import maticImg from "/public/matic-token.jpeg"
+import adaImg from "/public/ada-token.jpeg"
+import goldImg from "/public/gold.png"
+import oilImg from "/public/oil-token.jpeg"
+import teslaImg from "/public/tesla-token.jpeg"
+import appleImg from "/public/apple-token.jpeg"
+import ethImg from "/public/eth.png"
+import dollarImg from "/public/dollar.png"
+import aboutTwoImg from "/public/about-shape-2.svg"
+import aboutOneImg from "/public/about-shape-1.svg"
+import TradeExample from "../components/landing/TradeExample"
 
 // this is the landing page of the app
 
 export default function Landing() {
 	return (
-		<div className="bg-gradient-to-bl from-sky-50 to-white min-h-screen">
+		<div className="bg-gradient-to-bl from-sky-50 to-white min-h-screen pb-32">
 			<Head>
 				<title>Trading Site</title>
 			</Head>
@@ -16,27 +29,59 @@ export default function Landing() {
 					backgroundImage: `url(/penguin-banner.jpg)`,
 				}}
 			></div>
-			<h1 class="text-5xl md:text-6xl xl:text-7xl text-center mt-24 font-bold tracking-tight">
-				<span className="inline-block leading-8 font-semibold tracking-tight text-indigo-600 sm:tracking-tight">
-					<span className="text-gray-900">Gwin</span> Create and Trade{" "}
-					<svg
-						className="w-20 h-20 inline-block fill-indigo-600"
-						xmlns="http://www.w3.org/2000/svg"
-						viewBox="0 0 640 512"
-					>
-						<path d="M0 241.1C0 161 65 96 145.1 96c38.5 0 75.4 15.3 102.6 42.5L320 210.7l72.2-72.2C419.5 111.3 456.4 96 494.9 96C575 96 640 161 640 241.1v29.7C640 351 575 416 494.9 416c-38.5 0-75.4-15.3-102.6-42.5L320 301.3l-72.2 72.2C220.5 400.7 183.6 416 145.1 416C65 416 0 351 0 270.9V241.1zM274.7 256l-72.2-72.2c-15.2-15.2-35.9-23.8-57.4-23.8C100.3 160 64 196.3 64 241.1v29.7c0 44.8 36.3 81.1 81.1 81.1c21.5 0 42.2-8.5 57.4-23.8L274.7 256zm90.5 0l72.2 72.2c15.2 15.2 35.9 23.8 57.4 23.8c44.8 0 81.1-36.3 81.1-81.1V241.1c0-44.8-36.3-81.1-81.1-81.1c-21.5 0-42.2 8.5-57.4 23.8L365.3 256z" />
-					</svg>{" "}
-					Markets
-					{/* <!--! Font Awesome Pro 6.2.1 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2022 Fonticons, Inc. --> */}
-				</span>
-			</h1>
-			<h3 class="text-gray-600 text-2xl md:text-3xl xl:text-4xl text-center mt-2 font-base tracking-tight">
-				Anything from stabilized BTC Hashrate to 10x APE
-			</h3>
-			<section className="py-14 px-24 mt-14">
-				<div className="row grid-cols-2 grid">
-					<div>
-						<div class="rounded-lg shadow-lg block bg-white">
+			<div className="p-4 lg:p-0">
+				<h1 className="text-4xl lg:text-5xl xl:text-7xl text-center mt-8 lg:mt-24 font-bold tracking-tight">
+					<span className="inline-block leading-8 font-semibold tracking-tight text-indigo-600 sm:tracking-tight">
+						<span className="text-gray-900">Gwin</span> Create and
+						Trade{" "}
+						<svg
+							className="w-12 h-12 lg:w-20 lg:h-20 inline-block fill-indigo-600"
+							xmlns="http://www.w3.org/2000/svg"
+							viewBox="0 0 640 512"
+						>
+							<path d="M0 241.1C0 161 65 96 145.1 96c38.5 0 75.4 15.3 102.6 42.5L320 210.7l72.2-72.2C419.5 111.3 456.4 96 494.9 96C575 96 640 161 640 241.1v29.7C640 351 575 416 494.9 416c-38.5 0-75.4-15.3-102.6-42.5L320 301.3l-72.2 72.2C220.5 400.7 183.6 416 145.1 416C65 416 0 351 0 270.9V241.1zM274.7 256l-72.2-72.2c-15.2-15.2-35.9-23.8-57.4-23.8C100.3 160 64 196.3 64 241.1v29.7c0 44.8 36.3 81.1 81.1 81.1c21.5 0 42.2-8.5 57.4-23.8L274.7 256zm90.5 0l72.2 72.2c15.2 15.2 35.9 23.8 57.4 23.8c44.8 0 81.1-36.3 81.1-81.1V241.1c0-44.8-36.3-81.1-81.1-81.1c-21.5 0-42.2 8.5-57.4 23.8L365.3 256z" />
+						</svg>{" "}
+						Markets
+						{/* <!--! Font Awesome Pro 6.2.1 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2022 Fonticons, Inc. --> */}
+					</span>
+				</h1>
+				<h3 className="text-gray-500 text-2xl md:text-3xl xl:text-4xl text-center mt-2 lg:mt-0 font-base tracking-tight">
+					Anything from stabilized BTC Hashrate to 10x APE
+				</h3>
+				<div className="w-full flex text-center mt-6">
+					<a href="/Dash" className="m-auto">
+						<div class="flex space-x-2 justify-center">
+							<div>
+								<button
+									type="button"
+									class="inline-block px-6 pt-2.5 pb-2 bg-indigo-500 text-white font-medium text-sm leading-normal rounded shadow-md hover:bg-blue-700 hover:shadow-lg focus:bg-blue-700 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-blue-800 active:shadow-lg transition duration-150 ease-in-out flex align-center"
+								>
+									<svg
+										aria-hidden="true"
+										focusable="false"
+										data-prefix="fas"
+										data-icon="download"
+										class="w-5 h-5 mr-2 fill-white"
+										role="img"
+										xmlns="http://www.w3.org/2000/svg"
+										viewBox="0 0 512 512"
+									>
+										<path d="M156.6 384.9L125.7 354c-8.5-8.5-11.5-20.8-7.7-32.2c3-8.9 7-20.5 11.8-33.8L24 288c-8.6 0-16.6-4.6-20.9-12.1s-4.2-16.7 .2-24.1l52.5-88.5c13-21.9 36.5-35.3 61.9-35.3l82.3 0c2.4-4 4.8-7.7 7.2-11.3C289.1-4.1 411.1-8.1 483.9 5.3c11.6 2.1 20.6 11.2 22.8 22.8c13.4 72.9 9.3 194.8-111.4 276.7c-3.5 2.4-7.3 4.8-11.3 7.2v82.3c0 25.4-13.4 49-35.3 61.9l-88.5 52.5c-7.4 4.4-16.6 4.5-24.1 .2s-12.1-12.2-12.1-20.9V380.8c-14.1 4.9-26.4 8.9-35.7 11.9c-11.2 3.6-23.4 .5-31.8-7.8zM384 168c22.1 0 40-17.9 40-40s-17.9-40-40-40s-40 17.9-40 40s17.9 40 40 40z" />
+									</svg>
+									Launch App
+								</button>
+							</div>
+						</div>
+					</a>
+				</div>
+			</div>
+			<section className="py-4 lg:py-8 px-8 lg:px-24 mt-14 relative">
+				<div class="about-shape-2">
+					<Image src={aboutTwoImg} width="1000px" height="1000px" />
+				</div>
+				<div className="row grid-cols-2 grid max-w-7xl m-auto">
+					<div className="col-span-2 max-w-lg lg:max-w-xl lg:col-span-1 m-auto">
+						<div className="rounded-lg shadow-lg block bg-white">
 							<Image
 								src={curveImg}
 								className="rounded-lg"
@@ -49,60 +94,271 @@ export default function Landing() {
 							making incentives kick in to rebalance.
 						</p>
 					</div>
-					<div className="py-16 pl-20 text-gray-600">
-						<h3 class="text-sky-500 font-bold text-xl md:text-2xl xl:text-3xl mt-2 font-base tracking-tight">
-							Markets made simple
+					<div className="col-span-2 max-w-lg lg:max-w-3xl lg:col-span-1 m-auto py-16 lg:pl-20 text-gray-600">
+						<h3 className="text-indigo-500 text-2xl md:text-3xl xl:text-3xl mt-2 font-base tracking-tight">
+							So Many Ways to Gwin
 						</h3>
-						<h3 class="text-gray-600 text-base md:text-lg xl:text-lg font-bold tracking-tight">
+						<h3 className="mt-2 text-gray-600 text-base md:text-lg xl:text-lg font-bold tracking-tight">
 							Market making and trading in one curve
 						</h3>
-						<ul className="list-disc list-outside pl-4 pt-2 text-lg space-y-3">
+						<ul className="list-disc mt-2.5 list-outside pl-4 pt-2 text-lg space-y-3 font-light">
 							<li>
-								Trade an endless variety of markets and leverage
+								<b className="text-sky-600 font-bold">Trade</b>
+								&nbsp;an endless variety of markets and leverage
 							</li>
-							<li>Deposit to trade, withdraw at any time</li>
 							<li>
-								Arbitrage by depositing to underweight pools
+								<b className="text-sky-600 font-bold">
+									Deposit
+								</b>
+								&nbsp;to trade, withdraw at any time
 							</li>
-							<li>Make markets with USD-stabilized position</li>
+							<li>
+								<b className="text-sky-600 font-bold">
+									Arbitrage
+								</b>
+								&nbsp;by depositing to underweight pools
+							</li>
+							<li>
+								<b className="text-sky-600 font-bold">
+									Make markets
+								</b>
+								&nbsp;with USD-stabilized position
+							</li>
 						</ul>
 					</div>
 				</div>
 			</section>
-			<section>
-				<h1 class="text-center text-3xl font-semibold capitalize text-gray-800 lg:text-4xl">
+			<section className="px-8 lg:px-24 mt-16 relative">
+				<div class="about-shape-1">
+					<Image src={aboutOneImg} width="1000px" height="1000px" />
+				</div>
+				<div className="grid grid-cols-2 max-w-7xl m-auto">
+					<div className="col-span-2 max-w-lg lg:max-w-3xl lg:col-span-1 order-2 lg:order-1 m-auto py-16 pr-8 text-gray-600">
+						<h3 className="text-indigo-500 text-2xl md:text-3xl xl:text-3xl mt-2 font-base tracking-tight">
+							Choose Your Market
+						</h3>
+						<h3 className="mt-2 text-gray-600 text-base md:text-lg xl:text-lg font-bold tracking-tight">
+							100+ reliable price feeds available on mainnet
+							including:
+						</h3>
+						<ul className="list-disc mt-2.5 font-light list-outside pl-4 pt-2 text-lg space-y-3">
+							<li>
+								<b className="text-sky-600 font-bold">Crypto</b>
+								&nbsp; Bitcoin, Polygon, Cardano
+							</li>
+							<li>
+								<b className="text-sky-600 font-bold">
+									Commodities
+								</b>
+								&nbsp; Gold, Oil, and Silver
+							</li>
+							<li>
+								<b className="text-sky-600 font-bold">
+									Equities
+								</b>
+								&nbsp; Tesla, Apple, and Google
+							</li>
+							<li>
+								<b className="text-sky-600 font-bold">Data</b>
+								&nbsp; CPI, Hashrate, Gas Price
+							</li>
+						</ul>
+					</div>
+					<div className="col-span-2 order-1 lg:order-2 w-lg max-w-lg lg:max-w-xl lg:col-span-1 m-auto">
+						<div className="m-auto pt-1.5 rounded-lg shadow-lg block bg-white w-full">
+							<Image
+								src={tokensImg}
+								className="rounded-lg w-full h-auto"
+								height="768px"
+								width="1024px"
+							/>
+						</div>
+					</div>
+				</div>
+			</section>
+			<section className="mt-16 text-gray-800 text-center p-8 lg:p-16">
+				<h2 className="text-2xl md:text-3xl text-indigo-600 mb-20">
+					Choose Your Trade
+				</h2>
+
+				<div className="grid gap-x-6 lg:gap-x-12 grid-cols-1 spa md:grid-cols-2 lg:grid-cols-3 max-w-7xl m-auto">
+					<div className="mb-12 lg:mb-0">
+						<div className="rounded-lg shadow-lg h-full block bg-white">
+							<div className="flex justify-center">
+								<div className="p-4 bg-orange-300 rounded-full shadow-lg inline-block -mt-8">
+									<svg
+										className="w-8 h-8 pl-1.5 text-orange-100 fill-orange-100"
+										xmlns="http://www.w3.org/2000/svg"
+										viewBox="0 0 512 512"
+									>
+										<path d="M153.6 29.9l16-21.3C173.6 3.2 180 0 186.7 0C198.4 0 208 9.6 208 21.3V43.5c0 13.1 5.4 25.7 14.9 34.7L307.6 159C356.4 205.6 384 270.2 384 337.7C384 434 306 512 209.7 512H192C86 512 0 426 0 320v-3.8c0-48.8 19.4-95.6 53.9-130.1l3.5-3.5c4.2-4.2 10-6.6 16-6.6C85.9 176 96 186.1 96 198.6V288c0 35.3 28.7 64 64 64s64-28.7 64-64v-3.9c0-18-7.2-35.3-19.9-48l-38.6-38.6c-24-24-37.5-56.7-37.5-90.7c0-27.7 9-54.8 25.6-76.9z" />
+									</svg>
+								</div>
+							</div>
+							<div className="p-6">
+								<h5 className="text-xl font-semibold mb-4">
+									Heat it up
+								</h5>
+								<p>Go long with up to 10x leverage.</p>
+							</div>
+							<div className="grid grid-cols-6 text-left px-6 pb-6 space-y-3">
+								<div className="col-span-6 pb-1 font-bold text-orange-400 text-center">
+									Examples:
+								</div>
+								<TradeExample
+									imageSrc={ethImg}
+									text="10x Long ETH"
+								/>
+								<TradeExample
+									imageSrc={goldImg}
+									text="2x Long Gold"
+								/>
+								<TradeExample
+									imageSrc={maticImg}
+									text="5x Long MATIC"
+								/>
+								<TradeExample
+									imageSrc={bitcoinImg}
+									text="3x Long Bitcoin"
+								/>
+								<TradeExample
+									imageSrc={adaImg}
+									text="1.5x Long Cardano"
+								/>
+							</div>
+						</div>
+					</div>
+
+					<div className="mb-12 lg:mb-0">
+						<div className="rounded-lg shadow-lg h-full block bg-white">
+							<div className="flex justify-center">
+								<div className="p-4 bg-sky-300 rounded-full shadow-lg inline-block -mt-8">
+									<svg
+										className="w-8 h-8 text-white fill-sky-100"
+										xmlns="http://www.w3.org/2000/svg"
+										viewBox="0 0 448 512"
+									>
+										<path d="M224 0c17.7 0 32 14.3 32 32V62.1l15-15c9.4-9.4 24.6-9.4 33.9 0s9.4 24.6 0 33.9l-49 49v70.3l61.4-35.8 17.7-66.1c3.4-12.8 16.6-20.4 29.4-17s20.4 16.6 17 29.4l-5.2 19.3 23.6-13.8c15.3-8.9 34.9-3.7 43.8 11.5s3.7 34.9-11.5 43.8l-25.3 14.8 21.7 5.8c12.8 3.4 20.4 16.6 17 29.4s-16.6 20.4-29.4 17l-67.7-18.1L287.5 256l60.9 35.5 67.7-18.1c12.8-3.4 26 4.2 29.4 17s-4.2 26-17 29.4l-21.7 5.8 25.3 14.8c15.3 8.9 20.4 28.5 11.5 43.8s-28.5 20.4-43.8 11.5l-23.6-13.8 5.2 19.3c3.4 12.8-4.2 26-17 29.4s-26-4.2-29.4-17l-17.7-66.1L256 311.7v70.3l49 49c9.4 9.4 9.4 24.6 0 33.9s-24.6 9.4-33.9 0l-15-15V480c0 17.7-14.3 32-32 32s-32-14.3-32-32V449.9l-15 15c-9.4 9.4-24.6 9.4-33.9 0s-9.4-24.6 0-33.9l49-49V311.7l-61.4 35.8-17.7 66.1c-3.4 12.8-16.6 20.4-29.4 17s-20.4-16.6-17-29.4l5.2-19.3L48.1 395.6c-15.3 8.9-34.9 3.7-43.8-11.5s-3.7-34.9 11.5-43.8l25.3-14.8-21.7-5.8c-12.8-3.4-20.4-16.6-17-29.4s16.6-20.4 29.4-17l67.7 18.1L160.5 256 99.6 220.5 31.9 238.6c-12.8 3.4-26-4.2-29.4-17s4.2-26 17-29.4l21.7-5.8L15.9 171.6C.6 162.7-4.5 143.1 4.4 127.9s28.5-20.4 43.8-11.5l23.6 13.8-5.2-19.3c-3.4-12.8 4.2-26 17-29.4s26 4.2 29.4 17l17.7 66.1L192 200.3V129.9L143 81c-9.4-9.4-9.4-24.6 0-33.9s24.6-9.4 33.9 0l15 15V32c0-17.7 14.3-32 32-32z" />
+									</svg>
+								</div>
+							</div>
+							<div className="p-6">
+								<h5 className="text-xl font-semibold mb-4">
+									Cool it down
+								</h5>
+								<p>Reduce pair exposure up to 100%.</p>
+							</div>
+							<div className="grid grid-cols-6 text-left px-6 pb-6 space-y-3">
+								<div className="col-span-6 pb-1 font-bold text-sky-500 text-center">
+									Examples:
+								</div>
+								<TradeExample
+									imageSrc={dollarImg}
+									text="Emulated US Dollar"
+								/>
+								<TradeExample
+									imageSrc={appleImg}
+									text="Emulated Apple Stock"
+								/>
+								<TradeExample
+									imageSrc={oilImg}
+									text="Emulated Barrel of Oil"
+								/>
+								<TradeExample
+									imageSrc={bitcoinImg}
+									text="Stable Bitcoin Hashrate"
+								/>
+								<TradeExample
+									imageSrc={ethImg}
+									text="Reduce ETH exposure 50%"
+								/>
+							</div>
+						</div>
+					</div>
+
+					<div className="">
+						<div className="rounded-lg shadow-lg h-full block bg-white">
+							<div className="flex justify-center">
+								<div className="p-4 bg-red-300 rounded-full shadow-lg inline-block -mt-8">
+									<svg
+										className="w-8 h-8 text-red-100 fill-red-100"
+										xmlns="http://www.w3.org/2000/svg"
+										viewBox="0 0 576 512"
+									>
+										<path d="M384 352c-17.7 0-32 14.3-32 32s14.3 32 32 32H544c17.7 0 32-14.3 32-32V224c0-17.7-14.3-32-32-32s-32 14.3-32 32v82.7L342.6 137.4c-12.5-12.5-32.8-12.5-45.3 0L192 242.7 54.6 105.4c-12.5-12.5-32.8-12.5-45.3 0s-12.5 32.8 0 45.3l160 160c12.5 12.5 32.8 12.5 45.3 0L320 205.3 466.7 352H384z" />
+									</svg>
+								</div>
+							</div>
+							<div className="p-6">
+								<h5 className="text-xl font-semibold mb-4">
+									Short it
+								</h5>
+								<p>Bet on a move to the downside.</p>
+							</div>
+							<div className="grid grid-cols-6 text-left px-6 pb-6 space-y-3">
+								<div className="col-span-6 pb-1 font-bold text-red-400 text-center">
+									Examples:
+								</div>
+								<TradeExample
+									imageSrc={teslaImg}
+									text="5x Short Tesla Stock"
+								/>
+								<TradeExample
+									imageSrc={ethImg}
+									text="Short Ethereum Gas Price"
+								/>
+								<TradeExample
+									imageSrc={bitcoinImg}
+									text="10x Short Bitcoin Hashrate"
+								/>
+								<TradeExample
+									imageSrc={goldImg}
+									text="3x Short Gold"
+								/>
+								<TradeExample
+									imageSrc={dollarImg}
+									text="2x Short Consumer Price Index"
+								/>
+							</div>
+						</div>
+					</div>
+				</div>
+			</section>
+			<section className="mt-16 relative">
+				<div class="about-shape-2">
+					<Image src={aboutTwoImg} width="1000px" height="1000px" />
+				</div>
+				<h1 className="text-center text-3xl font-semibold capitalize text-gray-800 lg:text-4xl">
 					Features
 				</h1>
 
-				<div class="mx-auto mt-6 flex justify-center">
-					<span class="inline-block h-1 w-40 rounded-full bg-sky-500"></span>
-					<span class="mx-1 inline-block h-1 w-3 rounded-full bg-sky-500"></span>
-					<span class="inline-block h-1 w-1 rounded-full bg-sky-500"></span>
+				<div className="mx-auto mt-6 flex justify-center">
+					<span className="inline-block h-1 w-40 rounded-full bg-sky-500"></span>
+					<span className="mx-1 inline-block h-1 w-3 rounded-full bg-sky-500"></span>
+					<span className="inline-block h-1 w-1 rounded-full bg-sky-500"></span>
 				</div>
 
-				<div class="mx-auto mt-16 flex max-w-4xl items-start">
-					<div class="flex flex-wrap text-sky-600">
-						<div class="grow-0 shrink-0 basis-auto w-full lg:w-6/12 mb-12 px-3">
-							<div class="flex">
-								<div class="shrink-0">
-									<div class="p-4 bg-indigo-600 rounded-md shadow-lg">
+				<div className="mx-auto mt-16 flex max-w-4xl items-start">
+					<div className="flex flex-wrap text-sky-600">
+						<div className="grow-0 shrink-0 basis-auto w-full lg:w-6/12 mb-12 px-3">
+							<div className="flex">
+								<div className="shrink-0">
+									<div className="p-4 bg-indigo-600 rounded-md shadow-lg">
 										<svg
-											class="w-5 h-5 text-white"
+											className="w-5 h-5 text-white fill-white"
 											xmlns="http://www.w3.org/2000/svg"
-											viewBox="0 0 512 512"
+											viewBox="0 0 640 512"
 										>
-											<path
-												fill="currentColor"
-												d="M192 208c0-17.67-14.33-32-32-32h-16c-35.35 0-64 28.65-64 64v48c0 35.35 28.65 64 64 64h16c17.67 0 32-14.33 32-32V208zm176 144c35.35 0 64-28.65 64-64v-48c0-35.35-28.65-64-64-64h-16c-17.67 0-32 14.33-32 32v112c0 17.67 14.33 32 32 32h16zM256 0C113.18 0 4.58 118.83 0 256v16c0 8.84 7.16 16 16 16h16c8.84 0 16-7.16 16-16v-16c0-114.69 93.31-208 208-208s208 93.31 208 208h-.12c.08 2.43.12 165.72.12 165.72 0 23.35-18.93 42.28-42.28 42.28H320c0-26.51-21.49-48-48-48h-32c-26.51 0-48 21.49-48 48s21.49 48 48 48h181.72c49.86 0 90.28-40.42 90.28-90.28V256C507.42 118.83 398.82 0 256 0z"
-											></path>
+											<path d="M384 32H512c17.7 0 32 14.3 32 32s-14.3 32-32 32H398.4c-5.2 25.8-22.9 47.1-46.4 57.3V448H512c17.7 0 32 14.3 32 32s-14.3 32-32 32H320 128c-17.7 0-32-14.3-32-32s14.3-32 32-32H288V153.3c-23.5-10.3-41.2-31.6-46.4-57.3H128c-17.7 0-32-14.3-32-32s14.3-32 32-32H256c14.6-19.4 37.8-32 64-32s49.4 12.6 64 32zM125.8 177.3L51.1 320H204.9L130.2 177.3c-.4-.8-1.3-1.3-2.2-1.3s-1.7 .5-2.2 1.3zM128 128c18.8 0 36 10.4 44.7 27l77.8 148.5c3.1 5.8 6.1 14 5.5 23.8c-.7 12.1-4.8 35.2-24.8 55.1C210.9 402.6 178.2 416 128 416s-82.9-13.4-103.2-33.5c-20-20-24.2-43-24.8-55.1c-.6-9.8 2.5-18 5.5-23.8L83.3 155c8.7-16.6 25.9-27 44.7-27zm384 48c-.9 0-1.7 .5-2.2 1.3L435.1 320H588.9L514.2 177.3c-.4-.8-1.3-1.3-2.2-1.3zm-44.7-21c8.7-16.6 25.9-27 44.7-27s36 10.4 44.7 27l77.8 148.5c3.1 5.8 6.1 14 5.5 23.8c-.7 12.1-4.8 35.2-24.8 55.1C594.9 402.6 562.2 416 512 416s-82.9-13.4-103.2-33.5c-20-20-24.2-43-24.8-55.1c-.6-9.8 2.5-18 5.5-23.8L467.3 155z" />
 										</svg>
+										{/* <!--! Font Awesome Pro 6.2.1 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2022 Fonticons, Inc. --> */}
 									</div>
 								</div>
-								<div class="grow ml-4">
-									<p class="font-bold mb-1">
+								<div className="grow ml-4">
+									<p className="font-bold mb-1">
 										Auto Settling Pools
 									</p>
-									<p class="text-gray-500">
+									<p className="text-gray-500">
 										When you trade, the underlying pools
 										automatically settle as optimally as
 										possible, even with low-liquidity.
@@ -111,27 +367,25 @@ export default function Landing() {
 							</div>
 						</div>
 
-						<div class="grow-0 shrink-0 basis-auto w-full lg:w-6/12 mb-12 px-3">
-							<div class="flex">
-								<div class="shrink-0">
-									<div class="p-4 bg-indigo-600 rounded-md shadow-lg">
+						<div className="grow-0 shrink-0 basis-auto w-full lg:w-6/12 mb-12 px-3">
+							<div className="flex">
+								<div className="shrink-0">
+									<div className="p-4 bg-indigo-600 rounded-md shadow-lg">
 										<svg
-											class="w-5 h-5 text-white"
+											className="w-5 h-5 text-white fill-white"
 											xmlns="http://www.w3.org/2000/svg"
 											viewBox="0 0 512 512"
 										>
-											<path
-												fill="currentColor"
-												d="M466.5 83.7l-192-80a48.15 48.15 0 0 0-36.9 0l-192 80C27.7 91.1 16 108.6 16 128c0 198.5 114.5 335.7 221.5 380.3 11.8 4.9 25.1 4.9 36.9 0C360.1 472.6 496 349.3 496 128c0-19.4-11.7-36.9-29.5-44.3zM256.1 446.3l-.1-381 175.9 73.3c-3.3 151.4-82.1 261.1-175.8 307.7z"
-											></path>
+											<path d="M156.6 384.9L125.7 354c-8.5-8.5-11.5-20.8-7.7-32.2c3-8.9 7-20.5 11.8-33.8L24 288c-8.6 0-16.6-4.6-20.9-12.1s-4.2-16.7 .2-24.1l52.5-88.5c13-21.9 36.5-35.3 61.9-35.3l82.3 0c2.4-4 4.8-7.7 7.2-11.3C289.1-4.1 411.1-8.1 483.9 5.3c11.6 2.1 20.6 11.2 22.8 22.8c13.4 72.9 9.3 194.8-111.4 276.7c-3.5 2.4-7.3 4.8-11.3 7.2v82.3c0 25.4-13.4 49-35.3 61.9l-88.5 52.5c-7.4 4.4-16.6 4.5-24.1 .2s-12.1-12.2-12.1-20.9V380.8c-14.1 4.9-26.4 8.9-35.7 11.9c-11.2 3.6-23.4 .5-31.8-7.8zM384 168c22.1 0 40-17.9 40-40s-17.9-40-40-40s-40 17.9-40 40s17.9 40 40 40z" />
 										</svg>
+										{/* <!--! Font Awesome Pro 6.2.1 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2022 Fonticons, Inc. --> */}
 									</div>
 								</div>
-								<div class="grow ml-4">
-									<p class="font-bold mb-1">
+								<div className="grow ml-4">
+									<p className="font-bold mb-1">
 										Easy to Launch Markets
 									</p>
-									<p class="text-gray-500">
+									<p className="text-gray-500">
 										Use 100+ price feeds to launch and trade
 										any market you can imagine, i.e. stable
 										gold, shorted BTC hash, or 10x APE.
@@ -140,40 +394,12 @@ export default function Landing() {
 							</div>
 						</div>
 
-						<div class="grow-0 shrink-0 basis-auto w-full lg:w-6/12 mb-12 px-3">
-							<div class="flex">
-								<div class="shrink-0">
-									<div class="p-4 bg-indigo-600 rounded-md shadow-lg">
+						<div className="grow-0 shrink-0 basis-auto w-full lg:w-6/12 mb-12 px-3">
+							<div className="flex">
+								<div className="shrink-0">
+									<div className="p-4 bg-indigo-600 rounded-md shadow-lg">
 										<svg
-											class="w-5 h-5 text-white"
-											xmlns="http://www.w3.org/2000/svg"
-											viewBox="0 0 640 512"
-										>
-											<path
-												fill="currentColor"
-												d="M624 352h-16V243.9c0-12.7-5.1-24.9-14.1-33.9L494 110.1c-9-9-21.2-14.1-33.9-14.1H416V48c0-26.5-21.5-48-48-48H112C85.5 0 64 21.5 64 48v48H8c-4.4 0-8 3.6-8 8v16c0 4.4 3.6 8 8 8h272c4.4 0 8 3.6 8 8v16c0 4.4-3.6 8-8 8H40c-4.4 0-8 3.6-8 8v16c0 4.4 3.6 8 8 8h208c4.4 0 8 3.6 8 8v16c0 4.4-3.6 8-8 8H8c-4.4 0-8 3.6-8 8v16c0 4.4 3.6 8 8 8h208c4.4 0 8 3.6 8 8v16c0 4.4-3.6 8-8 8H64v128c0 53 43 96 96 96s96-43 96-96h128c0 53 43 96 96 96s96-43 96-96h48c8.8 0 16-7.2 16-16v-32c0-8.8-7.2-16-16-16zM160 464c-26.5 0-48-21.5-48-48s21.5-48 48-48 48 21.5 48 48-21.5 48-48 48zm320 0c-26.5 0-48-21.5-48-48s21.5-48 48-48 48 21.5 48 48-21.5 48-48 48zm80-208H416V144h44.1l99.9 99.9V256z"
-											></path>
-										</svg>
-									</div>
-								</div>
-								<div class="grow ml-4">
-									<p class="font-bold mb-1">Risk Arbitrage</p>
-									<p class="text-gray-500">
-										Market makers are attracted by natural
-										risk arbitrage incentives. Deposits to
-										underweight pools have better risk
-										profiles.
-									</p>
-								</div>
-							</div>
-						</div>
-
-						<div class="grow-0 shrink-0 basis-auto w-full lg:w-6/12 mb-12 px-3">
-							<div class="flex">
-								<div class="shrink-0">
-									<div class="p-4 bg-indigo-600 rounded-md shadow-lg">
-										<svg
-											class="w-5 h-5 text-white"
+											className="w-5 h-5 text-white"
 											xmlns="http://www.w3.org/2000/svg"
 											viewBox="0 0 576 512"
 										>
@@ -184,11 +410,41 @@ export default function Landing() {
 										</svg>
 									</div>
 								</div>
-								<div class="grow ml-4">
-									<p class="font-bold mb-1">
+								<div className="grow ml-4">
+									<p className="font-bold mb-1">
+										Risk Arbitrage
+									</p>
+									<p className="text-gray-500">
+										Market makers are attracted by natural
+										risk arbitrage incentives. Deposits to
+										underweight pools have better risk
+										profiles.
+									</p>
+								</div>
+							</div>
+						</div>
+
+						<div className="grow-0 shrink-0 basis-auto w-full lg:w-6/12 mb-12 px-3">
+							<div className="flex">
+								<div className="shrink-0">
+									<div className="p-4 bg-indigo-600 rounded-md shadow-lg">
+										<svg
+											className="w-5 h-5 text-white"
+											xmlns="http://www.w3.org/2000/svg"
+											viewBox="0 0 512 512"
+										>
+											<path
+												fill="currentColor"
+												d="M466.5 83.7l-192-80a48.15 48.15 0 0 0-36.9 0l-192 80C27.7 91.1 16 108.6 16 128c0 198.5 114.5 335.7 221.5 380.3 11.8 4.9 25.1 4.9 36.9 0C360.1 472.6 496 349.3 496 128c0-19.4-11.7-36.9-29.5-44.3zM256.1 446.3l-.1-381 175.9 73.3c-3.3 151.4-82.1 261.1-175.8 307.7z"
+											></path>
+										</svg>
+									</div>
+								</div>
+								<div className="grow ml-4">
+									<p className="font-bold mb-1">
 										Blockchain Native Resilience
 									</p>
-									<p class="text-gray-500">
+									<p className="text-gray-500">
 										Gwin is protected from market
 										manipulation, and eliminates systematic
 										risk through automated settlements and
@@ -200,118 +456,22 @@ export default function Landing() {
 					</div>
 				</div>
 
-				{/* <div class="mt-8 flex flex-col items-center justify-center">
+				{/* <div className="mt-8 flex flex-col items-center justify-center">
 							<img
-								class="h-14 w-14 rounded-full object-cover"
+								className="h-14 w-14 rounded-full object-cover"
 								src="https://images.unsplash.com/photo-1499470932971-a90681ce8530?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1470&q=80"
 								alt=""
 							/>
 
-							<div class="mt-4 text-center">
-								<h1 class="font-semibold text-gray-800 dark:text-white">
+							<div className="mt-4 text-center">
+								<h1 className="font-semibold text-gray-800 dark:text-white">
 									Mia Brown
 								</h1>
-								<span class="text-sm text-gray-500 dark:text-gray-400">
+								<span className="text-sm text-gray-500 dark:text-gray-400">
 									Marketer
 								</span>
 							</div>
 						</div> */}
-			</section>
-			<section class="mb-32 text-gray-800 text-center p-16">
-				<h2 class="text-3xl font-bold mb-20">Why is it so great?</h2>
-
-				<div class="grid lg:gap-x-12 lg:grid-cols-3">
-					<div class="mb-12 lg:mb-0">
-						<div class="rounded-lg shadow-lg h-full block bg-white">
-							<div class="flex justify-center">
-								<div class="p-4 bg-indigo-600 rounded-full shadow-lg inline-block -mt-8">
-									<svg
-										class="w-8 h-8 text-white"
-										xmlns="http://www.w3.org/2000/svg"
-										viewBox="0 0 512 512"
-									>
-										<path
-											fill="currentColor"
-											d="M192 208c0-17.67-14.33-32-32-32h-16c-35.35 0-64 28.65-64 64v48c0 35.35 28.65 64 64 64h16c17.67 0 32-14.33 32-32V208zm176 144c35.35 0 64-28.65 64-64v-48c0-35.35-28.65-64-64-64h-16c-17.67 0-32 14.33-32 32v112c0 17.67 14.33 32 32 32h16zM256 0C113.18 0 4.58 118.83 0 256v16c0 8.84 7.16 16 16 16h16c8.84 0 16-7.16 16-16v-16c0-114.69 93.31-208 208-208s208 93.31 208 208h-.12c.08 2.43.12 165.72.12 165.72 0 23.35-18.93 42.28-42.28 42.28H320c0-26.51-21.49-48-48-48h-32c-26.51 0-48 21.49-48 48s21.49 48 48 48h181.72c49.86 0 90.28-40.42 90.28-90.28V256C507.42 118.83 398.82 0 256 0z"
-										></path>
-									</svg>
-								</div>
-							</div>
-							<div class="p-6">
-								<h5 class="text-lg font-semibold mb-4">
-									Support 24/7
-								</h5>
-								<p>
-									Laudantium totam quas cumque pariatur at
-									doloremque hic quos quia eius. Reiciendis
-									optio minus mollitia rerum labore facilis
-									inventore voluptatem ad, quae quia sint.
-									Ullam.
-								</p>
-							</div>
-						</div>
-					</div>
-
-					<div class="mb-12 lg:mb-0">
-						<div class="rounded-lg shadow-lg h-full block bg-white">
-							<div class="flex justify-center">
-								<div class="p-4 bg-indigo-600 rounded-full shadow-lg inline-block -mt-8">
-									<svg
-										class="w-8 h-8 text-white"
-										xmlns="http://www.w3.org/2000/svg"
-										viewBox="0 0 512 512"
-									>
-										<path
-											fill="currentColor"
-											d="M466.5 83.7l-192-80a48.15 48.15 0 0 0-36.9 0l-192 80C27.7 91.1 16 108.6 16 128c0 198.5 114.5 335.7 221.5 380.3 11.8 4.9 25.1 4.9 36.9 0C360.1 472.6 496 349.3 496 128c0-19.4-11.7-36.9-29.5-44.3zM256.1 446.3l-.1-381 175.9 73.3c-3.3 151.4-82.1 261.1-175.8 307.7z"
-										></path>
-									</svg>
-								</div>
-							</div>
-							<div class="p-6">
-								<h5 class="text-lg font-semibold mb-4">
-									Safe and solid
-								</h5>
-								<p>
-									Eum nostrum fugit numquam, voluptates veniam
-									neque quibusdam ullam aspernatur odio
-									soluta, quisquam dolore animi mollitia a
-									omnis praesentium, expedita nobis!
-								</p>
-							</div>
-						</div>
-					</div>
-
-					<div class="">
-						<div class="rounded-lg shadow-lg h-full block bg-white">
-							<div class="flex justify-center">
-								<div class="p-4 bg-indigo-600 rounded-full shadow-lg inline-block -mt-8">
-									<svg
-										class="w-8 h-8 text-white"
-										xmlns="http://www.w3.org/2000/svg"
-										viewBox="0 0 512 512"
-									>
-										<path
-											fill="currentColor"
-											d="M505.12019,19.09375c-1.18945-5.53125-6.65819-11-12.207-12.1875C460.716,0,435.507,0,410.40747,0,307.17523,0,245.26909,55.20312,199.05238,128H94.83772c-16.34763.01562-35.55658,11.875-42.88664,26.48438L2.51562,253.29688A28.4,28.4,0,0,0,0,264a24.00867,24.00867,0,0,0,24.00582,24H127.81618l-22.47457,22.46875c-11.36521,11.36133-12.99607,32.25781,0,45.25L156.24582,406.625c11.15623,11.1875,32.15619,13.15625,45.27726,0l22.47457-22.46875V488a24.00867,24.00867,0,0,0,24.00581,24,28.55934,28.55934,0,0,0,10.707-2.51562l98.72834-49.39063c14.62888-7.29687,26.50776-26.5,26.50776-42.85937V312.79688c72.59753-46.3125,128.03493-108.40626,128.03493-211.09376C512.07526,76.5,512.07526,51.29688,505.12019,19.09375ZM384.04033,168A40,40,0,1,1,424.05,128,40.02322,40.02322,0,0,1,384.04033,168Z"
-										/>
-									</svg>
-								</div>
-							</div>
-							<div class="p-6">
-								<h5 class="text-lg font-semibold mb-4">
-									Extremely fast
-								</h5>
-								<p>
-									Enim cupiditate, minus nulla dolor cumque
-									iure eveniet facere ullam beatae hic
-									voluptatibus dolores exercitationem? Facilis
-									debitis aspernatur amet nisi?
-								</p>
-							</div>
-						</div>
-					</div>
-				</div>
 			</section>
 		</div>
 	)
