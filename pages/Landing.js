@@ -108,12 +108,6 @@ export default function Landing() {
 							</li>
 							<li>
 								<b className="text-sky-600 font-bold">
-									Deposit
-								</b>
-								&nbsp;to trade, withdraw at any time
-							</li>
-							<li>
-								<b className="text-sky-600 font-bold">
 									Arbitrage
 								</b>
 								&nbsp;by depositing to underweight pools
@@ -123,6 +117,12 @@ export default function Landing() {
 									Make markets
 								</b>
 								&nbsp;with USD-stabilized position
+							</li>
+							<li>
+								<b className="text-sky-600 font-bold">
+									Deposit
+								</b>
+								&nbsp;ETH as underlying, withdraw at any time
 							</li>
 						</ul>
 					</div>
