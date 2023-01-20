@@ -21,7 +21,7 @@ export default function Landing() {
 	return (
 		<div className="bg-gradient-to-bl from-sky-50 to-white min-h-screen pb-32">
 			<Head>
-				<title>Trading Site</title>
+				<title>Gwin</title>
 			</Head>
 			<div
 				className="bg-cover bg-center h-72 w-full"
