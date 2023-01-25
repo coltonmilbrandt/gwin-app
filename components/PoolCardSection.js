@@ -12,6 +12,7 @@ import parentPoolFilter from "../helpers/parentPoolFilter"
 // returns a section of Pool Cards filtered by type
 const PoolCardSection = ({
 	pools,
+	handlePoolSelection,
 	sectionName,
 	walletBal,
 	contract,
@@ -61,6 +62,7 @@ const PoolCardSection = ({
 								contract={contract}
 								isHeated={isHeated}
 								isCooled={isCooled}
+								handlePoolSelection={handlePoolSelection}
 							/>
 						))
 				: null}
@@ -73,6 +75,7 @@ const PoolCardSection = ({
 							contract={contract}
 							isHeated={isHeated}
 							isCooled={isCooled}
+							handlePoolSelection={handlePoolSelection}
 						/>
 				  ))
 				: null}

@@ -18,6 +18,7 @@ import generateDescription from "../helpers/generateDescription"
 
 export default function PoolCard({
 	pool,
+	handlePoolSelection,
 	contract,
 	walletBal,
 	isHeated,
@@ -114,8 +115,13 @@ export default function PoolCard({
 					/>
 				</div>
 				<div className="grid grid-cols-2 whitespace-nowrap overflow-hidden text-ellipsis">
-					<div>
-						<b className="text-cyan-800">
+					<div
+						className="cursor-pointer text-[#6b5ebd] hover:text-indigo-400 transition-all"
+						onClick={() =>
+							handlePoolSelection(poolId, pool.parentId)
+						}
+					>
+						<b>
 							{generateDescription(
 								isHeated ? hRate : cRate,
 								isHeated,
