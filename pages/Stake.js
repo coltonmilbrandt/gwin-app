@@ -11,6 +11,7 @@ import PoolCardSection from "../components/PoolCardSection"
 import getContract from "../constants/contracts"
 import Welcome from "../components/Welcome"
 import Loader from "../components/Loader"
+import TradingViewWidget from "../components/TradingViewWidget"
 
 // this is the main portion of the functional app, contains pools
 
@@ -60,6 +61,7 @@ export default function Stake() {
 
 	const [selectedPoolId, setselectedPoolId] = useState(null)
 	const [selectedParentId, setSelectedParentId] = useState(null)
+	const [selectedPair, setSelectedPair] = useState(null)
 	const previousSelectedPoolId = useRef(null)
 	const previousSelectedParentId = useRef(null)
 
@@ -68,20 +70,25 @@ export default function Stake() {
 	const [parentFilteredPools, setParentFilteredPools] = useState([])
 	const [shortedFilteredPools, setShortedFilteredPools] = useState([])
 
-	const handlePoolSelection = async (poolId, parentId) => {
+	const handlePoolSelection = async (poolId, parentId, pair, chartPair) => {
 		setselectedPoolId(poolId.toString())
 		setSelectedParentId(parentId.toString())
+		setSelectedPair(chartPair)
+		window.scrollTo({ top: 0, behavior: "smooth" })
 		console.log(
 			"ran handlePoolSelection with pool: " +
 				poolId +
 				" parent ID: " +
-				parentId
+				parentId +
+				" Pair: " +
+				pair
 		)
 	}
 
 	const clearPoolSelection = async () => {
 		setselectedPoolId(null)
 		setSelectedParentId(null)
+		setSelectedPair(null)
 	}
 
 	const filterAllPools = async () => {
@@ -164,26 +171,39 @@ export default function Stake() {
 			{/* for toast messages */}
 			<Toaster />
 			{typeof selectedPoolId != "undefined" && selectedPoolId != null ? (
-				<button
-					type="button"
-					class="inline-block px-4 -ml-4 pt-2.5 pb-2 text-indigo-600 fill-indigo-600 hover:fill-white focus:fill-white active:fill-white hover:text-white active:text-white focus:text-white font-medium text-base leading-normal rounded-md hover:bg-[#7d71d1] hover:shadow-lg focus:bg-indigo-700 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-indigo-900 active:shadow-lg transition duration-150 ease-in-out flex align-center"
-					onClick={clearPoolSelection}
-				>
-					<svg
-						aria-hidden="true"
-						focusable="false"
-						data-prefix="fas"
-						data-icon="download"
-						className="w-6 h-6"
-						role="img"
-						xmlns="http://www.w3.org/2000/svg"
-						viewBox="0 0 512 512"
+				<>
+					<button
+						type="button"
+						class="inline-block px-4 -ml-4 pt-2.5 pb-2 mb-4 text-indigo-600 fill-indigo-600 hover:fill-white focus:fill-white active:fill-white hover:text-white active:text-white focus:text-white font-medium text-base leading-normal rounded-md hover:bg-[#7d71d1] hover:shadow-lg focus:bg-indigo-700 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-indigo-900 active:shadow-lg transition duration-150 ease-in-out flex align-center"
+						onClick={clearPoolSelection}
 					>
-						<path d="M41.4 233.4c-12.5 12.5-12.5 32.8 0 45.3l192 192c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3L109.3 256 278.6 86.6c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0l-192 192z" />
-					</svg>
-					{/* <!--! Font Awesome Pro 6.2.1 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2022 Fonticons, Inc. --> */}
-					Back
-				</button>
+						<svg
+							aria-hidden="true"
+							focusable="false"
+							data-prefix="fas"
+							data-icon="download"
+							className="w-6 h-6"
+							role="img"
+							xmlns="http://www.w3.org/2000/svg"
+							viewBox="0 0 512 512"
+						>
+							<path d="M41.4 233.4c-12.5 12.5-12.5 32.8 0 45.3l192 192c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3L109.3 256 278.6 86.6c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0l-192 192z" />
+						</svg>
+						{/* <!--! Font Awesome Pro 6.2.1 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2022 Fonticons, Inc. --> */}
+						Back
+					</button>
+					{selectedPair}
+					<div className="w-full px-3.5 rounded-lg">
+						<div
+							className="p-2 mb-6 bg-sky-50 shadow-lg rounded-lg"
+							style={{
+								height: 500,
+							}}
+						>
+							<TradingViewWidget pair={selectedPair} />
+						</div>
+					</div>
+				</>
 			) : null}
 			{typeof poolsWithBalances != "undefined" &&
 			poolsWithBalances.length > 0 ? (

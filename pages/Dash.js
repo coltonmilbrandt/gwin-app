@@ -29,7 +29,7 @@ export default function Dash() {
 									<div>
 										{/* if chainId is not Goerli or local */}
 										<div
-											class="bg-yellow-100 rounded-lg py-5 px-6 mb-3 text-base text-yellow-700 inline-flex items-center w-full"
+											className="bg-yellow-100 rounded-lg py-5 px-6 mb-3 text-base text-yellow-700 inline-flex items-center w-full"
 											role="alert"
 											style={{
 												display:
@@ -44,7 +44,7 @@ export default function Dash() {
 												focusable="false"
 												data-prefix="fas"
 												data-icon="exclamation-triangle"
-												class="w-4 h-4 mr-2 fill-current"
+												className="w-4 h-4 mr-2 fill-current"
 												role="img"
 												xmlns="http://www.w3.org/2000/svg"
 												viewBox="0 0 576 512"
@@ -59,7 +59,7 @@ export default function Dash() {
 										</div>
 										{/* if chain ID is local 1337 */}
 										<div
-											class="bg-yellow-100 rounded-lg py-5 px-6 mb-3 text-base text-yellow-700 inline-flex items-center w-full"
+											className="bg-yellow-100 rounded-lg py-5 px-6 mb-3 text-base text-yellow-700 inline-flex items-center w-full"
 											role="alert"
 											style={{
 												display:
@@ -74,7 +74,7 @@ export default function Dash() {
 												focusable="false"
 												data-prefix="fas"
 												data-icon="exclamation-triangle"
-												class="w-4 h-4 mr-2 fill-current"
+												className="w-4 h-4 mr-2 fill-current"
 												role="img"
 												xmlns="http://www.w3.org/2000/svg"
 												viewBox="0 0 576 512"
@@ -90,7 +90,7 @@ export default function Dash() {
 									</div>
 								) : (
 									<div
-										class="bg-yellow-100 rounded-lg py-5 px-6 mb-3 text-base text-yellow-700 inline-flex items-center w-full"
+										className="bg-yellow-100 rounded-lg py-5 px-6 mb-3 text-base text-yellow-700 inline-flex items-center w-full"
 										role="alert"
 									>
 										{/* if metamask is not connected */}
@@ -99,7 +99,7 @@ export default function Dash() {
 											focusable="false"
 											data-prefix="fas"
 											data-icon="exclamation-triangle"
-											class="w-4 h-4 mr-2 fill-current"
+											className="w-4 h-4 mr-2 fill-current"
 											role="img"
 											xmlns="http://www.w3.org/2000/svg"
 											viewBox="0 0 576 512"

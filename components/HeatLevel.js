@@ -7,8 +7,8 @@ const svgIcon = (leverage) => {
 	switch (getHeat(leverage)) {
 		case "iced":
 			return (
-				<div className="absolute top-2 left-2 w-12 h-12">
-					<div className="flex content-center bg-sky-300 rounded-full p-1 w-10 h-10">
+				<div className="absolute top-2 left-2 w-12 h-12 max-w-12 max-h-12">
+					<div className="flex content-center bg-sky-300 rounded-full py-1 w-10 h-10">
 						<svg
 							className="fill-sky-100 w-3/4 h-3/4 m-auto relative block"
 							xmlns="http://www.w3.org/2000/svg"

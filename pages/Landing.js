@@ -50,18 +50,18 @@ export default function Landing() {
 				</h3>
 				<div className="w-full flex text-center mt-6">
 					<a href="/Dash" className="m-auto">
-						<div class="flex space-x-2 justify-center">
+						<div className="flex space-x-2 justify-center">
 							<div>
 								<button
 									type="button"
-									class="inline-block px-6 pt-2.5 pb-2 bg-indigo-500 text-white font-medium text-base leading-normal rounded shadow-md hover:bg-indigo-700 hover:shadow-lg focus:bg-blue-700 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-indigo-900 active:shadow-lg transition duration-150 ease-in-out flex align-center"
+									className="inline-block px-6 pt-2.5 pb-2 bg-indigo-500 text-white font-medium text-base leading-normal rounded shadow-md hover:bg-indigo-700 hover:shadow-lg focus:bg-blue-700 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-indigo-900 active:shadow-lg transition duration-150 ease-in-out flex align-center"
 								>
 									<svg
 										aria-hidden="true"
 										focusable="false"
 										data-prefix="fas"
 										data-icon="download"
-										class="w-5 h-5 mr-2 fill-white"
+										className="w-5 h-5 mr-2 fill-white"
 										role="img"
 										xmlns="http://www.w3.org/2000/svg"
 										viewBox="0 0 512 512"
@@ -76,7 +76,7 @@ export default function Landing() {
 				</div>
 			</div>
 			<section className="py-4 lg:py-8 px-8 lg:px-24 mt-14 relative">
-				<div class="about-shape-2">
+				<div className="about-shape-2">
 					<Image src={aboutTwoImg} width="1000px" height="1000px" />
 				</div>
 				<div className="row grid-cols-2 grid max-w-7xl m-auto">
@@ -129,7 +129,7 @@ export default function Landing() {
 				</div>
 			</section>
 			<section className="px-8 lg:px-24 mt-16 relative">
-				<div class="about-shape-1">
+				<div className="about-shape-1">
 					<Image src={aboutOneImg} width="1000px" height="1000px" />
 				</div>
 				<div className="grid grid-cols-2 max-w-7xl m-auto">
@@ -325,7 +325,7 @@ export default function Landing() {
 				</div>
 			</section>
 			<section className="mt-16 relative">
-				<div class="about-shape-2">
+				<div className="about-shape-2">
 					<Image src={aboutTwoImg} width="1000px" height="1000px" />
 				</div>
 				<h1 className="text-center text-3xl font-semibold capitalize text-gray-800 lg:text-4xl">
@@ -484,18 +484,18 @@ export default function Landing() {
 						rel="noopener"
 						className="m-auto"
 					>
-						<div class="flex space-x-2 justify-center">
+						<div className="flex space-x-2 justify-center">
 							<div>
 								<button
 									type="button"
-									class="inline-block px-6 pt-2.5 pb-2 bg-indigo-500 text-white font-medium text-base leading-normal rounded shadow-md hover:bg-indigo-700 hover:shadow-lg focus:bg-blue-700 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-indigo-900 active:shadow-lg transition duration-150 ease-in-out flex align-center"
+									className="inline-block px-6 pt-2.5 pb-2 bg-indigo-500 text-white font-medium text-base leading-normal rounded shadow-md hover:bg-indigo-700 hover:shadow-lg focus:bg-blue-700 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-indigo-900 active:shadow-lg transition duration-150 ease-in-out flex align-center"
 								>
 									<svg
 										aria-hidden="true"
 										focusable="false"
 										data-prefix="fas"
 										data-icon="download"
-										class="w-6 h-6 mr-2 fill-white"
+										className="w-6 h-6 mr-2 fill-white"
 										role="img"
 										xmlns="http://www.w3.org/2000/svg"
 										viewBox="0 0 448 512"
