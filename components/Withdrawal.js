@@ -243,21 +243,26 @@ const Withdrawal = ({
 		if (error) {
 			toast.error(`Error: ${error.message}`, {
 				position: "top-center",
-				autoClose: 5000,
+				duration: 8000,
+				autoClose: 8000,
 				hideProgressBar: false,
 				closeOnClick: true,
 				pauseOnHover: true,
 				draggable: true,
 			})
 		} else if (data) {
-			toast.success("Transaction completed successfully!", {
-				position: "top-center",
-				autoClose: 5000,
-				hideProgressBar: false,
-				closeOnClick: true,
-				pauseOnHover: true,
-				draggable: true,
-			})
+			toast.success(
+				"Transaction processed successfully! Your balance will update shortly",
+				{
+					position: "top-center",
+					duration: 8000,
+					autoClose: 8000,
+					hideProgressBar: false,
+					closeOnClick: true,
+					pauseOnHover: true,
+					draggable: true,
+				}
+			)
 		}
 	}, [error, data])
 

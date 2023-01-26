@@ -11,7 +11,7 @@ import { useRouter } from "next/router"
 import gwinPic from "/public/gwin-rect.webp"
 
 let navLinks = [
-	{ name: "Dashboard", path: "/", current: true },
+	{ name: "Dashboard", path: "/Dash", current: true },
 	{
 		name: "About",
 		path: "/About",
@@ -29,7 +29,7 @@ const user = {
 	email: "tom@example.com",
 }
 const navigation = [
-	{ name: "Dashboard", href: "/", current: true },
+	{ name: "Dashboard", href: "/Dash", current: true },
 	{ name: "About", href: "/About", current: false },
 	{ name: "Get Tokens", href: "/Tokens", current: false },
 ]
@@ -48,7 +48,7 @@ export default function Example() {
 			<div className="min-h-full">
 				<Disclosure
 					as="nav"
-					className="bg-gradient-to-tr from-slate-100 to-sky-400"
+					className="bg-gradient-to-tr from-gray-50 to-sky-300"
 				>
 					{({ open }) => (
 						<>
@@ -56,13 +56,15 @@ export default function Example() {
 								<div className="flex items-center justify-between h-16">
 									<div className="flex items-center">
 										<div className="flex flex-shrink-0 justify-center items-center">
-											<Image
-												className="h-8 w-8 rounded-full"
-												width="45%"
-												height="45%"
-												src={gwinPic}
-												alt="gwin"
-											/>
+											<a href="/">
+												<Image
+													className="h-8 w-8 rounded-full"
+													width="45%"
+													height="45%"
+													src={gwinPic}
+													alt="gwin"
+												/>
+											</a>
 										</div>
 										<div className="hidden md:block">
 											<div className="ml-10 flex items-baseline space-x-4">
@@ -74,7 +76,7 @@ export default function Example() {
 															// item.current
 															// 	? "bg-[#565264] text-white"
 															// 	:
-															"text-gray-900 hover:bg-[#9e92ff] hover:text-white",
+															"text-indigo-800 font-semibold hover:bg-[#9e92ff] hover:text-white",
 															"px-3 py-2 rounded-md text-sm font-medium"
 														)}
 														aria-current={

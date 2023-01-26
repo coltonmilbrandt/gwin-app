@@ -13,11 +13,13 @@ import convertHex from "../helpers/convertHex"
 import generatePoolName from "../helpers/generatePoolName"
 import Health from "./Health"
 import generateDescription from "../helpers/generateDescription"
+import generateChartPair from "../helpers/generateChartPair"
 
 // returns a Pool Card that shows the information for a pool
 
 export default function PoolCard({
 	pool,
+	handlePoolSelection,
 	contract,
 	walletBal,
 	isHeated,
@@ -67,6 +69,18 @@ export default function PoolCard({
 			cRate
 		)
 	}
+	// generate chart pair based on price feeds
+	const chartPair = () => {
+		return generateChartPair(
+			pool.basePriceFeedKey,
+			pool.quotePriceFeedKey,
+			isHeated,
+			isCooled,
+			hRate,
+			cRate
+		)
+	}
+
 	const symbol = () => {
 		// returns the featured asset
 		const symbolLeverage = isHeated ? hRate : cRate
@@ -114,8 +128,18 @@ export default function PoolCard({
 					/>
 				</div>
 				<div className="grid grid-cols-2 whitespace-nowrap overflow-hidden text-ellipsis">
-					<div>
-						<b className="text-cyan-800">
+					<div
+						className="cursor-pointer text-[#6b5ebd] hover:text-indigo-400 transition-all"
+						onClick={() =>
+							handlePoolSelection(
+								poolId,
+								pool.parentId,
+								name(),
+								chartPair()
+							)
+						}
+					>
+						<b>
 							{generateDescription(
 								isHeated ? hRate : cRate,
 								isHeated,

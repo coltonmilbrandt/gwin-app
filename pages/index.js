@@ -2,6 +2,8 @@ import Head from "next/head"
 import styles from "../styles/Home.module.css"
 import Dash from "./Dash"
 import Nav from "../components/Nav"
+import Landing from "./Landing"
+import { Footer } from "../components/landing/Footer"
 import React from "react"
 import { useRouter } from "next/router"
 import propTypes from "prop-types"
@@ -15,7 +17,9 @@ export default function Home() {
 				<link rel="apple-touch-icon" href="/apple-touch-icon.png" />
 			</Head>
 			<Nav />
-			<Dash />
+			{/* <Dash /> */}
+			<Landing />
+			<Footer />
 		</div>
 	)
 }

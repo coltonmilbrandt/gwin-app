@@ -19,9 +19,6 @@ const Welcome = () => {
 					<p className="mt-2 text-3xl leading-8 font-bold tracking-tight text-cyan-900 sm:text-5xl sm:tracking-tight">
 						Welcome Gwinners
 					</p>
-					<p className="mt-2 text-lg leading-8 font-bold tracking-tight text-cyan-900 sm:text-2xl sm:tracking-tight">
-						From Stabilized BTC Hash to 10x APE
-					</p>
 					<p className="inline-block text-lg leading-8 font-normal tracking-tight text-cyan-800 sm:text-xl sm:tracking-tight">
 						create and trade{" "}
 						<svg
@@ -35,21 +32,10 @@ const Welcome = () => {
 						{/* <!--! Font Awesome Pro 6.2.1 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2022 Fonticons, Inc. --> */}
 					</p>
 					<p className="mt-4 max-w-2xl text-lg text-gray-500 mx-auto">
-						With Gwin, it's simple to create and trade an endless
-						variety of markets. Select the Goerli testnet and&nbsp;
+						Select the Goerli testnet and&nbsp;
 						<b>connect your wallet</b> to get started.
 					</p>
 					<div className="w-full flex justify-center mt-6">
-						<button>
-							<a
-								className="text-[#3982b0] font-semibold py-2.5 px-4 rounded-2xl border-2 border-sky-50 hover:border-2 hover:bg-gray-50 hover:border-[#bbcfe2]"
-								href="https://coltonmilbrandt.gitbook.io/gwin/"
-								target="_blank"
-								rel="noopener"
-							>
-								Read Full Docs
-							</a>
-						</button>
 						<ConnectButton moralisAuth={false} />
 					</div>
 				</div>

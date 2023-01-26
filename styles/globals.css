@@ -1,3 +1,19 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+.about-shape-1 {
+    width: 35%;
+    position: absolute;
+    top: 0;
+    right: 0;
+    height: 100%;
+  }
+  
+  .about-shape-2 {
+    width: 35%;
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 100%;
+  }
