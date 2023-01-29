@@ -3,6 +3,7 @@ import Head from "next/head"
 import Nav from "../components/Nav"
 import Image from "next/image"
 import penguinParachutePic from "/public/parachutingPenguins.png"
+import { Footer } from "../components/landing/Footer"
 
 export default function Tokens(props) {
 	return (
@@ -192,6 +193,7 @@ export default function Tokens(props) {
 					</div>
 				</div>
 			</main>
+			<Footer />
 		</>
 	)
 }

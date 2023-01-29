@@ -131,12 +131,7 @@ export default function PoolCard({
 					<div
 						className="cursor-pointer text-[#6b5ebd] hover:text-indigo-400 transition-all"
 						onClick={() =>
-							handlePoolSelection(
-								poolId,
-								pool.parentId,
-								name(),
-								chartPair()
-							)
+							handlePoolSelection(pool, name(), chartPair())
 						}
 					>
 						<b>

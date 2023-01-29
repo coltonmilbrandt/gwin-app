@@ -1,12 +1,22 @@
 // TradingViewWidget.js
 
-import React, { useEffect, useRef } from "react"
+import React, { useEffect, useState, useRef } from "react"
 import { cryptoCurrencies } from "../helpers/cryptoDict"
 
 let tvScriptLoadingPromise
 
 export default function TradingViewWidget(selectedPair) {
 	const onLoadScriptRef = useRef()
+	const [internalPair, setInternalPair] = useState(null)
+
+	useEffect(() => {
+		if (internalPair.pair != selectedPair.pair) {
+			console.log("compare")
+			console.log(internalPair)
+			console.log(selectedPair)
+			setInternalPair(selectedPair)
+		}
+	}, [selectedPair])
 
 	useEffect(() => {
 		onLoadScriptRef.current = createWidget
@@ -63,7 +73,7 @@ export default function TradingViewWidget(selectedPair) {
 				})
 			}
 		}
-	}, [])
+	}, [internalPair])
 
 	return (
 		<div className="tradingview-widget-container">

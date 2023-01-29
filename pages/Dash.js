@@ -1,6 +1,7 @@
 import { useMoralis } from "react-moralis"
 import Stake from "./Stake"
 import Nav from "../components/Nav"
+import { Footer } from "../components/landing/Footer"
 
 // this is the main container for the functional portion of the app
 
@@ -22,9 +23,9 @@ export default function Dash() {
 					</div>
 				</header> */}
 				<main>
-					<div className="max-w-7xl mx-auto pt-2 pb-3 sm:px-6 lg:px-8 text-gray-100">
+					<div className="max-w-7xl mx-auto pt-2 pb-3 px-0 sm:px-0 lg:px-8 text-gray-100">
 						<div className="grid grid-cols-1 gap-4">
-							<div className="bg-none p-4">
+							<div className="bg-none px-0 sm:px-0 lg:px-4">
 								{isWeb3Enabled ? (
 									<div>
 										{/* if chainId is not Goerli or local */}
@@ -120,6 +121,7 @@ export default function Dash() {
 					</div>
 				</main>
 			</div>
+			<Footer />
 		</>
 	)
 }

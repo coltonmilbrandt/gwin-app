@@ -3,6 +3,7 @@ import Nav from "../components/Nav"
 import Image from "next/image"
 import penguinChestPic from "/public/penguinChest.png"
 import Head from "next/head"
+import { Footer } from "../components/landing/Footer"
 
 export default function About(props) {
 	return (
@@ -239,6 +240,7 @@ export default function About(props) {
 					</div>
 				</div>
 			</main>
+			<Footer />
 		</>
 	)
 }

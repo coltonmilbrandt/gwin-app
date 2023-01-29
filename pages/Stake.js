@@ -12,6 +12,7 @@ import getContract from "../constants/contracts"
 import Welcome from "../components/Welcome"
 import Loader from "../components/Loader"
 import TradingViewWidget from "../components/TradingViewWidget"
+import generateChartPair from "../helpers/generateChartPair"
 
 // this is the main portion of the functional app, contains pools
 
@@ -59,36 +60,74 @@ export default function Stake() {
 	const [isUnstaking, setIsUnstaking] = useState(false)
 	const [isStaking, setIsStaking] = useState(false)
 
+	const [selectedPool, setSelectedPool] = useState(null)
 	const [selectedPoolId, setselectedPoolId] = useState(null)
 	const [selectedParentId, setSelectedParentId] = useState(null)
 	const [selectedPair, setSelectedPair] = useState(null)
 	const previousSelectedPoolId = useRef(null)
 	const previousSelectedParentId = useRef(null)
+	const [isPairSwitched, setIsPairSwitched] = useState(false)
 
 	const [cooledFilteredPools, setCooledFilteredPools] = useState([])
 	const [stableFilteredPools, setStableFilteredPools] = useState([])
 	const [parentFilteredPools, setParentFilteredPools] = useState([])
 	const [shortedFilteredPools, setShortedFilteredPools] = useState([])
 
-	const handlePoolSelection = async (poolId, parentId, pair, chartPair) => {
-		setselectedPoolId(poolId.toString())
-		setSelectedParentId(parentId.toString())
+	const handlePoolSelection = (pool, pair, chartPair) => {
+		setSelectedPool(pool)
+		setselectedPoolId(pool.id.toString())
+		setSelectedParentId(pool.parentId.toString())
 		setSelectedPair(chartPair)
 		window.scrollTo({ top: 0, behavior: "smooth" })
 		console.log(
 			"ran handlePoolSelection with pool: " +
-				poolId +
+				pool.id +
 				" parent ID: " +
-				parentId +
+				pool.parentId +
 				" Pair: " +
 				pair
 		)
 	}
 
 	const clearPoolSelection = async () => {
+		setSelectedPool(null)
 		setselectedPoolId(null)
 		setSelectedParentId(null)
 		setSelectedPair(null)
+	}
+
+	const switchPair = () => {
+		// generate chart pair with quote and base switched
+		let newPair
+		let base
+		let quote
+		if (isPairSwitched == false) {
+			base = selectedPool.quotePriceFeedKey
+			quote = selectedPool.basePriceFeedKey
+			setIsPairSwitched(true)
+		} else {
+			base = selectedPool.basePriceFeedKey
+			quote = selectedPool.quotePriceFeedKey
+			setIsPairSwitched(false)
+		}
+		newPair = generateChartPair(
+			base,
+			quote,
+			selectedPool.isHeated,
+			selectedPool.isCooled,
+			selectedPool.hRate,
+			selectedPool.cRate
+		)
+		console.log(
+			"ran switchPair with pool: " +
+				selectedPool.id +
+				" parent ID: " +
+				selectedPool.parentId +
+				" Pair: " +
+				newPair
+		)
+		console.log(newPair)
+		setSelectedPair(newPair)
 	}
 
 	const filterAllPools = async () => {
@@ -167,32 +206,56 @@ export default function Stake() {
 	}, [poolsWithBalances, selectedPoolId, selectedParentId])
 
 	return (
-		<div>
+		<div className="mb-24">
 			{/* for toast messages */}
 			<Toaster />
 			{typeof selectedPoolId != "undefined" && selectedPoolId != null ? (
 				<>
-					<button
-						type="button"
-						class="inline-block px-4 -ml-4 pt-2.5 pb-2 mb-4 text-indigo-600 fill-indigo-600 hover:fill-white focus:fill-white active:fill-white hover:text-white active:text-white focus:text-white font-medium text-base leading-normal rounded-md hover:bg-[#7d71d1] hover:shadow-lg focus:bg-indigo-700 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-indigo-900 active:shadow-lg transition duration-150 ease-in-out flex align-center"
-						onClick={clearPoolSelection}
-					>
-						<svg
-							aria-hidden="true"
-							focusable="false"
-							data-prefix="fas"
-							data-icon="download"
-							className="w-6 h-6"
-							role="img"
-							xmlns="http://www.w3.org/2000/svg"
-							viewBox="0 0 512 512"
-						>
-							<path d="M41.4 233.4c-12.5 12.5-12.5 32.8 0 45.3l192 192c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3L109.3 256 278.6 86.6c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0l-192 192z" />
-						</svg>
-						{/* <!--! Font Awesome Pro 6.2.1 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2022 Fonticons, Inc. --> */}
-						Back
-					</button>
-					{selectedPair}
+					<row className="grid grid-cols-2 mt-2 mb-4 px-4 lg:px-2">
+						<div>
+							<button
+								type="button"
+								class="flex px-4 -ml-4 pt-2.5 pb-2 text-indigo-600 fill-indigo-600 hover:fill-white focus:fill-white active:fill-white hover:text-white active:text-white focus:text-white font-medium text-base leading-normal rounded-md hover:bg-[#7d71d1] hover:shadow-lg focus:bg-indigo-700 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-indigo-900 active:shadow-lg transition duration-150 ease-in-out align-center"
+								onClick={clearPoolSelection}
+							>
+								<svg
+									aria-hidden="true"
+									focusable="false"
+									data-prefix="fas"
+									data-icon="download"
+									className="w-6 h-6"
+									role="img"
+									xmlns="http://www.w3.org/2000/svg"
+									viewBox="0 0 512 512"
+								>
+									<path d="M41.4 233.4c-12.5 12.5-12.5 32.8 0 45.3l192 192c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3L109.3 256 278.6 86.6c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0l-192 192z" />
+								</svg>
+								{/* <!--! Font Awesome Pro 6.2.1 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2022 Fonticons, Inc. --> */}
+								Back
+							</button>
+						</div>
+						<div className="text-right font-bold text-xl my-auto text-cyan-900">
+							{selectedPair}
+							<div class="inline ml-2 space-x-2 justify-center">
+								<div className="inline">
+									<button
+										type="button"
+										class="inline rounded-full hover:rotate-180 bg-indigo-600 text-white leading-normal shadow-md hover:bg-indigo-900 hover:shadow-lg active:bg-indigo-700 active:shadow-lg transition duration-150 ease-in-out w-9 h-9"
+										onClick={switchPair}
+									>
+										<svg
+											className="w-5 h-5 -mt-0.5 fill-sky-100 inline"
+											xmlns="http://www.w3.org/2000/svg"
+											viewBox="0 0 512 512"
+										>
+											<path d="M0 224c0 17.7 14.3 32 32 32s32-14.3 32-32c0-53 43-96 96-96H320v32c0 12.9 7.8 24.6 19.8 29.6s25.7 2.2 34.9-6.9l64-64c12.5-12.5 12.5-32.8 0-45.3l-64-64c-9.2-9.2-22.9-11.9-34.9-6.9S320 19.1 320 32V64H160C71.6 64 0 135.6 0 224zm512 64c0-17.7-14.3-32-32-32s-32 14.3-32 32c0 53-43 96-96 96H192V352c0-12.9-7.8-24.6-19.8-29.6s-25.7-2.2-34.9 6.9l-64 64c-12.5 12.5-12.5 32.8 0 45.3l64 64c9.2 9.2 22.9 11.9 34.9 6.9s19.8-16.6 19.8-29.6V448H352c88.4 0 160-71.6 160-160z" />
+										</svg>
+										{/* <!--! Font Awesome Pro 6.2.1 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2022 Fonticons, Inc. --> */}
+									</button>
+								</div>
+							</div>
+						</div>
+					</row>
 					<div className="w-full px-3.5 rounded-lg">
 						<div
 							className="p-2 mb-6 bg-sky-50 shadow-lg rounded-lg"

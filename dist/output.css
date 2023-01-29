@@ -4249,6 +4249,10 @@ textarea.form-control.is-invalid {
   grid-column: span 1 / span 1;
 }
 
+.float-right {
+  float: right;
+}
+
 .m-3 {
   margin: 0.75rem;
 }
@@ -4269,6 +4273,16 @@ textarea.form-control.is-invalid {
 .mx-1 {
   margin-left: 0.25rem;
   margin-right: 0.25rem;
+}
+
+.my-auto {
+  margin-top: auto;
+  margin-bottom: auto;
+}
+
+.my-4 {
+  margin-top: 1rem;
+  margin-bottom: 1rem;
 }
 
 .mt-2 {
@@ -4375,6 +4389,30 @@ textarea.form-control.is-invalid {
   margin-bottom: 2rem;
 }
 
+.ml-6 {
+  margin-left: 1.5rem;
+}
+
+.ml-3 {
+  margin-left: 0.75rem;
+}
+
+.ml-2 {
+  margin-left: 0.5rem;
+}
+
+.-mt-0\.5 {
+  margin-top: -0.125rem;
+}
+
+.-mt-0 {
+  margin-top: -0px;
+}
+
+.mb-24 {
+  margin-bottom: 6rem;
+}
+
 .box-content {
   box-sizing: content-box;
 }
@@ -4477,6 +4515,10 @@ textarea.form-control.is-invalid {
   height: 4rem;
 }
 
+.h-9 {
+  height: 2.25rem;
+}
+
 .max-h-12 {
   max-height: 3rem;
 }
@@ -4553,6 +4595,10 @@ textarea.form-control.is-invalid {
 
 .w-16 {
   width: 4rem;
+}
+
+.w-9 {
+  width: 2.25rem;
 }
 
 .max-w-7xl {
@@ -4970,6 +5016,16 @@ textarea.form-control.is-invalid {
   background-color: rgb(86 82 100 / var(--tw-bg-opacity));
 }
 
+.bg-blue-600 {
+  --tw-bg-opacity: 1;
+  background-color: rgb(37 99 235 / var(--tw-bg-opacity));
+}
+
+.bg-cyan-600 {
+  --tw-bg-opacity: 1;
+  background-color: rgb(8 145 178 / var(--tw-bg-opacity));
+}
+
 .bg-opacity-10 {
   --tw-bg-opacity: 0.1;
 }
@@ -5220,6 +5276,11 @@ textarea.form-control.is-invalid {
 .py-10 {
   padding-top: 2.5rem;
   padding-bottom: 2.5rem;
+}
+
+.px-0 {
+  padding-left: 0px;
+  padding-right: 0px;
 }
 
 .pt-2 {
@@ -5673,6 +5734,11 @@ textarea.form-control.is-invalid {
   height: 100%;
 }
 
+.hover\:rotate-180:hover {
+  --tw-rotate: 180deg;
+  transform: translate(var(--tw-translate-x), var(--tw-translate-y)) rotate(var(--tw-rotate)) skewX(var(--tw-skew-x)) skewY(var(--tw-skew-y)) scaleX(var(--tw-scale-x)) scaleY(var(--tw-scale-y));
+}
+
 .hover\:cursor-pointer:hover {
   cursor: pointer;
 }
@@ -5715,6 +5781,26 @@ textarea.form-control.is-invalid {
 .hover\:bg-indigo-500:hover {
   --tw-bg-opacity: 1;
   background-color: rgb(99 102 241 / var(--tw-bg-opacity));
+}
+
+.hover\:bg-cyan-900:hover {
+  --tw-bg-opacity: 1;
+  background-color: rgb(22 78 99 / var(--tw-bg-opacity));
+}
+
+.hover\:bg-cyan-700:hover {
+  --tw-bg-opacity: 1;
+  background-color: rgb(14 116 144 / var(--tw-bg-opacity));
+}
+
+.hover\:bg-cyan-800:hover {
+  --tw-bg-opacity: 1;
+  background-color: rgb(21 94 117 / var(--tw-bg-opacity));
+}
+
+.hover\:bg-indigo-900:hover {
+  --tw-bg-opacity: 1;
+  background-color: rgb(49 46 129 / var(--tw-bg-opacity));
 }
 
 .hover\:bg-gradient-to-tl:hover {
@@ -5799,6 +5885,16 @@ textarea.form-control.is-invalid {
   background-color: rgb(126 34 206 / var(--tw-bg-opacity));
 }
 
+.focus\:bg-cyan-900:focus {
+  --tw-bg-opacity: 1;
+  background-color: rgb(22 78 99 / var(--tw-bg-opacity));
+}
+
+.focus\:bg-indigo-900:focus {
+  --tw-bg-opacity: 1;
+  background-color: rgb(49 46 129 / var(--tw-bg-opacity));
+}
+
 .focus\:fill-white:focus {
   fill: #fff;
 }
@@ -5879,6 +5975,21 @@ textarea.form-control.is-invalid {
   background-color: rgb(30 64 175 / var(--tw-bg-opacity));
 }
 
+.active\:bg-indigo-800:active {
+  --tw-bg-opacity: 1;
+  background-color: rgb(55 48 163 / var(--tw-bg-opacity));
+}
+
+.active\:bg-indigo-600:active {
+  --tw-bg-opacity: 1;
+  background-color: rgb(79 70 229 / var(--tw-bg-opacity));
+}
+
+.active\:bg-indigo-700:active {
+  --tw-bg-opacity: 1;
+  background-color: rgb(67 56 202 / var(--tw-bg-opacity));
+}
+
 .active\:fill-white:active {
   fill: #fff;
 }
@@ -5957,6 +6068,21 @@ textarea.form-control.is-invalid {
   .sm\:px-3 {
     padding-left: 0.75rem;
     padding-right: 0.75rem;
+  }
+
+  .sm\:px-0 {
+    padding-left: 0px;
+    padding-right: 0px;
+  }
+
+  .sm\:px-4 {
+    padding-left: 1rem;
+    padding-right: 1rem;
+  }
+
+  .sm\:px-2 {
+    padding-left: 0.5rem;
+    padding-right: 0.5rem;
   }
 
   .sm\:text-4xl {
@@ -6156,6 +6282,16 @@ textarea.form-control.is-invalid {
   .lg\:px-24 {
     padding-left: 6rem;
     padding-right: 6rem;
+  }
+
+  .lg\:px-4 {
+    padding-left: 1rem;
+    padding-right: 1rem;
+  }
+
+  .lg\:px-2 {
+    padding-left: 0.5rem;
+    padding-right: 0.5rem;
   }
 
   .lg\:pl-20 {
