@@ -10,7 +10,10 @@ export default function TradingViewWidget(selectedPair) {
 	const [internalPair, setInternalPair] = useState(null)
 
 	useEffect(() => {
-		if (internalPair.pair != selectedPair.pair) {
+		if (
+			typeof internalPair != undefined ||
+			internalPair.pair != selectedPair.pair
+		) {
 			console.log("compare")
 			console.log(internalPair)
 			console.log(selectedPair)
