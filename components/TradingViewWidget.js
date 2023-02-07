@@ -11,9 +11,11 @@ export default function TradingViewWidget(selectedPair) {
 
 	useEffect(() => {
 		if (
+			// check if internal pair exists
 			typeof internalPair != undefined ||
 			internalPair.pair != selectedPair.pair
 		) {
+			// sest internal pair with passed in selected pair
 			console.log("compare")
 			console.log(internalPair)
 			console.log(selectedPair)
