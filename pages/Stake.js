@@ -1,17 +1,20 @@
-import { useState, useEffect, useRef } from "react"
+import React, { useState, useEffect, useRef } from "react"
 import { useMoralis, useWeb3Contract, useERC20Balances } from "react-moralis"
-import React from "react"
+import Web3 from "web3"
+import toast, { Toaster } from "react-hot-toast"
+
 import { abi } from "../constants/Gwin_abi"
 import { chainDict } from "../constants/chainDict"
-import toast, { Toaster } from "react-hot-toast"
+import getContract from "../constants/contracts"
+import contractsInfo from "../constants/contractInfo.json"
+
 import PoolCard from "../components/PoolCard"
 import CreatePool from "../components/CreatePool"
-import Web3 from "web3"
 import PoolCardSection from "../components/PoolCardSection"
-import getContract from "../constants/contracts"
 import Welcome from "../components/Welcome"
 import Loader from "../components/Loader"
 import TradingViewWidget from "../components/TradingViewWidget"
+
 import generateChartPair from "../helpers/generateChartPair"
 
 // this is the main portion of the functional app, contains pools
@@ -41,9 +44,6 @@ export default function Stake() {
 		window.ethereum.request({ method: "eth_requestAccounts" })
 		web3 = new Web3(window.ethereum)
 	}
-
-	// get contract info
-	const contractsInfo = require("../constants/contractInfo.json")
 
 	// initialize gwin address
 	const [gwin, setGwin] = useState("")
